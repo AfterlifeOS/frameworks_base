@@ -411,5 +411,6 @@ public class SecureSettingsValidators {
         VALIDATORS.put(Secure.AUTOFILL_SERVICE, AUTOFILL_SERVICE_VALIDATOR);
         VALIDATORS.put(Secure.STATUS_BAR_CLOCK, new InclusiveIntegerRangeValidator(0, 2));
         VALIDATORS.put(Secure.TETHERING_ALLOW_VPN_UPSTREAMS, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(Secure.QUICK_SETTINGS_TILES_VIBRATE, BOOLEAN_VALIDATOR);
     }
 }
