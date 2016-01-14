@@ -1146,6 +1146,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         + " mShortPressOnPowerBehavior="
                         + mShortPressOnPowerBehavior);
 
+        final boolean beganFromNonInteractive = mSingleKeyGestureDetector.beganFromNonInteractive();
         if (count == 2) {
             powerMultiPressAction(eventTime, interactive, mDoublePressOnPowerBehavior);
         } else if (count == 3) {
@@ -1385,8 +1386,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private boolean toggleFlashLight() {
-        if (mTorchActionMode != 0 && DroidXUtils.deviceHasFlashlight(mContext)) {
-            DroidXUtils.toggleCameraFlash();
+        if (mTorchActionMode != 0 && AfterlifeUtils.deviceHasFlashlight(mContext)) {
+            AfterlifeUtils.toggleCameraFlash();
             return true;
         }
         return false;
