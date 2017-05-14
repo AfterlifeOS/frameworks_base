@@ -26,6 +26,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -80,6 +82,12 @@ public class StatusIconContainer extends AlphaOptimizedLinearLayout {
         super(context, attrs);
         initDimens();
         setWillNotDraw(!DEBUG_OVERFLOW);
+        boolean isLogoEnabled = Settings.System.getIntForUser(context.getContentResolver(),
+                                Settings.System.STATUS_BAR_LOGO, 0, UserHandle.USER_CURRENT) == 1;
+        boolean isLogoRightEnabled = Settings.System.getIntForUser(context.getContentResolver(),
+                                Settings.System.STATUS_BAR_LOGO_POSITION, 0, UserHandle.USER_CURRENT) == 1;
+        int maxIcons = isLogoEnabled && isLogoRightEnabled ? MAX_ICONS - 1 : MAX_ICONS;
+        MAX_ICONS = maxIcons;
     }
 
     @Override
