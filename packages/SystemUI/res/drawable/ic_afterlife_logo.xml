@@ -1,0 +1,32 @@
+<!-- AFTERLIFE NEW LOGO -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+		android:width="16.0dp"
+		android:height="16.0dp"
+		android:viewportWidth="16.0"
+		android:viewportHeight="16.0">
+	<path
+		android:fillColor="#00000000"
+		android:strokeColor="@android:color/white"
+		android:strokeWidth="0.96"
+		android:strokeLineJoin="round"
+		android:fillType="nonZero"
+		android:strokeLineCap="round"
+		android:pathData="M13.35,5.01L13.35,11.31L7.87,14.37L2.50,11.23L2.50,4.94L8.00,1.80L13.35,5.01"/>
+	<path
+		android:fillColor="@android:color/white"
+		android:strokeColor="@android:color/white"
+		android:strokeWidth="0.24"
+		android:strokeLineJoin="round"
+		android:fillType="nonZero"
+		android:strokeLineCap="round"
+		android:pathData="M9.99,8.93L5.85,6.12L0.64,8.98L5.74,5.01L9.99,8.00L9.99,8.93"/>
+	<path
+		android:fillColor="@android:color/white"
+		android:strokeColor="@android:color/white"
+		android:strokeWidth="0.24"
+		android:strokeLineJoin="round"
+		android:fillType="nonZero"
+		android:strokeLineCap="round"
+		android:pathData="M5.86,7.34L9.91,10.20L15.53,8.01L9.84,11.06L5.88,8.22L5.86,7.34"/>
+</vector>

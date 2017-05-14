@@ -151,6 +151,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private Map<Startable, Startable.State> mStartableStates = new ArrayMap<>();
 
     private View mBatteryBar;
+    
+    private View mLeftLogoLayout;
 
     private final OngoingCallListener mOngoingCallListener = new OngoingCallListener() {
         @Override
@@ -645,10 +647,12 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     }
 
     public void hideNotificationIconArea(boolean animate) {
-        animateHide(mNotificationIconAreaInner, animate);
+    	animateHide(mLeftLogoLayout, animate);
+    	animateHide(mNotificationIconAreaInner, animate);
     }
 
     public void showNotificationIconArea(boolean animate) {
+    	animateShow(mLeftLogoLayout, animate);
         animateShow(mNotificationIconAreaInner, animate);
     }
 
