@@ -6089,6 +6089,13 @@ public final class Settings {
         public static final String SWIPE_TO_SCREENSHOT = "swipe_to_screenshot";
 
         /**
+         * Enable statusbar double tap gesture on to put device to sleep
+         * 0 = 0ff, 1 = on
+         * @hide
+         */
+        public static final String DOUBLE_TAP_SLEEP_GESTURE = "double_tap_sleep_gesture";
+
+        /**
          * Battery style
          * @hide
          */
