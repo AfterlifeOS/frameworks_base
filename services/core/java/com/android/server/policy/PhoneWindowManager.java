@@ -231,7 +231,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.android.internal.util.droidx.DroidXUtils;
+import com.android.internal.util.afterlife.AfterlifeUtils;
 
 /**
  * WindowManagerPolicy implementation for the Android phone UI.  This
