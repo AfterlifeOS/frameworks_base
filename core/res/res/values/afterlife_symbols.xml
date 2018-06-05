@@ -64,4 +64,9 @@
     <java-symbol type="string" name="reboot_to_bootloader_message" />
     <java-symbol type="string" name="reboot_title" />
     <java-symbol type="string" name="reboot_message" />
+
+    <!-- App error dialog -->
+    <java-symbol type="id" name="aerr_copy" />
+    <java-symbol type="string" name="url_copy_success" />
+    <java-symbol type="string" name="url_copy_failed" />
 </resources>
