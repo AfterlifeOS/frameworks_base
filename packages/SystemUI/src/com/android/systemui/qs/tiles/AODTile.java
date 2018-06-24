@@ -67,9 +67,8 @@ public final class AODTile extends QSTileImpl<BooleanState> {
 
     @Override
     public boolean isAvailable() {
-        //final boolean deviceKeys = mContext.getResources().getBoolean(
-        //        com.android.internal.R.bool.config_showNavigationBar);
-        return true;
+        return mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_dozeAlwaysOnDisplayAvailable);
     }
 
     @Override
@@ -114,7 +113,7 @@ public final class AODTile extends QSTileImpl<BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-        return MetricsEvent.SUPERIOR;
+        return MetricsEvent.AFTERLIFE;
     }
 
     @Override
