@@ -25,12 +25,14 @@
     android:background="@android:color/transparent"
     android:theme="@style/volume_dialog_theme">
 
-    <com.android.systemui.animation.view.LaunchableLinearLayout
+    <LinearLayout
         android:id="@+id/volume_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:layout_gravity="right"
+        android:paddingLeft="@dimen/volume_dialog_panel_transparent_padding_horizontal"
+        android:paddingRight="@dimen/volume_dialog_panel_transparent_padding_horizontal"
         android:paddingLeft="@dimen/volume_dialog_panel_transparent_padding_horizontal"
         android:paddingRight="@dimen/volume_dialog_panel_transparent_padding_horizontal"
         android:orientation="vertical"
