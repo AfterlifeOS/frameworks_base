@@ -360,6 +360,7 @@
     <uses-permission android:name="android.permission.MANAGE_GAME_MODE" />
 
     <!-- QS Tiles -->
+    <uses-permission android:name="android.permission.MAINLINE_NETWORK_STACK" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
 
