@@ -17,6 +17,7 @@
 package com.android.systemui.navigationbar;
 
 import static android.content.Intent.ACTION_OVERLAY_CHANGED;
+import static android.provider.Settings.System.BACK_GESTURE_HEIGHT;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,6 +26,8 @@ import android.content.IntentFilter;
 import android.content.om.IOverlayManager;
 import android.content.pm.PackageManager;
 import android.content.res.ApkAssets;
+import android.database.ContentObserver;
+import android.os.Handler;
 import android.os.PatternMatcher;
 import android.os.RemoteException;
 import android.os.ServiceManager;
@@ -36,6 +39,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.android.systemui.Dependency;
 import com.android.systemui.Dumpable;
 import com.android.systemui.dagger.SysUISingleton;
 import com.android.systemui.dagger.qualifiers.Main;
@@ -43,6 +47,7 @@ import com.android.systemui.dagger.qualifiers.UiBackground;
 import com.android.systemui.dump.DumpManager;
 import com.android.systemui.settings.UserTracker;
 import com.android.systemui.statusbar.policy.ConfigurationController;
+import com.android.systemui.util.settings.SystemSettings;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -61,6 +66,7 @@ public class NavigationModeController implements Dumpable {
 
     public interface ModeChangedListener {
         void onNavigationModeChanged(int mode);
+        default void onNavigationHeightChanged() {}
     }
 
     private final Context mContext;
@@ -68,6 +74,7 @@ public class NavigationModeController implements Dumpable {
     private final IOverlayManager mOverlayManager;
     private final Executor mUiBgExecutor;
     private final UserTracker mUserTracker;
+    private final SystemSettings mSystemSettings;
 
     private ArrayList<ModeChangedListener> mListeners = new ArrayList<>();
 
@@ -103,7 +110,9 @@ public class NavigationModeController implements Dumpable {
             UserTracker userTracker,
             @Main Executor mainExecutor,
             @UiBackground Executor uiBgExecutor,
-            DumpManager dumpManager) {
+            DumpManager dumpManager,
+            @Main Handler mainHandler,
+            SystemSettings systemSettings) {
         mContext = context;
         mCurrentUserContext = context;
         mUserTracker = userTracker;
@@ -127,6 +136,17 @@ public class NavigationModeController implements Dumpable {
                 updateCurrentInteractionMode(true /* notify */);
             }
         });
+
+        mSystemSettings = systemSettings;
+        mSystemSettings.registerContentObserverForUser(
+            Settings.System.BACK_GESTURE_HEIGHT,
+            new ContentObserver(mainHandler) {
+                @Override
+                public void onChange(boolean selfChange) {
+                    mListeners.forEach(listener ->
+                        listener.onNavigationHeightChanged());
+                }
+            }, UserHandle.USER_ALL);
 
         updateCurrentInteractionMode(false /* notify */);
     }
