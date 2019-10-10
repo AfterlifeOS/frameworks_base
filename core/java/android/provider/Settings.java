@@ -6326,6 +6326,12 @@ public final class Settings {
         @Readable
         public static final String GAMESPACE_SUPPRESS_FULLSCREEN_INTENT = "gamespace_suppress_fullscreen_intent";
 
+	/**
+         * Use doubletap as doze pulse triggers
+         * @hide
+         */
+        public static final String DOZE_TRIGGER_DOUBLETAP = "doze_trigger_doubletap";
+
         /**
          * Back gesture activation height
          * n/o sixths reduced in height (0 = nothing, default)
