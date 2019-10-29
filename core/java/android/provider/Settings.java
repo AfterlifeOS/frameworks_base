@@ -5998,7 +5998,16 @@ public final class Settings {
          * Color temperature of the display during the day
          * @hide
          */
-        public static final String DISPLAY_TEMPERATURE_DAY = "display_temperature_day";
+        public static final String SEEK_BAR_BATTERY_CHARGE_LEVEL_SOUND = "battery_level_charge_seek_bar";
+
+        /**
+         * Whether allowing pocket service to register sensors and dispatch informations.
+         *   0 = disabled
+         *   1 = enabled
+         * @author Carlo Savignano
+         * @hide
+         */
+        public static final String POCKET_JUDGE = "pocket_judge";
 
         /**
          * Color temperature of the display at night
@@ -6666,15 +6675,9 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
             PRIVATE_SETTINGS.add(TRANSPARENT_POWER_MENU);
             PRIVATE_SETTINGS.add(TRANSPARENT_POWER_DIALOG_DIM);
-            PRIVATE_SETTINGS.add(ADAPTIVE_PLAYBACK_ENABLED);
-            PRIVATE_SETTINGS.add(ADAPTIVE_PLAYBACK_TIMEOUT);
-            PRIVATE_SETTINGS.add(OMNIJAWS_WEATHER_ICON_PACK);
-            PRIVATE_SETTINGS.add(MAX_VISIBLE_NOTIFICATION_ICONS);
-            PRIVATE_SETTINGS.add(CHARGING_CONTROL_ENABLED);
-            PRIVATE_SETTINGS.add(CHARGING_CONTROL_MODE);
-            PRIVATE_SETTINGS.add(CHARGING_CONTROL_START_TIME);
-            PRIVATE_SETTINGS.add(CHARGING_CONTROL_TARGET_TIME);
-            PRIVATE_SETTINGS.add(CHARGING_CONTROL_LIMIT);
+            PRIVATE_SETTINGS.add(VOLUME_BUTTON_MUSIC_CONTROL);
+            PRIVATE_SETTINGS.add(VOLUME_ROCKER_WAKE);
+            PRIVATE_SETTINGS.add(POCKET_JUDGE);
         }
 
         /**
