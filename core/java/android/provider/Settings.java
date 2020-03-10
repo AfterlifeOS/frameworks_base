@@ -12815,6 +12815,12 @@ public final class Settings {
         public static final String BACK_GESTURE_ARROW = "back_gesture_arrow";
 
         /**
+         * Control whether the process FPS info meter should be shown.
+         * @hide
+         */
+        public static final String SHOW_FPS_OVERLAY = "show_fps_overlay";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *

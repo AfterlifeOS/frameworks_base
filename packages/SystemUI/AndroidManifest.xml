@@ -524,6 +524,9 @@
             </intent-filter>
         </receiver>
 
+        <service android:name="com.android.systemui.FPSInfoService"
+                android:exported="true" />
+
         <service android:name=".wallpapers.ImageWallpaper"
                 android:singleUser="true"
                 android:permission="android.permission.BIND_WALLPAPER"
