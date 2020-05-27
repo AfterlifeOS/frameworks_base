@@ -6101,7 +6101,7 @@ public final class Settings {
          */
         public static final String SCREEN_FLASH_NOTIFICATION_COLOR =
                 "screen_flash_notification_color_global";
-                
+
 	/**
          * Whether the phone vibrates on call connect
          * @hide
@@ -6149,6 +6149,11 @@ public final class Settings {
          */
         @Readable
         public static final String PROXIMITY_ON_WAKE = "proximity_on_wake";
+
+	/**
+         * @hide
+         */
+        public static final String SCREENSHOT_SHUTTER_SOUND = "screenshot_shutter_sound";
 
         /**
          * IMPORTANT: If you add a new public settings you also have to add it to
