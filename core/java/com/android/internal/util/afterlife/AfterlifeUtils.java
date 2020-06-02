@@ -64,7 +64,6 @@ import com.android.internal.statusbar.IStatusBarService;
 import java.util.List;
 import java.util.Locale;
 
-<<<<<<< HEAD:core/java/com/android/internal/util/afterlife/AfterlifeUtils.java
 public class AfterlifeUtils {
     private static final String TAG = "AfterlifeUtils";
 
