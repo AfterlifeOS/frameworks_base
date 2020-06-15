@@ -243,6 +243,7 @@ import java.util.Set;
 
 import com.android.internal.util.afterlife.AfterlifeUtils;
 import com.android.internal.util.custom.NavbarUtils;
+import com.android.internal.custom.hardware.LineageHardwareManager;
 
 /**
  * WindowManagerPolicy implementation for the Android phone UI.  This
@@ -711,6 +712,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     // Custom additions
     private static final int MSG_CAMERA_LONG_PRESS = 101;
+
+    private LineageHardwareManager mLineageHardware;
 
     private class PolicyHandler extends Handler {
         @Override
@@ -2228,7 +2231,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mHandler = new PolicyHandler();
         mWakeGestureListener = new MyWakeGestureListener(mContext, mHandler);
         mSettingsObserver = new SettingsObserver(mHandler);
-        mSettingsObserver.observe();
         mModifierShortcutManager = new ModifierShortcutManager(context);
         mUiMode = context.getResources().getInteger(
                 com.android.internal.R.integer.config_defaultUiModeType);
@@ -2838,7 +2840,14 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         int mDeviceHardwareWakeKeys = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_deviceHardwareWakeKeys);
         synchronized (mLock) {
-            mHasNavigationBar = NavbarUtils.isEnabled(mContext);
+            boolean hasNavigationBar = NavbarUtils.isEnabled(mContext);
+            if (hasNavigationBar != mHasNavigationBar){
+                mHasNavigationBar = hasNavigationBar;
+                if (mLineageHardware.isSupported(LineageHardwareManager.FEATURE_KEY_DISABLE)) {
+                    mLineageHardware.set(LineageHardwareManager.FEATURE_KEY_DISABLE, mHasNavigationBar);
+                }
+            }
+
             mEndcallBehavior = Settings.System.getIntForUser(resolver,
                     Settings.System.END_BUTTON_BEHAVIOR,
                     Settings.System.END_BUTTON_BEHAVIOR_DEFAULT,
@@ -5870,6 +5879,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mAlertSliderObserver.startObserving(com.android.internal.R.string.alert_slider_uevent_match_path);
         }
 
+        mLineageHardware = LineageHardwareManager.getInstance(mContext);
         // Ensure observe happens in systemReady() since we need
         // LineageHardwareService to be up and running
         mSettingsObserver.observe();
