@@ -11674,6 +11674,7 @@ public final class Settings {
         public static final String QS_SHOW_AUTO_BRIGHTNESS = "qs_show_auto_brightness";
 
         /**
+<<<<<<< HEAD
          * Control whether FLAG_SECURE is ignored for all windows.
          * @hide
          */
@@ -11699,6 +11700,12 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_AM_PM = "status_bar_am_pm";
+
+        /**
+         * Whether key swap is enabled on supported hardware
+         * @hide
+         */
+        public static final String SWAP_CAPACITIVE_KEYS = "swap_capacitive_keys";
 
         /**
          * These entries are considered common between the personal and the managed profile,
