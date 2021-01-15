@@ -1347,6 +1347,17 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
     }
 
     /**
+     * @deprecated This method is not needed anymore with the new face auth system.
+     */
+    @Deprecated
+    private boolean isFaceDisabled(int userId) {
+        // TODO(b/140035044)
+        return (mDevicePolicyManager.getKeyguardDisabledFeatures(null, userId)
+                        & DevicePolicyManager.KEYGUARD_DISABLE_FACE) != 0
+                || isSimPinSecure();
+    }
+
+    /**
      * @return whether the current user has been authenticated with face. This may be true
      * on the lockscreen if the user doesn't have bypass enabled.
      *
