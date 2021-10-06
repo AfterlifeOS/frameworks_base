@@ -300,7 +300,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces, Tune
     private static final String BANNER_ACTION_SETUP =
             "com.android.systemui.statusbar.banner_action_setup";
     private static final String LESS_BORING_HEADS_UP =
-            "system:" + Settings.System.LESS_BORING_HEADS_UP
+            "system:" + Settings.System.LESS_BORING_HEADS_UP;
     private static final String RETICKER_STATUS =
             "system:" + Settings.System.RETICKER_STATUS;
     private static final String NOTIFICATION_MATERIAL_DISMISS =
