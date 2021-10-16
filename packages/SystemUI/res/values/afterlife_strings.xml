@@ -136,4 +136,10 @@
     <string name="drag_or_tap_to_add_tiles">Hold &amp; drag or tap to add tiles</string>
     <!-- Label for the area where tiles can be dragged in to remove -->
     <string name="drag_or_tap_to_remove_tiles">Hold &amp; drag or tap to remove tiles</string>
+
+    <!-- Sound QS Tile -->
+    <string name="quick_settings_sound_label">Sound</string>
+    <string name="quick_settings_sound_ring">Ring</string>
+    <string name="quick_settings_sound_vibrate">Vibrate</string>
+    <string name="quick_settings_sound_silent">Silent</string>
 </resources>
