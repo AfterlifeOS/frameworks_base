@@ -225,5 +225,6 @@ public class SecureSettings {
         Settings.Secure.LOCK_SCREEN_WEATHER_ENABLED,
         Settings.Secure.ACCESSIBILITY_FONT_SCALING_HAS_BEEN_CHANGED,
         Settings.Secure.SCREEN_OFF_UDFPS_ENABLED
+        Settings.Secure.SECURE_LOCKSCREEN_QS_DISABLED,
     };
 }
