@@ -99,7 +99,6 @@ public class NavigationBarInflaterView extends FrameLayout {
     }
 
     private final Listener mListener;
-
     protected LayoutInflater mLayoutInflater;
     protected LayoutInflater mLandscapeInflater;
 
