@@ -108,11 +108,6 @@
         android:title="@string/status_bar_alarm"
         android:icon="@drawable/ic_statusbar_alarm" />
 
-    <com.android.systemui.tuner.StatusBarSwitch
-        android:key="cameratoggle"
-        android:title="@string/quick_settings_camera_label"
-        android:icon="@drawable/ic_statusbar_camera" />
-
     <com.android.systemui.tuner.BatteryPreference
         android:title="@string/battery"
         android:icon="@*android:drawable/ic_battery"
