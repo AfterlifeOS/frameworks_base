@@ -941,6 +941,11 @@ interface IActivityManager {
     int checkPermissionForDevice(in String permission, int pid, int uid, int deviceId);
 
     /**
+     *  Force full screen for devices with cutout
+     */
+    boolean shouldForceCutoutFullscreen(in String packageName);
+
+    /**
      * Notify AMS about binder transactions to frozen apps.
      *
      * @param debugPid The binder transaction sender

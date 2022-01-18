@@ -20669,6 +20669,10 @@ public class ActivityManagerService extends IActivityManager.Stub
         }
     }
 
+    public boolean shouldForceCutoutFullscreen(String packageName) {
+        return mActivityTaskManager.shouldForceCutoutFullscreen(packageName);
+    }
+
     /**
      * Deal with binder transactions to frozen apps.
      *
@@ -20685,7 +20689,7 @@ public class ActivityManagerService extends IActivityManager.Stub
         }
         mOomAdjuster.mCachedAppOptimizer.binderError(debugPid, app, code, flags, err);
     }
-    
+
     private class SwipeToScreenshotObserver extends ContentObserver {
 
         private final Context mContext;

@@ -97,7 +97,6 @@ public class NotificationMediaManager implements Dumpable, TunerService.Tunable 
     private boolean mIslandEnabled;
     private boolean mIslandNowPlayingEnabled;
 
->>>>>>> 8f9e42150e89 (SystemUI: IslandView: Implement now playing for Island notification)
     private final MediaController.Callback mMediaListener = new MediaController.Callback() {
         @Override
         public void onPlaybackStateChanged(PlaybackState state) {
