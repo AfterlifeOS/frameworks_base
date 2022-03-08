@@ -6452,7 +6452,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     public void sendCustomAction(Intent intent) {
         String action = intent.getAction();
         if (action != null) {
-            if (DroidXUtils.INTENT_SCREENSHOT.equals(action)) {
+            if (AfterlifeUtils.INTENT_SCREENSHOT.equals(action)) {
                 interceptScreenshotChord(SCREENSHOT_KEY_OTHER, 0);
             }
         }
