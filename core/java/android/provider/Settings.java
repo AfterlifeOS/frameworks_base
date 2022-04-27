@@ -5972,7 +5972,6 @@ public final class Settings {
         public static final String QS_SHOW_BATTERY_PERCENT = "qs_show_battery_percent";
 
         /**
-<<<<<<< HEAD
          * Wheter to show network traffic indicator in statusbar
          * @hide
          */
@@ -6371,6 +6370,16 @@ public final class Settings {
          * @hide
          */
         public static final String SEEK_BAR_BATTERY_CHARGE_LEVEL_SOUND = "battery_level_charge_seek_bar";
+
+        /**
+         * @hide
+         */
+        public static final String QS_TILE_LABEL_HIDE = "qs_tile_label_hide";
+
+        /**
+         * @hide
+         */
+        public static final String QS_TILE_VERTICAL_LAYOUT = "qs_tile_vertical_layout";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
