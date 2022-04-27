@@ -845,6 +845,8 @@ public class QSPanel extends LinearLayout implements Tunable {
 
         int getNumVisibleTiles();
 
+        void updateSettings();
+
         default void setLogger(QSLogger qsLogger) { }
     }
 
