@@ -41,7 +41,7 @@ import android.widget.LinearLayout
 import android.widget.Switch
 import android.widget.TextView
 import androidx.annotation.VisibleForTesting
-import com.android.internal.util.xtended.XtendedUtils.QSLayoutUtils
+import com.android.internal.util.afterlife.AfterlifeUtils.QSLayoutUtils
 import com.android.settingslib.Utils
 import com.android.systemui.FontSizeUtils
 import com.android.systemui.R
