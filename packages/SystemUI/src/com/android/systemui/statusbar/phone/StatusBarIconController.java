@@ -41,6 +41,7 @@ import com.android.internal.statusbar.StatusBarIcon;
 import com.android.systemui.R;
 import com.android.systemui.dagger.SysUISingleton;
 import com.android.systemui.demomode.DemoModeCommandReceiver;
+import com.android.systemui.Dependency;
 import com.android.systemui.plugins.DarkIconDispatcher;
 import com.android.systemui.plugins.DarkIconDispatcher.DarkReceiver;
 import com.android.systemui.statusbar.BaseStatusBarFrameLayout;
