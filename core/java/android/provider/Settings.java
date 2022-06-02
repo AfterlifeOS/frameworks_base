@@ -6477,6 +6477,12 @@ public final class Settings {
          */
         public static final String UDFPS_ICON = "udfps_icon";
 
+	/**
+         * Current status of whether gestures are locked
+         * @hide
+         */
+        public static final String LOCK_GESTURE_STATUS = "lock_gesture_status";
+
         /**
          * These are all public system settings
          *
