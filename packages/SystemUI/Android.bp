@@ -204,6 +204,7 @@ android_library {
         "lottie",
         "LowLightDreamLib",
         "motion_tool_lib",
+        "bcsmartspace-google",
         "notification_flags_lib",
     ],
     libs: [
