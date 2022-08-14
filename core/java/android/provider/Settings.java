@@ -6448,6 +6448,11 @@ public final class Settings {
         public static final String SMART_5G = "smart_5g";
 
        /**
+         * @hide
+         */
+        public static final String MAX_VISIBLE_NOTIFICATION_ICONS = "max_visible_notification_icons";
+
+        /**
          * These are all public system settings
          *
          * @hide
@@ -6601,6 +6606,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(ADAPTIVE_PLAYBACK_ENABLED);
             PRIVATE_SETTINGS.add(ADAPTIVE_PLAYBACK_TIMEOUT);
             PRIVATE_SETTINGS.add(OMNIJAWS_WEATHER_ICON_PACK);
+            PRIVATE_SETTINGS.add(MAX_VISIBLE_NOTIFICATION_ICONS);
         }
 
         /**
@@ -12164,7 +12170,6 @@ public final class Settings {
         public static final String QS_SHOW_AUTO_BRIGHTNESS = "qs_show_auto_brightness";
 
         /**
-<<<<<<< HEAD
          * Control whether FLAG_SECURE is ignored for all windows.
          * @hide
          */
