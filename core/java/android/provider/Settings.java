@@ -11945,6 +11945,11 @@ public final class Settings {
         /**
          * @hide
          */
+        public static final String VOLUME_MEDIA_OUTPUT_TOGGLE = "volume_media_output_toggle";
+
+        /**
+         * @hide
+         */
         public static final String ENABLE_COMBINED_SIGNAL_ICONS = "enable_combined_signal_icons";
 
         /**
