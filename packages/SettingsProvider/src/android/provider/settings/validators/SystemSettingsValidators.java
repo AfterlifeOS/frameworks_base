@@ -285,5 +285,6 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.QS_LAYOUT, ANY_INTEGER_VALIDATOR);
         VALIDATORS.put(System.QQS_LAYOUT, ANY_INTEGER_VALIDATOR);
         VALIDATORS.put(System.MAX_VISIBLE_NOTIFICATION_ICONS, NON_NEGATIVE_INTEGER_VALIDATOR);
+        VALIDATORS.put(System.VOLUME_KEY_CURSOR_CONTROL, new InclusiveIntegerRangeValidator(0, 2));
     }
 }

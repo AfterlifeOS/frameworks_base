@@ -95,5 +95,6 @@ public class SystemSettings {
         Settings.System.QS_LAYOUT,
         Settings.System.QQS_LAYOUT,
         Settings.System.MAX_VISIBLE_NOTIFICATION_ICONS,
+        Settings.System.VOLUME_KEY_CURSOR_CONTROL,
     };
 }
