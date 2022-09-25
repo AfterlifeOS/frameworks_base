@@ -209,6 +209,7 @@ import com.android.server.uri.UriGrantsManagerService;
 import com.android.server.usage.UsageStatsService;
 import com.android.server.utils.TimingsTraceAndSlog;
 import com.android.server.afterlife.CustomDeviceConfigService;
+import com.android.server.vibrator.LinearmotorVibratorService;
 import com.android.server.vibrator.VibratorManagerService;
 import com.android.server.vr.VrManagerService;
 import com.android.server.webkit.WebViewUpdateService;
