@@ -39,13 +39,12 @@
         android:clipToPadding="false"
         android:clipChildren="false">
 
-
         <LinearLayout
             android:id="@+id/volume_dialog_top_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:clipChildren="false"
+            android:orientation="vertical"
             android:gravity="right">
 
             <include layout="@layout/volume_ringer_drawer" />
@@ -59,8 +58,8 @@
                 android:gravity="right"
                 android:layout_gravity="right"
                 android:translationZ="@dimen/volume_dialog_elevation"
-                android:clipToPadding="false"
-                android:background="@drawable/rounded_bg_full">
+                android:background="@drawable/rounded_bg_full"
+                android:clipToPadding="false">
                 <com.android.keyguard.AlphaOptimizedImageButton
                     android:id="@+id/ringer_icon"
                     style="@style/VolumeButtons"
@@ -74,10 +73,10 @@
                     android:soundEffectsEnabled="false" />
 
                 <include layout="@layout/volume_dnd_icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/volume_dialog_stream_padding"
-                    android:layout_marginTop="6dp"/>
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_marginRight="@dimen/volume_dialog_stream_padding"
+                         android:layout_marginTop="6dp"/>
             </FrameLayout>
 
             <LinearLayout
@@ -95,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="horizontal">
-                    <!-- volume rows added and removed here! :-) -->
+                        <!-- volume rows added and removed here! :-) -->
                 </LinearLayout>
                 <FrameLayout
                     android:id="@+id/app_volume_container"
@@ -134,6 +133,12 @@
                         android:tint="?androidprv:attr/colorAccent"
                         android:soundEffectsEnabled="false" />
                 </FrameLayout>
+                
+                <View
+                    android:id="@+id/settings_container_spacer"
+                    android:layout_height="3dp"
+                    android:layout_width="1dp" />
+
                 <FrameLayout
                     android:id="@+id/expandable_indicator_container"
                     android:layout_width="wrap_content"
@@ -184,11 +189,12 @@
                 android:id="@+id/odi_captions_icon"
                 android:src="@drawable/ic_volume_odi_captions_disabled"
                 style="@style/VolumeButtons"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:tint="?android:attr/colorAccent"
+                android:layout_width="@dimen/volume_dialog_tap_target_size"
+                android:layout_height="@dimen/volume_dialog_tap_target_size"
+                android:background="@drawable/volume_drawer_selection_bg"
+                android:tint="?androidprv:attr/textColorPrimaryInverse"
                 android:layout_gravity="center"
-                android:soundEffectsEnabled="false" />
+                android:soundEffectsEnabled="false"/>
         </FrameLayout>
     </com.android.systemui.animation.view.LaunchableLinearLayout>
 
