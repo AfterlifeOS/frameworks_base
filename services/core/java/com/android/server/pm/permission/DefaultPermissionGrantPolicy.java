@@ -964,6 +964,10 @@ final class DefaultPermissionGrantPolicy {
         grantPermissionsToSystemPackage(pm, getDefaultSystemHandlerServicePackage(pm,
                         commonServiceAction, userId), userId, NOTIFICATION_PERMISSIONS);
 
+        // OnePlus Gallery
+        grantSystemFixedPermissionsToSystemPackage(pm, "com.oneplus.gallery", userId,
+                STORAGE_PERMISSIONS);
+
         // ContactsProvider2
         grantSystemFixedPermissionsToSystemPackage(pm,
                 getDefaultProviderAuthorityPackage("com.android.providers.contacts.ContactsProvider2", userId), userId,
