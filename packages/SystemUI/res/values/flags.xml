@@ -40,9 +40,10 @@
          protected. -->
     <bool name="flag_battery_shield_icon">false</bool>
 
+<<<<<<< HEAD
     <!-- Whether the combined qs shows in status bar when true, the combined qs will not be available
          if set it to false  -->
     <bool name="flag_combined_qs_headers">true</bool>
 
-    <bool name="flag_combined_status_bar_signal_icons">false</bool>
+    <bool name="flag_combined_status_bar_signal_icons">true</bool>
 </resources>
