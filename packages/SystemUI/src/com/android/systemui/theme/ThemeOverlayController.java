@@ -395,6 +395,7 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
             @Background Executor bgExecutor,
             ThemeOverlayApplier themeOverlayApplier,
             SecureSettings secureSettings,
+            SystemSettings systemSettings,
             WallpaperManager wallpaperManager,
             UserManager userManager,
             DeviceProvisionedController deviceProvisionedController,
@@ -417,6 +418,7 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
         mBgHandler = bgHandler;
         mThemeManager = themeOverlayApplier;
         mSecureSettings = secureSettings;
+        mSystemSettings = systemSettings;
         mWallpaperManager = wallpaperManager;
         mUserTracker = userTracker;
         mResources = resources;
@@ -483,6 +485,18 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
                             mSkipSettingChange = false;
                             return;
                         }
+                        reevaluateSystemTheme(true /* forceReload */);
+                    }
+                },
+                UserHandle.USER_ALL);
+
+                mSystemSettings.registerContentObserverForUser(
+                Settings.System.getUriFor(Settings.System.CLOCK_USE_CUSTOM_FORMAT),
+                false,
+                new ContentObserver(mBgHandler) {
+                    @Override
+                    public void onChange(boolean selfChange, Collection<Uri> collection, int flags,
+                            int userId) {
                         reevaluateSystemTheme(true /* forceReload */);
                     }
                 },
