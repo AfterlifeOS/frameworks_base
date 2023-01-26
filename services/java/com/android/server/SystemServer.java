@@ -2561,9 +2561,11 @@ public final class SystemServer implements Dumpable {
             mSystemServiceManager.startService(CustomDeviceConfigService.class);
             t.traceEnd();
 
-            t.traceBegin("StartLinearmotorVibratorService");
-            mSystemServiceManager.startService(LinearmotorVibratorService.class);
-            t.traceEnd();
+            if (SystemProperties.getBoolean("persist.sys.service.enable_oplus_linearmotor", false)) {
+                t.traceBegin("StartLinearmotorVibratorService");
+                mSystemServiceManager.startService(LinearmotorVibratorService.class);
+                t.traceEnd();
+            }
         }
 
         t.traceBegin("StartMediaProjectionManager");
