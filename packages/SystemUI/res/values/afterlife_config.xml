@@ -25,4 +25,6 @@
     <integer name="qs_panel_num_columns_landscape">6</integer>
     <integer name="qs_panel_num_columns_media">4</integer>
 
+    <!-- Unlock ripple animation -->
+    <bool name="config_enableUnlockRippleAnimation">true</bool>
 </resources>
