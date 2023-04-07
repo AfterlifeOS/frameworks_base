@@ -80,22 +80,6 @@ public class KeyguardPinViewController
                 mKeyguardSecurityCallback.onCancelClicked();
             });
         }
-
-        boolean quickUnlock = (Settings.System.getIntForUser(getContext().getContentResolver(),
-                Settings.System.LOCKSCREEN_QUICK_UNLOCK_CONTROL, 0, UserHandle.USER_CURRENT) == 1);
-
-        if (quickUnlock) {
-            mPasswordEntry.setQuickUnlockListener(new QuickUnlockListener() {
-                public void onValidateQuickUnlock(String password) {
-                    if (password != null && password.length() == mLockPatternUtils.getCredentialLength(userId)) {
-                        validateQuickUnlock(mLockPatternUtils, password, userId);
-                    }
-                }
-            });
-        } else {
-            mPasswordEntry.setQuickUnlockListener(null);
-        }
-
         mPostureController.addCallback(mPostureCallback);
     }
 
@@ -131,6 +115,23 @@ public class KeyguardPinViewController
         }
     }
 
+    private void updateQuickUnlock() {
+        boolean quickUnlock = (Settings.System.getIntForUser(getContext().getContentResolver(),
+                Settings.System.LOCKSCREEN_QUICK_UNLOCK_CONTROL, 0, UserHandle.USER_CURRENT) == 1);
+
+        if (quickUnlock) {
+            mPasswordEntry.setQuickUnlockListener(new QuickUnlockListener() {
+                public void onValidateQuickUnlock(String password) {
+                    if (password != null && password.length() == mLockPatternUtils.getCredentialLength(userId)) {
+                        validateQuickUnlock(mLockPatternUtils, password, userId);
+                    }
+                }
+            });
+        } else {
+            mPasswordEntry.setQuickUnlockListener(null);
+        }
+    }
+
     @Override
     protected void onViewDetached() {
         super.onViewDetached();
@@ -140,6 +141,7 @@ public class KeyguardPinViewController
     @Override
     public void startAppearAnimation() {
         updatePinScrambling();
+        updateQuickUnlock();
         mView.startAppearAnimation();
     }
 
