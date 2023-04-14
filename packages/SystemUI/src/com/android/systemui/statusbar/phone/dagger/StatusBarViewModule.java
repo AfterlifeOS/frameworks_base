@@ -297,6 +297,7 @@ public abstract class StatusBarViewModule {
             OperatorNameViewController.Factory operatorNameViewControllerFactory,
             SecureSettings secureSettings,
             @Main Executor mainExecutor,
+            TunerService tunerService,
             DumpManager dumpManager,
             StatusBarWindowStateController statusBarWindowStateController,
             KeyguardUpdateMonitor keyguardUpdateMonitor
@@ -320,6 +321,7 @@ public abstract class StatusBarViewModule {
                 operatorNameViewControllerFactory,
                 secureSettings,
                 mainExecutor,
+                tunerService,
                 dumpManager,
                 statusBarWindowStateController,
                 keyguardUpdateMonitor);
