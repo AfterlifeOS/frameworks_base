@@ -6461,6 +6461,11 @@ public final class Settings {
         public static final String SHOW_WIFI_STANDARD_ICON = "show_wifi_standard_icon";
 
         /**
+         * @hide
+         */
+        public static final String PREVENT_POINTER_ACCELERATION = "prevent_pointer_acceleration";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -6681,6 +6686,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(CHARGING_CONTROL_START_TIME);
             PRIVATE_SETTINGS.add(CHARGING_CONTROL_TARGET_TIME);
             PRIVATE_SETTINGS.add(CHARGING_CONTROL_LIMIT);
+            PRIVATE_SETTINGS.add(PREVENT_POINTER_ACCELERATION);
         }
 
         /**
