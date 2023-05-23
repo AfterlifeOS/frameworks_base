@@ -141,6 +141,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private final KeyguardUpdateMonitor mKeyguardUpdateMonitor;
 
     private ClockController mClockController;
+    private Context mContext;
     private boolean mIsClockBlacklisted;
     private BatteryMeterView mBatteryMeterView;
     private StatusIconContainer mStatusIcons;
@@ -314,6 +315,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         showClock(false);
         initOperatorName();
         initNotificationIconArea();
+
+        mContext = getContext();
         Dependency.get(TunerService.class).addTunable(this, StatusBarIconController.ICON_HIDE_LIST);
 
         mSystemEventAnimator =
@@ -418,7 +421,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         if (context == null)
             return;
         mIsClockBlacklisted = StatusBarIconController.getIconHideList(
-                context, newValue).contains("clock");
+                mContext, newValue).contains("clock");
         if (wasClockBlacklisted && !mIsClockBlacklisted) {
             showClock(false);
         }

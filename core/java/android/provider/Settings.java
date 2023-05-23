@@ -5675,16 +5675,6 @@ public final class Settings {
                 "lockscreen_scramble_pin_layout";
 
         /**
-         * Whether to show the clock in the right or left position or show it in the center
-         * 0: show the clock in the right position (LTR)
-         * 1: show the clock in the center
-         * 2: show the clock in the left position (LTR)
-         * default: 0
-         * @hide
-         */
-        public static final String STATUS_BAR_CLOCK = "status_bar_clock";
-
-        /**
          * Battery style
          * @hide
          */
@@ -11508,6 +11498,16 @@ public final class Settings {
          */
         @Readable
         public static final String WINDOW_IGNORE_SECURE = "window_ignore_secure";
+
+        /**
+         * Whether to show the clock in the right or left position or show it in the center
+         * 0: show the clock in the right position (LTR)
+         * 1: show the clock in the center
+         * 2: show the clock in the left position (LTR)
+         * default: 0
+         * @hide
+         */
+        public static final String STATUS_BAR_CLOCK = "status_bar_clock";
 
         /**
          * Display style of AM/PM next to clock in status bar
