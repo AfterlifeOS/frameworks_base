@@ -73,4 +73,13 @@
     <!-- Message shown to the user when the apps requests permission from this group. If ever possible this should stay below 80 characters (assuming the parameters takes 20 characters). Don't abbreviate until the message reaches 120 characters though. [CHAR LIMIT=120] -->
     <string name="permgrouprequest_fake_package_signature">Allow
         &lt;b><xliff:g id="app_name" example="Gmail">%1$s</xliff:g>&lt;/b> to spoof package signature?</string>
+
+    <!-- Health interface -->
+    <string name="charging_control_notification_channel">Charging control</string>
+    <string name="charging_control_notification_title">Charging control</string>
+    <string name="charging_control_notification_cancel_once">Cancel</string>
+    <string name="charging_control_notification_content_limit">Battery will be charged to %1$d%%</string>
+    <string name="charging_control_notification_content_limit_reached">Battery is charged to %1$d%%</string>
+    <string name="charging_control_notification_content_target">Battery will be fully charged at %1$s</string>
+    <string name="charging_control_notification_content_target_reached">Battery is charged</string>
 </resources>

@@ -243,6 +243,9 @@ import com.android.server.lineage.LineageHardwareService;
 // LiveDisplay
 import com.android.server.lineage.display.LiveDisplayService;
 
+// ChargingControl
+import com.android.server.lineage.health.HealthInterfaceService;
+
 /**
  * Entry point to {@code system_server}.
  */
@@ -2548,17 +2551,16 @@ public final class SystemServer implements Dumpable {
             mSystemServiceManager.startService(MediaMetricsManagerService.class);
             t.traceEnd();
 
-            // LineageHardware
+            // LineageHardware, LiveDisplay, ChargingControl
             if (!mOnlyCore){
                 t.traceBegin("StartLineageHardwareService");
                 mSystemServiceManager.startService(LineageHardwareService.class);
                 t.traceEnd();
-            }
-
-            // LiveDisplay
-            if (!mOnlyCore){
                 t.traceBegin("StartLiveDisplayService");
                 mSystemServiceManager.startService(LiveDisplayService.class);
+                t.traceEnd();
+                t.traceBegin("StartHealthService");
+                mSystemServiceManager.startService(HealthInterfaceService.class);
                 t.traceEnd();
             }
 
