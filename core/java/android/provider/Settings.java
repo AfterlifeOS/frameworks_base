@@ -12196,6 +12196,12 @@ public final class Settings {
         public static final String STATUS_BAR_AM_PM = "status_bar_am_pm";
 
         /**
+         * Quicksettings tile shape
+         * @hide
+         */
+        public static final String QS_TILE_SHAPE = "qs_tile_shape";
+
+        /**
          * These entries are considered common between the personal and the managed profile,
          * since the managed profile doesn't get to change them.
          */
