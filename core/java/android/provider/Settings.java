@@ -6173,6 +6173,12 @@ public final class Settings {
          */
         public static final String TORCH_POWER_BUTTON_GESTURE = "torch_power_button_gesture";
 
+	/**
+         * Whether to enable the ripple animation on fingerprint unlock
+         * @hide
+         */
+        public static final String ENABLE_RIPPLE_EFFECT = "enable_ripple_effect";
+
         /**
          * Whether StatusBar icons should use app icon
          * @hide
