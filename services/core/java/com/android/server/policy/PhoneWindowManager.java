@@ -188,12 +188,10 @@ import android.view.animation.AnimationUtils;
 import android.view.autofill.AutofillManagerInternal;
 
 import com.android.internal.R;
-
 import com.android.internal.accessibility.AccessibilityShortcutController;
 import com.android.internal.accessibility.util.AccessibilityUtils;
 import com.android.internal.app.AssistUtils;
 import com.android.internal.inputmethod.SoftInputShowHideReason;
-import com.android.internal.lineage.hardware.LineageHardwareManager;
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto;
 import com.android.internal.os.DeviceKeyHandler;
@@ -685,8 +683,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int MSG_DISPATCH_VOLKEY_WITH_WAKE_LOCK = 25;
 
     private boolean mHasAlertSlider = false;
-    // Custom additions
-    private LineageHardwareManager mLineageHardware;
 
     private class PolicyHandler extends Handler {
         @Override
@@ -5434,7 +5430,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         mAutofillManagerInternal = LocalServices.getService(AutofillManagerInternal.class);
         mGestureLauncherService = LocalServices.getService(GestureLauncherService.class);
-        mLineageHardware = LineageHardwareManager.getInstance(mContext);
     }
 
     /** {@inheritDoc} */
