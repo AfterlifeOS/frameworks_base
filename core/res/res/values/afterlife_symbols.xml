@@ -181,4 +181,8 @@
     <java-symbol type="style" name="GlobalActionsAnimationXylon" />
     <java-symbol type="style" name="GlobalActionsAnimationCard" />
     <java-symbol type="style" name="GlobalActionsAnimationRotate" />
+
+    <!-- Define device configs on boot -->
+    <java-symbol type="array" name="global_device_configs_override" />
+    <java-symbol type="array" name="device_configs_override" />
 </resources>
