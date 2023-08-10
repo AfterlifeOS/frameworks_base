@@ -131,7 +131,7 @@ public class PixelPropsUtils {
         propsToChangePixel7Pro.put("DEVICE", "cheetah");
         propsToChangePixel7Pro.put("PRODUCT", "cheetah");
         propsToChangePixel7Pro.put("MODEL", "Pixel 7 Pro");
-        propsToChangePixel7Pro.put("FINGERPRINT", "google/cheetah/cheetah:13/TQ3A.230705.001.A1/10217028:user/release-keys");
+        propsToChangePixel7Pro.put("FINGERPRINT", "google/cheetah/cheetah:13/TQ3A.230805.001/10316531:user/release-keys");
         propsToChangePixel6Pro = new HashMap<>();
         propsToChangePixel6Pro.put("BRAND", "google");
         propsToChangePixel6Pro.put("MANUFACTURER", "Google");
