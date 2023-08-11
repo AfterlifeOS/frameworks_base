@@ -804,6 +804,8 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
         boolean isBlackTheme = mSecureSettings.getInt(Settings.Secure.SYSTEM_BLACK_THEME, 0) == 1
                                 && nightMode;
 
+        mThemeManager.setIsBlackTheme(isBlackTheme);
+
         if (mNeedsOverlayCreation) {
             mNeedsOverlayCreation = false;
             mThemeManager.applyCurrentUserOverlays(categoryToPackage, new FabricatedOverlay[]{
