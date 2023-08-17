@@ -222,6 +222,8 @@ public class HeadsUpAppearanceController extends ViewController<HeadsUpStatusBar
             } else if (previousEntry == null) {
                 // We now have a headsUp and didn't have one before. Let's start the disappear
                 // animation
+
+                mNotificationPanelViewController.hideClearAllButton();
                 mNotificationPanelViewController.reTickerView(true);
                 setShown(true);
                 animateIsolation = !isExpanded();
