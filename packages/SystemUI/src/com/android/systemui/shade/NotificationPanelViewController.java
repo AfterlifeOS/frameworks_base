@@ -5341,4 +5341,10 @@ public final class NotificationPanelViewController implements Dumpable {
             mainLocation[1] + mReTickerComeback.getHeight()
         ));
     };
+    
+    public void hideClearAllButton() {
+        if (getExpandedFraction() == 0) {
+            mCentralSurfaces.updateDismissAllVisibility(false);
+        }
+    }
 }
