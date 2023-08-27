@@ -269,4 +269,10 @@
         <item>org.codeaurora.gallery</item>
         <item>com.android.calculator2</item>
     </string-array>
+
+    <!-- Name of a font family to use as light font. For theming purpose. -->
+    <string name="config_lightFontFamily" translatable="false">sans-serif-light</string>
+
+    <!-- Name of a font family to use as regular font. For theming purpose. -->
+    <string name="config_regularFontFamily" translatable="false">sans-serif-regular</string>
 </resources>
