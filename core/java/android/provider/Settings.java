@@ -5551,6 +5551,25 @@ public final class Settings {
          */
         public static final String SHOW_FIVEG_ICON = "show_fiveg_icon";
 
+         /**
+         * Transparent power menu and dialogs
+         * @hide
+         */
+        public static final String TRANSPARENT_POWER_MENU = "transparent_power_menu";
+
+        /**
+         * Dim amount around power/reboot menu dialogs
+         * @hide
+         */
+        public static final String TRANSPARENT_POWER_DIALOG_DIM = "transparent_power_dialog_dim";
+
+        /**
+         * Whether to display set of animations when prompting the power menu
+         *
+         * @hide
+         */
+        public static final String POWER_MENU_ANIMATIONS = "power_menu_animations";
+
         /**
          * Whether to show the battery bar
          * @hide
@@ -6326,6 +6345,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
             PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
             PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
+            PRIVATE_SETTINGS.add(TRANSPARENT_POWER_MENU);
+            PRIVATE_SETTINGS.add(TRANSPARENT_POWER_DIALOG_DIM);
         }
 
         /**

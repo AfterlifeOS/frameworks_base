@@ -170,4 +170,15 @@
     <!-- Light / Regular style fonts -->
     <java-symbol type="string" name="config_lightFontFamily" />
     <java-symbol type="string" name="config_regularFontFamily" />
+
+    <!-- Powermenu animations -->
+    <java-symbol type="style" name="GlobalActionsAnimation" />
+    <java-symbol type="style" name="GlobalActionsAnimationTop" />
+    <java-symbol type="style" name="GlobalActionsAnimationEnter" />
+    <java-symbol type="style" name="GlobalActionsAnimationFly" />
+    <java-symbol type="style" name="GlobalActionsAnimationTn" />
+    <java-symbol type="style" name="GlobalActionsAnimationTranslucent" />
+    <java-symbol type="style" name="GlobalActionsAnimationXylon" />
+    <java-symbol type="style" name="GlobalActionsAnimationCard" />
+    <java-symbol type="style" name="GlobalActionsAnimationRotate" />
 </resources>
