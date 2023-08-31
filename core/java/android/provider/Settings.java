@@ -5545,6 +5545,12 @@ public final class Settings {
          */
         public static final String SHOW_FOURG_ICON = "show_fourg_icon";
 
+         /**
+         * Whether to display 5G icon instead LTE
+         * @hide
+         */
+        public static final String SHOW_FIVEG_ICON = "show_fiveg_icon";
+
         /**
          * Whether to show the battery bar
          * @hide
