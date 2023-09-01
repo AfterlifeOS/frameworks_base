@@ -5545,6 +5545,31 @@ public final class Settings {
          */
         public static final String SHOW_FOURG_ICON = "show_fourg_icon";
 
+         /**
+         * Whether to display 5G icon instead LTE
+         * @hide
+         */
+        public static final String SHOW_FIVEG_ICON = "show_fiveg_icon";
+
+         /**
+         * Transparent power menu and dialogs
+         * @hide
+         */
+        public static final String TRANSPARENT_POWER_MENU = "transparent_power_menu";
+
+        /**
+         * Dim amount around power/reboot menu dialogs
+         * @hide
+         */
+        public static final String TRANSPARENT_POWER_DIALOG_DIM = "transparent_power_dialog_dim";
+
+        /**
+         * Whether to display set of animations when prompting the power menu
+         *
+         * @hide
+         */
+        public static final String POWER_MENU_ANIMATIONS = "power_menu_animations";
+
         /**
          * Whether to show the battery bar
          * @hide
@@ -6161,6 +6186,12 @@ public final class Settings {
         public static final String RETICKER_COLORED = "reticker_colored";
 
         /**
+         * Select which System charging animation bg to display
+         * @hide
+         */
+        public static final String CHARGING_ANIMATION_BG = "charging_animation_bg";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -6320,6 +6351,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
             PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
             PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
+            PRIVATE_SETTINGS.add(TRANSPARENT_POWER_MENU);
+            PRIVATE_SETTINGS.add(TRANSPARENT_POWER_DIALOG_DIM);
         }
 
         /**
@@ -18095,6 +18128,13 @@ public final class Settings {
          * @hide
          */
         public static final String RESTRICTED_NETWORKING_MODE = "restricted_networking_mode";
+
+         /**
+         * Android P (punten) animation style
+         * @hide
+         */
+        @Readable
+        public static final String PIE_ANIMATION_STYLE = "pie_animation_style";
 
         /**
          * Setting indicating whether Low Power Standby is enabled, if supported.
