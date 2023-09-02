@@ -104,16 +104,16 @@
 
     <color name="screen_pinning_request_window_bg">#80000000</color>
 
-    <color name="dark_mode_icon_color_dual_tone_background">#3d000000</color>
-    <color name="dark_mode_icon_color_dual_tone_fill">#7a000000</color>
+    <color name="dark_mode_icon_color_dual_tone_background">#ff000000</color>
+    <color name="dark_mode_icon_color_dual_tone_fill">#ff000000</color>
 
     <color name="light_mode_icon_color_dual_tone_background">#4dffffff</color>
     <color name="light_mode_icon_color_dual_tone_fill">#ffffff</color>
 
-    <color name="dark_mode_qs_icon_color_single_tone">#B3000000</color><!-- 70% black -->
-    <color name="dark_mode_qs_icon_color_dual_tone_background">#3d000000</color>
+    <color name="dark_mode_qs_icon_color_single_tone">#ff000000</color><!-- more black -->
+    <color name="dark_mode_qs_icon_color_dual_tone_background">#99000000</color>
     <!-- Chosen so fill over background matches single tone -->
-    <color name="dark_mode_qs_icon_color_dual_tone_fill">#99000000</color>
+    <color name="dark_mode_qs_icon_color_dual_tone_fill">#ff000000</color>
 
     <color name="notif_pill_text">@android:color/system_on_surface_light</color>
 
