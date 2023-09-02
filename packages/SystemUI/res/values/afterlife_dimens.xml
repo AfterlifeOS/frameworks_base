@@ -83,8 +83,4 @@
     <dimen name="status_bar_mobile_type_height">8dp</dimen> 
     <dimen name="status_bar_mobile_type_padding">2dp</dimen>
     <dimen name="status_bar_mobile_type_padding_limit">10dp</dimen>
-
-    <!-- BurnIn Protection -->
-    <dimen name="burnin_protection_horizontal_shift">1dp</dimen>
-    <dimen name="burnin_protection_vertical_shift">1dp</dimen>
 </resources>
