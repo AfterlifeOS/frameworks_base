@@ -735,6 +735,23 @@ public class ScreenshotView extends FrameLayout implements
         });
         chips.add(mDeleteChip);
 
+        mLensChip.setContentDescription(mContext.getString(R.string.lens));
+        mLensChip.setIcon(Icon.createWithResource(mContext, R.drawable.ic_screenshot_lens), true);
+        mLensChip.setOnClickListener(v -> {
+            mLensChip.setIsPending(true);
+            mEditChip.setIsPending(false);
+            mShareChip.setIsPending(false);
+            if (mQuickShareChip != null) {
+                mQuickShareChip.setIsPending(false);
+            }
+            mDeleteChip.setIsPending(false);
+            mPendingInteraction = PendingInteraction.LENS;
+        });
+        chips.add(mLensChip);
+
+        mLensChip.setVisibility(LensScreenshotReceiver.isGSAEnabled(mContext) ?
+            View.VISIBLE : View.GONE);
+
         mScreenshotPreview.setOnClickListener(v -> {
             mShareChip.setIsPending(false);
             mEditChip.setIsPending(false);
