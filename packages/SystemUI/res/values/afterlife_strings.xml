@@ -152,4 +152,7 @@
 
     <!-- VoLTE VoWifi -->
     <string name="status_bar_ims">VoLTE/VoWiFi</string>
+
+    <!-- Google lens screenshot notification -->
+    <string name="lens">Lens</string>
 </resources>
