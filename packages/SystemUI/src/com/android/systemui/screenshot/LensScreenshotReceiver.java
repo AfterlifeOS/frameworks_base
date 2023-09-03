@@ -32,7 +32,7 @@ import android.net.Uri;
 
 
 import com.android.systemui.dagger.qualifiers.Background;
-import com.android.internal.util.superior.SuperiorUtils;
+import com.android.internal.util.afterlife.AfterlifeUtils;
 
 import com.android.systemui.R;
 import com.android.systemui.dagger.qualifiers.Background;
@@ -59,7 +59,7 @@ public class LensScreenshotReceiver extends BroadcastReceiver {
     }
 
     public static boolean isGSAEnabled(Context context) {
-        return SuperiorUtils.isPackageInstalled(context, GSA_PACKAGE, false /* ignoreState */);
+        return AfterlifeUtils.isPackageInstalled(context, GSA_PACKAGE, false /* ignoreState */);
     }
 
     @Override
