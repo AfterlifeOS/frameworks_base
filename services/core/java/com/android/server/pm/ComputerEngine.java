@@ -5157,6 +5157,10 @@ public class ComputerEngine implements Computer {
             }
         }
 
+        if ("com.aurora.store".equals(installerPackageName)) {
+            installerPackageName = "com.android.vending";
+        }
+
         if (installSource.isInitiatingPackageUninstalled) {
             // We can't check visibility in the usual way, since the initiating package is no
             // longer present. So we apply simpler rules to whether to expose the info:
@@ -5755,7 +5759,8 @@ public class ComputerEngine implements Computer {
             return PackageInfoUtils.generateProcessInfo(sus.processes, 0);
         } else if (settingBase instanceof PackageSetting) {
             final PackageSetting ps = (PackageSetting) settingBase;
-            return PackageInfoUtils.generateProcessInfo(ps.getPkg().getProcesses(), 0);
+            final AndroidPackage pkg = ps.getPkg();
+            return pkg == null ? null : PackageInfoUtils.generateProcessInfo(pkg.getProcesses(), 0);
         }
         return null;
     }

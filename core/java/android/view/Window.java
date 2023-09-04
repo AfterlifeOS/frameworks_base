@@ -663,6 +663,10 @@ public abstract class Window {
          * Update the navigation bar color to a forced one.
          */
         void updateNavigationBarColor(int color);
+
+        boolean moveTaskToBack(boolean nonRoot);
+
+        void onBackPressed();
     }
 
     /** @hide */
