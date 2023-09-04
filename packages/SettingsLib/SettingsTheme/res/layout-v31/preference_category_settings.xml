@@ -39,20 +39,20 @@
                 android:src="@drawable/kotak" 
                 android:layout_width="10.0dip" 
                 android:layout_height="10.0dip" 
-                android:tint="@android:color/system_accent1_300" />
+                android:tint="@android:color/system_accent1_600" />
             
             <ImageView 
                 android:layout_marginHorizontal="8.0dip" 
                 android:src="@drawable/segitiga" 
                 android:layout_width="10.0dip" 
                 android:layout_height="10.0dip" 
-                android:tint="@android:color/system_accent3_100" />
+                android:tint="@android:color/system_accent3_400" />
             
             <ImageView 
                 android:src="@drawable/bulat" 
                 android:layout_width="10.0dip" 
                 android:layout_height="10.0dip" 
-                android:tint="@android:color/system_accent2_100" />
+                android:tint="@android:color/system_accent2_300" />
         
         </LinearLayout>
 
