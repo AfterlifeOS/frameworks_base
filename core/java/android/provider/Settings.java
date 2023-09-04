@@ -6157,6 +6157,12 @@ public final class Settings {
         public static final String STATUSBAR_COLORED_ICONS = "statusbar_colored_icons";
 
         /**
+         * Colored QS notification icons
+         * @hide
+         */
+        public static final String QS_COLORED_ICONS = "qs_colored_icons";
+
+        /**
          * Whether to display cross sign for a data disabled connection
          * @hide
          */

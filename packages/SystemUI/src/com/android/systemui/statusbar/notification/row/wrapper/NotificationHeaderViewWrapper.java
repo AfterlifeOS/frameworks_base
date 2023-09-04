@@ -20,6 +20,8 @@ import static com.android.systemui.statusbar.notification.TransformState.TRANSFO
 
 import android.app.Notification;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.util.ArraySet;
 import android.view.NotificationHeaderView;
 import android.view.NotificationTopLineView;
@@ -47,6 +49,9 @@ import com.android.systemui.statusbar.notification.RoundableState;
 import com.android.systemui.statusbar.notification.TransformState;
 import com.android.systemui.statusbar.notification.row.ExpandableNotificationRow;
 
+import android.os.UserHandle;
+import android.provider.Settings;
+
 import java.util.Stack;
 
 /**
@@ -73,9 +78,11 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper imple
     private boolean mTransformLowPriorityTitle;
     private boolean mUseRoundnessSourceTypes;
     private RoundnessChangedListener mRoundnessChangedListener;
+    private Context mContext;
 
     protected NotificationHeaderViewWrapper(Context ctx, View view, ExpandableNotificationRow row) {
         super(ctx, view, row);
+        mContext = ctx;
         mRoundableState = new RoundableState(
                 mView,
                 this,
@@ -187,6 +194,18 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper imple
         addRemainingTransformTypes();
         updateCropToPaddingForImageViews();
         Notification notification = row.getEntry().getSbn().getNotification();
+        String pkgname = row.getEntry().getSbn().getPackageName();
+        Drawable appIcon = pkgname != null ?
+                    getApplicationIcon(pkgname) : null;
+        boolean qsColoredIcons = Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.QS_COLORED_ICONS, 0, UserHandle.USER_CURRENT) != 0;
+        if (qsColoredIcons && appIcon != null && mWorkProfileImage != null) {
+            mIcon.setImageDrawable(appIcon);
+            mWorkProfileImage.setImageIcon(notification.getSmallIcon());
+            // The work profile image is always the same lets just set the icon tag for it not to
+            // animate
+            mWorkProfileImage.setTag(ImageTransformState.ICON_TAG, notification.getSmallIcon());
+        }
         mIcon.setTag(ImageTransformState.ICON_TAG, notification.getSmallIcon());
 
         // We need to reset all views that are no longer transforming in case a view was previously
@@ -198,6 +217,17 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper imple
                 mTransformationHelper.resetTransformedView(view);
             }
         }
+    }
+
+     private Drawable getApplicationIcon(String packageName) {
+        PackageManager pm = mContext.getPackageManager();
+        Drawable icon = null;
+        try {
+            icon = pm.getApplicationIcon(packageName);
+        } catch (Exception e) {
+            // nothing to do
+        }
+        return icon;
     }
 
     /**
