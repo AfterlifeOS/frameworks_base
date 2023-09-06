@@ -92,6 +92,7 @@
         android:title="@string/quick_settings_cellular_detail_title" />
 
     <com.android.systemui.tuner.StatusBarSwitch
+        android:icon="@drawable/ic_statusbar_volte"
         android:key="ims"
         android:title="@string/status_bar_ims" />
 
@@ -101,12 +102,6 @@
         android:title="@string/status_bar_airplane" />
 
     <!-- other weird signal stuff -->
-
-    <com.android.systemui.tuner.BatteryPreference
-        android:icon="@*android:drawable/ic_battery"
-        android:title="@string/battery"
-        android:summary="%s"
-        android:entries="@array/battery_options" />
 
     <com.android.systemui.tuner.StatusBarSwitch
         android:icon="@drawable/ic_statusbar_alarm"
