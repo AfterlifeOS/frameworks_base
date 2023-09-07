@@ -218,6 +218,9 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
                     Settings.System.getUriFor(Settings.System.SHOW_FIVEG_ICON), false,
                     this, UserHandle.USER_ALL);
             resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.SHOW_SIXG_ICON), false,
+                    this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.DATA_DISABLED_ICON), false,
                     this, UserHandle.USER_ALL);
             resolver.registerContentObserver(

@@ -149,7 +149,20 @@ public class MobileMappings {
         networkToIconLookup.put(toIconKey(TelephonyManager.NETWORK_TYPE_HSPA), hGroup);
         networkToIconLookup.put(toIconKey(TelephonyManager.NETWORK_TYPE_HSPAP), hPlusGroup);
 
-        if (config.show5gForLte) {
+        if (config.show6gForLte) {
+            networkToIconLookup.put(toIconKey(
+                    TelephonyManager.NETWORK_TYPE_LTE),
+                    TelephonyIcons.NR_6G);
+            if (config.hideLtePlus) {
+                networkToIconLookup.put(toDisplayIconKey(
+                        TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_LTE_CA),
+                        TelephonyIcons.NR_6G);
+            } else {
+                networkToIconLookup.put(toDisplayIconKey(
+                        TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_LTE_CA),
+                        TelephonyIcons.NR_6G_PLUS);
+            }
+        } else if (config.show5gForLte) {
             networkToIconLookup.put(toIconKey(
                     TelephonyManager.NETWORK_TYPE_LTE),
                     TelephonyIcons.NR_5G);
@@ -229,6 +242,7 @@ public class MobileMappings {
         public boolean alwaysShowCdmaRssi = false;
         public boolean show4gForLte = false;
         public boolean show5gForLte = false;
+        public boolean show6gForLte = false;
         public boolean show4glteForLte = false;
         public boolean hideLtePlus = false;
         public boolean hspaDataDistinguishable;
@@ -253,6 +267,10 @@ public class MobileMappings {
             
             config.show5gForLte = Settings.System.getIntForUser(context.getContentResolver(),
                      Settings.System.SHOW_FIVEG_ICON, 0,
+                     UserHandle.USER_CURRENT) == 1;
+
+            config.show6gForLte = Settings.System.getIntForUser(context.getContentResolver(),
+                     Settings.System.SHOW_SIXG_ICON, 0,
                      UserHandle.USER_CURRENT) == 1;
 
             CarrierConfigManager configMgr = (CarrierConfigManager)

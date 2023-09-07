@@ -5551,6 +5551,12 @@ public final class Settings {
          */
         public static final String SHOW_FIVEG_ICON = "show_fiveg_icon";
 
+        /**
+         * Whether to display 6G icon instead LTE
+         * @hide
+         */
+        public static final String SHOW_SIXG_ICON = "show_sixg_icon";
+
          /**
          * Transparent power menu and dialogs
          * @hide
