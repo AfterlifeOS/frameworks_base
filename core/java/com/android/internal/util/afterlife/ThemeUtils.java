@@ -48,7 +48,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -74,22 +73,22 @@ public class ThemeUtils {
         pm = context.getPackageManager();
     }
 
-    public void setOverlayEnabled(String category, String packageName, String target) {
-        final String currentPackageName = getOverlayInfos(category, target).stream()
+    public void setOverlayEnabled(String category, String packageName) {
+        final String currentPackageName = getOverlayInfos(category).stream()
                 .filter(info -> info.isEnabled())
                 .map(info -> info.packageName)
                 .findFirst()
                 .orElse(null);
 
         try {
-            if (target.equals(packageName)) {
+            if ("android".equals(packageName)) {
                 mOverlayManager.setEnabled(currentPackageName, false, USER_SYSTEM);
             } else {
                 mOverlayManager.setEnabledExclusiveInCategory(packageName,
                         USER_SYSTEM);
             }
 
-            writeSettings(category, packageName, target.equals(packageName));
+            writeSettings(category, packageName, "android".equals(packageName));
 
         } catch (RemoteException e) {
         }
@@ -125,15 +124,12 @@ public class ThemeUtils {
 
     public List<String> getOverlayPackagesForCategory(String category, String target) {
         List<String> overlays = new ArrayList<>();
-        List<String> mPkgs = new ArrayList<>();
-        overlays.add(target);
+        overlays.add("android");
         for (OverlayInfo info : getOverlayInfos(category, target)) {
             if (category.equals(info.getCategory())) {
-                mPkgs.add(info.getPackageName());
+                overlays.add(info.getPackageName());
             }
         }
-        Collections.sort(mPkgs);
-        overlays.addAll(mPkgs);
         return overlays;
     }
 
@@ -156,6 +152,22 @@ public class ThemeUtils {
         }
         filteredInfos.sort(OVERLAY_INFO_COMPARATOR);
         return filteredInfos;
+    }
+
+    public List<String> getLabels(String category) {
+        List<String> labels = new ArrayList<>();
+        labels.add("Default");
+        for (OverlayInfo info : getOverlayInfos(category)) {
+            if (category.equals(info.getCategory())) {
+                try {
+                    labels.add(pm.getApplicationInfo(info.packageName, 0)
+                            .loadLabel(pm).toString());
+                } catch (PackageManager.NameNotFoundException e) {
+                    labels.add(info.packageName);
+                }
+            }
+        }
+        return labels;
     }
 
     public List<Typeface> getFonts() {
