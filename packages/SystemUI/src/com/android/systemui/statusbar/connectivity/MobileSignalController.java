@@ -89,6 +89,9 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
     private final String mNetworkNameSeparator;
     private final ContentObserver mObserver;
     private final Handler mHandler = new Handler();
+    private final boolean mProviderModelBehavior;
+    private final Handler mReceiverHandler;
+    private int mImsType = IMS_TYPE_WWAN;
     // Save entire info for logging, we only use the id.
     final SubscriptionInfo mSubscriptionInfo;
     private Map<String, MobileIconGroup> mNetworkToIconLookup;

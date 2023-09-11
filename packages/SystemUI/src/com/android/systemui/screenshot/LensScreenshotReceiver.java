@@ -30,7 +30,7 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import com.android.systemui.dagger.qualifiers.Background;
-import com.android.internal.util.superior.SuperiorUtils;
+import com.android.internal.util.afterlife.AfterlifeUtils;
 
 import java.util.concurrent.Executor;
 
@@ -50,7 +50,7 @@ public class LensScreenshotReceiver extends BroadcastReceiver {
     }
 
     private boolean doesGoogleLensExist(Context context) {
-        return SuperiorUtils.isPackageInstalled(context, ARPackageName);
+        return AfterlifeUtils.isPackageInstalled(context, ARPackageName);
     }
 
     @Override
