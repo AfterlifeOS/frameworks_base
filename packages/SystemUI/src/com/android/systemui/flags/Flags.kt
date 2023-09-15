@@ -308,8 +308,7 @@ object Flags {
 
     // 600- status bar
     @JvmField
-    val COMBINED_STATUS_BAR_SIGNAL_ICONS =
-        resourceBooleanFlag(601, R.bool.flag_combined_status_bar_signal_icons, "combined_status_bar_signal_icons")
+    val COMBINED_STATUS_BAR_SIGNAL_ICONS = sysPropBooleanFlag(601, "persist.sys.flags.combined_signal_icons", default = true)
 
     // TODO(b/256614753): Tracking Bug
     val NEW_STATUS_BAR_MOBILE_ICONS =
