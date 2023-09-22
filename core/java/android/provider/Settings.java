@@ -6209,19 +6209,8 @@ public final class Settings {
         public static final String USE_OLD_MOBILETYPE = "use_old_mobiletype";
 
         /**
-         * reTicker Status
-         * @hide
-         */
-        public static final String RETICKER_STATUS = "reticker_status";
-
-        /**
-         * reTicker Colored
-         * @hide
-         */
-        public static final String RETICKER_COLORED = "reticker_colored";
-
-        /**
          * Select which System charging animation bg to display
+         * Whether the phone vibrates on call connect
          * @hide
          */
         public static final String CHARGING_ANIMATION_BG = "charging_animation_bg";
