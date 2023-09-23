@@ -186,7 +186,8 @@ class SaveImageInBackgroundTask extends AsyncTask<String, Void, Void> {
                     smartActionsEnabled);
             mImageData.deleteAction = createDeleteAction(mContext, mContext.getResources(), uri,
                     smartActionsEnabled);
-
+            mImageData.lensAction = createLensAction(mContext, mContext.getResources(), uri,
+                    smartActionsEnabled);
             mImageData.quickShareAction = createQuickShareAction(
                     mQuickShareData.quickShareAction, mScreenshotId, uri, mImageTime, image,
                     user);
