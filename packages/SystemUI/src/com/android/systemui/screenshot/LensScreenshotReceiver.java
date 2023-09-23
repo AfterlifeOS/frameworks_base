@@ -57,7 +57,7 @@ public class LensScreenshotReceiver extends BroadcastReceiver {
     }
 
     public static boolean isGSAEnabled(Context context) {
-        return Utils.isPackageInstalled(context, GSA_PACKAGE, false /* ignoreState */);
+        return AfterlifeUtils.isPackageInstalled(context, GSA_PACKAGE, false /* ignoreState */);
     }
 
     @Override

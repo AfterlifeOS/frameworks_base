@@ -245,14 +245,16 @@ class SaveImageInBackgroundTask extends AsyncTask<String, Void, Void> {
     }
 
     @VisibleForTesting
-    Supplier<ActionTransition> createViewAction(Context context, Resources r, Uri uri) {
+    Supplier<ActionTransition> createViewAction(Context context, Resources r, Uri uri,
+            boolean smartActionsEnabled) {
         return () -> {
             ActionTransition transition = mSharedElementTransition.get();
+
             // Note: the view, share and edit actions are proxied through ActionProxyReceiver in
             // order to do some common work like dismissing the keyguard and sending
             // closeSystemWindows
 
-            // Create an edit intent, if a specific package is provided as the editor, then
+            // Create a view intent, if a specific package is provided as the viewer, then
             // launch that directly
             Intent viewIntent = new Intent(Intent.ACTION_VIEW);
             viewIntent.setDataAndType(uri, "image/png");
@@ -273,7 +275,7 @@ class SaveImageInBackgroundTask extends AsyncTask<String, Void, Void> {
                             .putExtra(ScreenshotController.EXTRA_ACTION_INTENT, pendingIntent)
                             .putExtra(ScreenshotController.EXTRA_ID, mScreenshotId)
                             .putExtra(ScreenshotController.EXTRA_SMART_ACTIONS_ENABLED,
-                                    mSmartActionsEnabled)
+                                    smartActionsEnabled)
                             .putExtra(ScreenshotController.EXTRA_OVERRIDE_TRANSITION, true)
                             .setAction(Intent.ACTION_VIEW)
                             .addFlags(Intent.FLAG_RECEIVER_FOREGROUND),
