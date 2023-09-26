@@ -33,9 +33,6 @@
          causes a poor experience. -->
     <bool name="config_fingerprintWakeAndUnlock">true</bool>
 
-    <!-- Unlock ripple animation -->
-    <bool name="config_enableUnlockRippleAnimation">true</bool>
-
     <!-- Udfps vendor code -->
     <integer name="config_udfps_vendor_code">0</integer>
 
@@ -66,5 +63,4 @@
      
      <!-- Color of the UDFPS pressed view -->
     <color name="config_udfpsColor">#ffffffff</color>
-    
 </resources>
