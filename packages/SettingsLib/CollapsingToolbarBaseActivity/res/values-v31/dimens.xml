@@ -17,7 +17,7 @@
 <resources>
     <!-- Collapsing toolbar layout dimensions -->
     <dimen name="settingslib_toolbar_layout_height">130dp</dimen>
-    <dimen name="settingslib_scrim_visible_height_trigger">137dp</dimen>
+    <dimen name="settingslib_scrim_visible_height_trigger">109dp</dimen>
     <dimen name="expanded_title_margin_start">24dp</dimen>
     <dimen name="expanded_title_margin_end">24dp</dimen>
 </resources>
