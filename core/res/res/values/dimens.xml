@@ -1010,4 +1010,10 @@
     <!-- Dimensions for the translations of the default dialog animation. -->
     <dimen name="popup_enter_animation_from_y_delta">20dp</dimen>
     <dimen name="popup_exit_animation_to_y_delta">-10dp</dimen>
+
+    <!-- Height of the bottom navigation bar frame when hide ime space -->
+    <dimen name="navigation_bar_frame_height_hide_ime">16dp</dimen>
+
+    <!-- Height of the bottom navigation bar frame in landscape when hide ime space -->
+    <dimen name="navigation_bar_frame_height_landscape_hide_ime">@dimen/navigation_bar_frame_height_hide_ime</dimen>
 </resources>
