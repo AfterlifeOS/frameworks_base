@@ -11769,6 +11769,12 @@ public final class Settings {
         public static final String ENABLE_PROJECTION_PRIVACY_INDICATOR = "enable_projection_privacy_indicator";
 
         /**
+         * Whether to show or hide the arrow for back gesture
+         * @hide
+         */
+        public static final String BACK_GESTURE_ARROW = "back_gesture_arrow";
+
+        /**
          * @hide
          */
         public static final String ENABLE_COMBINED_SIGNAL_ICONS = "enable_combined_signal_icons";
