@@ -6229,13 +6229,6 @@ public final class Settings {
         public static final String CLICK_PARTIAL_SCREENSHOT = "click_partial_screenshot";
 
         /**
-         * boolean value. toggles using arrow key locations on nav bar
-         * as left and right dpad keys
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_MENU_ARROW_KEYS = "navigation_bar_menu_arrow_keys";
-
-        /**
          * @hide
          */
         public static final String USE_OLD_MOBILETYPE = "use_old_mobiletype";
@@ -6278,6 +6271,26 @@ public final class Settings {
          * @hide
          */
         public static final String LOCKSCREEN_WEATHER_STYLE = "lockscreen_weather_style";
+
+        /**
+         * Statusbar logo
+         * @hide
+         */
+        public static final String STATUS_BAR_LOGO = "status_bar_logo";
+
+        /**
+         * Position of Status bar logo
+         * 0 - Left (default)
+         * 1 - Right
+         * @hide
+         */
+        public static final String STATUS_BAR_LOGO_POSITION = "status_bar_logo_position";
+
+        /**
+         * Statusbar logo custom style
+         * @hide
+         */
+        public static final String STATUS_BAR_LOGO_STYLE = "status_bar_logo_style";
 
         /**
          * Whether to enable or disable vibration on succesful fingerprint auth

@@ -86,6 +86,8 @@ import com.android.systemui.util.CarrierConfigTracker.DefaultDataSubscriptionCha
 import com.android.systemui.util.settings.SecureSettings;
 import com.android.systemui.tuner.TunerService;
 
+import com.android.systemui.afterlife.logo.LogoImage;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -151,6 +153,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private Map<Startable, Startable.State> mStartableStates = new ArrayMap<>();
 
     private View mBatteryBar;
+
+    private View mLeftLogo;
 
     private final OngoingCallListener mOngoingCallListener = new OngoingCallListener() {
         @Override
@@ -314,6 +318,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mBatteryBar = mStatusBar.findViewById(R.id.battery_bar);
         mClockController = mStatusBar.getClockController();
         mOngoingCallChip = mStatusBar.findViewById(R.id.ongoing_call_chip);
+        mLeftLogo = mStatusBar.findViewById(R.id.statusbar_logo);
         showEndSideContent(false);
         showClock(false);
         initOperatorName();
@@ -645,10 +650,16 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     }
 
     public void hideNotificationIconArea(boolean animate) {
+        if (LogoImage.getLogoPosition(getContext()) == 0) {
+            animateFullyHide(mLeftLogo, animate);
+        }
         animateHide(mNotificationIconAreaInner, animate);
     }
 
     public void showNotificationIconArea(boolean animate) {
+        if (LogoImage.getLogoPosition(getContext()) == 0) {
+            animateShow(mLeftLogo, animate);
+        }
         animateShow(mNotificationIconAreaInner, animate);
     }
 
@@ -688,6 +699,10 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
      */
     private void animateHide(final View v, boolean animate) {
         animateHiddenState(v, View.INVISIBLE, animate);
+    }
+
+    private void animateFullyHide(final View v, boolean animate) {
+        animateHiddenState(v, View.GONE, animate);
     }
 
     /**
