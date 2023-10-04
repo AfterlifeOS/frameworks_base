@@ -664,10 +664,6 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
          }
     }
 
-    private void restartSystemUI() {
-        android.os.Process.killProcess(android.os.Process.myPid());
-    }
-
     protected void reevaluateSystemTheme(boolean forceReload) {
         final WallpaperColors currentColors = mCurrentColors.get(mUserTracker.getUserId());
         final int mainColor;
