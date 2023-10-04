@@ -31,14 +31,21 @@ import com.android.settingslib.Utils;
 import com.android.systemui.R;
 import com.android.systemui.navigationbar.buttons.ButtonInterface;
 
-public class NavigationHandle extends View implements ButtonInterface {
+import com.android.systemui.Dependency;
+import com.android.systemui.tuner.TunerService;
 
+import com.declan.prjct.utils.DeclanUtils;
+
+public class NavigationHandle extends View implements ButtonInterface, TunerService.Tunable {
+
+    private final Context mContext;
     protected final Paint mPaint = new Paint();
     private @ColorInt final int mLightColor;
     private @ColorInt final int mDarkColor;
-    protected final float mRadius;
-    protected final float mBottom;
     private boolean mRequiresInvalidate;
+
+    public int mRadius, mBottom, mGestureCustomBottom, mGestureCustomRadius, mGestureCustomWidth;
+	public boolean mGestureCustomPillHandle;
 
     public NavigationHandle(Context context) {
         this(context, null);
@@ -46,9 +53,7 @@ public class NavigationHandle extends View implements ButtonInterface {
 
     public NavigationHandle(Context context, AttributeSet attr) {
         super(context, attr);
-        final Resources res = context.getResources();
-        mRadius = res.getDimension(R.dimen.navigation_handle_radius);
-        mBottom = res.getDimension(R.dimen.navigation_handle_bottom);
+        mContext = context;
 
         final int dualToneDarkTheme = Utils.getThemeAttr(context, R.attr.darkIconTheme);
         final int dualToneLightTheme = Utils.getThemeAttr(context, R.attr.lightIconTheme);
@@ -59,6 +64,38 @@ public class NavigationHandle extends View implements ButtonInterface {
         mPaint.setAntiAlias(true);
         setFocusable(false);
     }
+
+    private void updateGestureHandle() {
+		invalidate();
+        final Resources res = mContext.getResources();
+		if (mGestureCustomPillHandle) {
+            mRadius = DeclanUtils.getValueInDp(mGestureCustomRadius);
+            mBottom = DeclanUtils.getValueInDp(mGestureCustomBottom);
+            getLayoutParams().width = DeclanUtils.getValueInDp(mGestureCustomWidth);
+		} else {
+            mRadius = res.getDimensionPixelSize(R.dimen.navigation_handle_radius);
+            mBottom = res.getDimensionPixelSize(R.dimen.navigation_handle_bottom);
+            getLayoutParams().width = res.getDimensionPixelSize(R.dimen.navigation_home_handle_width);
+            }
+		requestLayout();
+	}
+
+	@Override
+	public void onTuningChanged(String key, String newValue) {
+		if ("system:declan_gesture_navbar_switch".equals(key)) {
+			mGestureCustomPillHandle = TunerService.parseIntegerSwitch(newValue, false);
+			updateGestureHandle();
+		} else if ("system:declan_gesture_navbar_radius".equals(key)) {
+			mGestureCustomRadius = TunerService.parseInteger(newValue, 1);
+			updateGestureHandle();
+		} else if ("system:declan_gesture_navbar_bottom".equals(key)) {
+			mGestureCustomBottom = TunerService.parseInteger(newValue, 6);
+			updateGestureHandle();
+		} else if ("system:declan_gesture_navbar_lenght".equals(key)) {
+			mGestureCustomWidth = TunerService.parseInteger(newValue, 72);
+			updateGestureHandle();
+		}
+	}
 
     @Override
     public void setAlpha(float alpha) {
@@ -109,5 +146,17 @@ public class NavigationHandle extends View implements ButtonInterface {
 
     @Override
     public void setDelayTouchFeedback(boolean shouldDelay) {
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+		Dependency.get(TunerService.class).addTunable(this, new String[]{"system:declan_gesture_navbar_switch", "system:declan_gesture_navbar_radius", "system:declan_gesture_navbar_bottom", "system:declan_gesture_navbar_lenght"});
+    }
+
+	@Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+		((TunerService) Dependency.get(TunerService.class)).removeTunable(this);
     }
 }
