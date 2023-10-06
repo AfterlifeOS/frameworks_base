@@ -43,4 +43,15 @@ public class DeclanUtils {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value,
                                                     Resources.getSystem().getDisplayMetrics()));
     }
+    
+    public static int dpToPx(float dp) {
+		return Math.round(TypedValue.applyDimension(1, dp, Resources.getSystem().getDisplayMetrics()));
+    }
+
+    public static int getColorAttr(Context context, int attr) {
+        TypedArray ta = context.obtainStyledAttributes(new int[] {attr});
+        int color = ta.getColor(0, 0);
+        ta.recycle();
+        return color;
+    }
 }
