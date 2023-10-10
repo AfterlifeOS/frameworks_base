@@ -6311,6 +6311,18 @@ public final class Settings {
                 "notification_guts_kill_app_button";
 
         /**
+         * Whether to enable charge battery warning
+         * @hide
+         */
+        public static final String BATTERY_LEVEL_CHARGE_ALARM_ENABLED = "battery_level_charge_alarm_enabled";
+
+        /**
+         * Change level for charge battery warning
+         * @hide
+         */
+        public static final String SEEK_BAR_BATTERY_CHARGE_LEVEL_SOUND = "battery_level_charge_seek_bar";
+
+        /**
          * Whether to enable or disable vibration on succesful fingerprint auth
          * @hide
          */
@@ -8580,6 +8592,12 @@ public final class Settings {
          */
         @Readable
         public static final String CHARGING_VIBRATION_ENABLED = "charging_vibration_enabled";
+
+        /**
+         * Ringtone for battery charge level warning.
+         * @hide
+         */
+        public static final String BATTERY_LEVEL_CHARGE_SOUND_ALARM = "battery_level_charge_ringtone";
 
         /**
          * If 0, turning on dnd manually will last indefinitely.
