@@ -808,46 +808,20 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mLocationPublisher.updateStatusBarMargin(leftMargin, rightMargin);
     }
 
-  private void updateStatusBarClock() {
-        if (mShowSBClockBg != 0) {
-            String chipStyleUri = "sb_date_bg" + String.valueOf(mShowSBClockBg);
-            int resId = getContext().getResources().getIdentifier(chipStyleUri, "drawable", "com.android.systemui");
-            mLeftClock.setBackgroundResource(resId);
-            mLeftClock.setPadding(12,4,12,4);
-            mLeftClock.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            mCenterClock.setBackgroundResource(resId);
-            mCenterClock.setPadding(12,4,12,4);
-            mCenterClock.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            mRightClock.setBackgroundResource(resId);
-            mRightClock.setPadding(12,4,12,4);
-            mRightClock.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        } else {
-            int clockPaddingStart = getResources().getDimensionPixelSize(
-                    R.dimen.status_bar_clock_starting_padding);
-            int clockPaddingEnd = getResources().getDimensionPixelSize(
-                    R.dimen.status_bar_clock_end_padding);
-            int leftClockPaddingStart = getResources().getDimensionPixelSize(
-                    R.dimen.status_bar_left_clock_starting_padding);
-            int leftClockPaddingEnd = getResources().getDimensionPixelSize(
-                    R.dimen.status_bar_left_clock_end_padding);
-            mLeftClock.setBackgroundResource(0);
-            mLeftClock.setPaddingRelative(leftClockPaddingStart, 0, leftClockPaddingEnd, 0);
-            mCenterClock.setBackgroundResource(0);
-            mCenterClock.setPaddingRelative(0,0,0,0);
-            mRightClock.setBackgroundResource(0);
-            mRightClock.setPaddingRelative(clockPaddingStart, 0, clockPaddingEnd, 0);
-            mLeftClock.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-            mCenterClock.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-            mRightClock.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-        }
-    }
-    
     private final ContentObserver mVolumeSettingObserver = new ContentObserver(null) {
         @Override
         public void onChange(boolean selfChange) {
             updateBlockedIcons();
         }
     };
+
+    // Listen for view end changes of PhoneStatusBarView and publish that to the privacy dot
+    private View.OnLayoutChangeListener mStatusBarLayoutListener =
+            (view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                if (left != oldLeft || right != oldRight) {
+                    updateStatusBarLocation(left, right);
+                }
+            };
 
     private void updateStatusBarClock() {
         if (mShowSBClockBg != 0) {
@@ -882,14 +856,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
             mRightClock.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
         }
     }
-
-    // Listen for view end changes of PhoneStatusBarView and publish that to the privacy dot
-    private View.OnLayoutChangeListener mStatusBarLayoutListener =
-            (view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                if (left != oldLeft || right != oldRight) {
-                    updateStatusBarLocation(left, right);
-                }
-            };
 
     @Override
     public void dump(PrintWriter printWriter, String[] args) {

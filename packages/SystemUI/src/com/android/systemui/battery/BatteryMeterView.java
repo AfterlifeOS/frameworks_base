@@ -510,7 +510,6 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
         mLandscapeDrawableMiUIPill.setShowPercent(drawPercentInside);
 
         if (showPercent || (mBatteryPercentCharging && mCharging)) {
-                || mShowPercentMode == MODE_ESTIMATE) {
             if (mBatteryPercentView == null) {
                 mBatteryPercentView = loadPercentView();
                 if (mPercentageStyleId != 0) { // Only set if specified as attribute
