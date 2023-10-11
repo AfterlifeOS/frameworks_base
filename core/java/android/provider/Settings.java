@@ -6187,21 +6187,21 @@ public final class Settings {
          *
          * @hide
          */
-        public static final String ANIM_TILE_STYLE = "anim_tile_style";
+        public static final String QS_TILE_ANIMATION_STYLE = "qs_tile_animation_style";
 
         /**
          * Change quick settings tiles animation duration
          *
          * @hide
          */
-        public static final String ANIM_TILE_DURATION = "anim_tile_duration";
+        public static final String QS_TILE_ANIMATION_DURATION = "qs_tile_animation_duration";
 
         /**
          * Change quick settings tiles interpolator
          *
          * @hide
          */
-        public static final String ANIM_TILE_INTERPOLATOR = "anim_tile_interpolator";
+        public static final String QS_TILE_ANIMATION_INTERPOLATOR = "qs_tile_animation_interpolator";
 
         /**
          * Whether the torch launch gesture when the screen is off should be enabled.
@@ -6302,6 +6302,30 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_LOGO_STYLE = "status_bar_logo_style";
+
+        /**
+         * @hide
+         */
+        public static final String QS_TRANSPARENCY = "qs_transparency";
+
+        /**
+         * Whether to show the kill app button in notification guts
+         * @hide
+         */
+        public static final String NOTIFICATION_GUTS_KILL_APP_BUTTON =
+                "notification_guts_kill_app_button";
+
+        /**
+         * Whether to enable charge battery warning
+         * @hide
+         */
+        public static final String BATTERY_LEVEL_CHARGE_ALARM_ENABLED = "battery_level_charge_alarm_enabled";
+
+        /**
+         * Change level for charge battery warning
+         * @hide
+         */
+        public static final String SEEK_BAR_BATTERY_CHARGE_LEVEL_SOUND = "battery_level_charge_seek_bar";
 
         /**
          * Whether to enable or disable vibration on succesful fingerprint auth
@@ -8573,6 +8597,12 @@ public final class Settings {
          */
         @Readable
         public static final String CHARGING_VIBRATION_ENABLED = "charging_vibration_enabled";
+
+        /**
+         * Ringtone for battery charge level warning.
+         * @hide
+         */
+        public static final String BATTERY_LEVEL_CHARGE_SOUND_ALARM = "battery_level_charge_ringtone";
 
         /**
          * If 0, turning on dnd manually will last indefinitely.
