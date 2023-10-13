@@ -723,7 +723,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
      * Shows a view, and synchronizes the animation with Keyguard exit animations, if applicable.
      */
     private void animateShow(View v, boolean animate) {
-        if (v == null) return;
         v.animate().cancel();
         v.setVisibility(View.VISIBLE);
         if (!animate) {
