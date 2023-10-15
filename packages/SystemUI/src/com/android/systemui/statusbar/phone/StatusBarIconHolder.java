@@ -182,12 +182,6 @@ public class StatusBarIconHolder {
         return holder;
     }
 
-    public static StatusBarIconHolder fromNetworkTraffic() {
-        StatusBarIconHolder holder = new StatusBarIconHolder();
-        holder.mType = TYPE_NETWORK_TRAFFIC;
-        return holder;
-    }
-
     public @IconType int getType() {
         return mType;
     }
@@ -243,8 +237,6 @@ public class StatusBarIconHolder {
             case TYPE_IMS:
                 return mImsState.visible;
             default:
-                return true;
-            case TYPE_NETWORK_TRAFFIC:
                 return true;
         }
     }
