@@ -6345,14 +6345,6 @@ public final class Settings {
         public static final String VIBRATE_ON_DISCONNECT = "vibrate_on_disconnect";
 
         /**
-         * Statusbar clock background
-         * 0 - hide accented chip
-         * 1 - show accented chip (default)
-         * @hide
-         */
-        public static final String STATUSBAR_CLOCK_CHIP ="statusbar_clock_chip";
-
-        /**
          * Whether to show the kill app button in notification guts
          * @hide
          */
@@ -6623,7 +6615,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(ADAPTIVE_PLAYBACK_ENABLED);
             PRIVATE_SETTINGS.add(ADAPTIVE_PLAYBACK_TIMEOUT);
             PRIVATE_SETTINGS.add(OMNIJAWS_WEATHER_ICON_PACK);
-            PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_CHIP);
         }
 
         /**
@@ -12187,6 +12178,7 @@ public final class Settings {
         public static final String QS_SHOW_AUTO_BRIGHTNESS = "qs_show_auto_brightness";
 
         /**
+<<<<<<< HEAD
          * Control whether FLAG_SECURE is ignored for all windows.
          * @hide
          */
