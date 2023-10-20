@@ -1355,6 +1355,9 @@
     <!-- Name of the airplane status bar icon. -->
     <string name="status_bar_airplane">Airplane mode</string>
 
+    <!-- Name of the NFC status bar icon. -->
+    <string name="status_bar_nfc">NFC</string>
+
     <!-- Description for adding  a quick settings tile -->
 
     <!-- Name of a quick settings tile controlled by broadcast -->
