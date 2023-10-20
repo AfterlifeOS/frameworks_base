@@ -6395,6 +6395,11 @@ public final class Settings {
         public static final String QS_TRANSPARENCY = "qs_transparency";
 
         /**
+         * @hide
+         */
+        public static final String QS_UI_STYLE = "qs_ui_style";
+
+        /**
          * Whether to show material Dismiss All Button for notifications
          * @hide
          */
