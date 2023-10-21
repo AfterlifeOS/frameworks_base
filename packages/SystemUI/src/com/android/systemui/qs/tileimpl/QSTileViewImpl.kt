@@ -203,7 +203,6 @@ open class QSTileViewImpl @JvmOverloads constructor(
         clipChildren = false
         clipToPadding = false
         isFocusable = true
-        background = createTileBackground()
         background = if (isA11Style) null else createTileBackground()
 
         if (isA11Style) {
