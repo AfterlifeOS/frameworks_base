@@ -357,22 +357,17 @@ public class AfterlifeUtils {
     }
 
     public static class QSLayoutUtils {
+
         public static boolean getQSTileLabelHide(Context context) {
             return Settings.System.getIntForUser(context.getContentResolver(),
-                   Settings.System.QS_TILE_LABEL_HIDE,
-                   0, UserHandle.USER_CURRENT) == 1;
+                    Settings.System.QS_TILE_LABEL_HIDE,
+                    0, UserHandle.USER_CURRENT) == 1;
         }
 
         public static boolean getQSTileVerticalLayout(Context context) {
             return Settings.System.getIntForUser(context.getContentResolver(),
-                   Settings.System.QS_TILE_VERTICAL_LAYOUT,
-                   0, UserHandle.USER_CURRENT) == 1;
-        }
-
-        public static int getQsUiStyle(Context context) {
-            return Settings.System.getIntForUser(context.getContentResolver(),
-                    Settings.System.QS_UI_STYLE,
-                    0, UserHandle.USER_CURRENT);
+                    Settings.System.QS_TILE_VERTICAL_LAYOUT,
+                    0, UserHandle.USER_CURRENT) == 1;
         }
 
         public static boolean updateLayout(Context context) {
@@ -403,6 +398,12 @@ public class AfterlifeUtils {
             return true;
         }
     }
+
+    public static int getQsUiStyle(Context context) {
+            return Settings.System.getIntForUser(context.getContentResolver(),
+                    Settings.System.QS_UI_STYLE,
+                    0, UserHandle.USER_CURRENT);
+        }
 
     public static int getCutoutType(Context context) {
         final DisplayInfo info = new DisplayInfo();

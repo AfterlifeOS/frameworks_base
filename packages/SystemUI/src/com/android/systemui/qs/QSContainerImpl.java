@@ -31,7 +31,7 @@ import com.android.systemui.Dumpable;
 import com.android.systemui.R;
 import com.android.systemui.qs.customize.QSCustomizer;
 import com.android.systemui.util.LargeScreenUtils;
-import com.android.internal.util.afterlife.AfterlifeUtils.QSLayoutUtils;
+import com.android.internal.util.afterlife.AfterlifeUtils;
 
 import java.io.PrintWriter;
 
@@ -95,7 +95,7 @@ public class QSContainerImpl extends FrameLayout implements Dumpable {
         int availableHeight = View.MeasureSpec.getSize(heightMeasureSpec);
         int maxQs = availableHeight - layoutParams.topMargin - layoutParams.bottomMargin
                 - getPaddingBottom();
-        if (navBelow && QSLayoutUtils.getQsUiStyle(mContext) == 1) {
+        if (navBelow && AfterlifeUtils.getQsUiStyle(mContext) == 1) {
             maxQs -= getResources().getDimensionPixelSize(R.dimen.navigation_bar_height);
         }
         int padding = mPaddingLeft + mPaddingRight + layoutParams.leftMargin
