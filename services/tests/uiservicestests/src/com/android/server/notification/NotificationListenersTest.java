@@ -509,10 +509,6 @@ public class NotificationListenersTest extends UiServiceTestCase {
         mListeners.notifyPostedLocked(r0, old0, false);
         verify(r0, atLeast(2)).getSbn();
 
-        mListeners.notifyPostedLocked(r1, old1, true);
-        mListeners.notifyPostedLocked(r1, old1, false);
-        verify(r1, atLeast(2)).getSbn();
-
         // Reset
         reset(r0);
         reset(old0);

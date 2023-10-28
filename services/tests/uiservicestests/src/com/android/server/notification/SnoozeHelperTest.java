@@ -620,6 +620,12 @@ public class SnoozeHelperTest extends UiServiceTestCase {
                 UserHandle.USER_SYSTEM, r.getSbn().getPackageName(), r.getKey()));
         assertTrue(mSnoozeHelper.isSnoozed(
                 UserHandle.USER_SYSTEM, r2.getSbn().getPackageName(), r2.getKey()));
+        assertFalse(0L == mSnoozeHelper.getSnoozeTimeForUnpostedNotification(
+                r.getUser().getIdentifier(), r.getSbn().getPackageName(),
+                r.getSbn().getKey()));
+        assertFalse(0L == mSnoozeHelper.getSnoozeTimeForUnpostedNotification(
+                r2.getUser().getIdentifier(), r2.getSbn().getPackageName(),
+                r2.getSbn().getKey()));
 
         // clear data
         mSnoozeHelper.clearData(UserHandle.USER_SYSTEM, "pkg");

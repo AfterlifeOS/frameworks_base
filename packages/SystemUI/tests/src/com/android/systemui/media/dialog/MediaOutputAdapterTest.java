@@ -60,6 +60,8 @@ public class MediaOutputAdapterTest extends SysuiTestCase {
     private static final String TEST_DEVICE_ID_1 = "test_device_id_1";
     private static final String TEST_DEVICE_ID_2 = "test_device_id_2";
     private static final String TEST_SESSION_NAME = "test_session_name";
+    private static final int TEST_MAX_VOLUME = 20;
+    private static final int TEST_CURRENT_VOLUME = 10;
 
     private static final int TEST_MAX_VOLUME = 20;
     private static final int TEST_CURRENT_VOLUME = 10;

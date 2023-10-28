@@ -342,6 +342,9 @@ public abstract class MediaOutputBaseAdapter extends
                     updateMutedVolumeIcon();
                 });
             }
+            if (mIsInitVolumeFirstTime) {
+                mIsInitVolumeFirstTime = false;
+            }
             mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
