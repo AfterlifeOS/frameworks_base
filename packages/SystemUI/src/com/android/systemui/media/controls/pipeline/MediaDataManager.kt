@@ -794,7 +794,7 @@ class MediaDataManager(
         }
         if (song.isNullOrBlank()) {
             // For apps that don't include a title, add a placeholder
-            song = context.getString(R.string.controls_media_empty_title, app)
+            song = context.getString(R.string.controls_media_empty_title, appName)
         }
 
         // Explicit Indicator
