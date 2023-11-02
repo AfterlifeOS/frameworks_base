@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
  * Progres bar preference with a usage summary and a total summary.
  * This preference shows number in usage summary with enlarged font size.
  */
-public class UsageProgressBarPreference extends Preference {
+public class UsageProgressBarPreference extends StorageUsageProgressBarPreference {
 
     private final Pattern mNumberPattern = Pattern.compile("[\\d]*[\\٫.,]?[\\d]+");
     private static final int ANIM_DURATION = 1200;
@@ -61,7 +61,6 @@ public class UsageProgressBarPreference extends Preference {
      */
     public UsageProgressBarPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setLayoutResource(R.layout.preference_usage_progress_bar);
     }
 
     /**
@@ -70,7 +69,7 @@ public class UsageProgressBarPreference extends Preference {
      * @param context The Context this is associated with.
      */
     public UsageProgressBarPreference(Context context) {
-        this(context, null);
+        super(context);
     }
 
     /** Set usage summary, number in the summary will show with enlarged font size. */
