@@ -12118,6 +12118,30 @@ public final class Settings {
         public static final String QS_STYLE_ROUND = "qs_style_round";
 
         /**
+         * Quicksettings columns
+         * @hide
+         */
+        public static final String QS_NUM_COLUMNS = "qs_num_columns";
+
+        /**
+         * Quicksettings columns landscape
+         * @hide
+         */
+        public static final String QS_NUM_COLUMNS_LANDSCAPE = "qs_num_columns_landscape";
+
+        /**
+         * Quick QS columns
+         * @hide
+         */
+        public static final String QQS_NUM_COLUMNS = "qqs_num_columns";
+
+        /**
+         * Quick QS columns landscape
+         * @hide
+         */
+        public static final String QQS_NUM_COLUMNS_LANDSCAPE = "qqs_num_columns_landscape";
+
+        /**
          * Whether to show the clock in the right or left position or show it in the center
          * 0: show the clock in the right position (LTR)
          * 1: show the clock in the center

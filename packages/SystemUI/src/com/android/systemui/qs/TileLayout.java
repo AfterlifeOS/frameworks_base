@@ -1,6 +1,7 @@
 package com.android.systemui.qs;
 
 import static com.android.systemui.util.Utils.useQsMediaPlayer;
+import static com.android.systemui.util.qs.QSStyleUtils.isRoundQS;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -95,6 +96,11 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
         return updateColumns();
     }
 
+    @Override
+    public int getMaxColumns() {
+        return mMaxColumns;
+    }
+
     public void addTile(TileRecord tile) {
         mRecords.add(tile);
         tile.tile.setListening(this, mListening);
@@ -143,7 +149,10 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
 
     public boolean updateColumns() {
         int oldColumns = mColumns;
-        mColumns = Math.min(mResourceColumns, mMaxColumns);
+        if (isRoundQS())
+            mColumns = mMaxColumns;
+        else
+            mColumns = Math.min(mResourceColumns, mMaxColumns);
         return oldColumns != mColumns;
     }
 
