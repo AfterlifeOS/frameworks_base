@@ -31,6 +31,7 @@ import android.os.Trace;
 import android.util.Log;
 import android.util.MathUtils;
 import android.util.Pair;
+import android.view.CrossWindowBlurListeners;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
@@ -861,8 +862,6 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, Dump
                 } else if (mClipsQsScrim) {
                     float behindFraction = getInterpolatedFraction();
                     behindFraction = (float) Math.pow(behindFraction, 0.8f);
-                    mBehindAlpha = 1;
-                    mNotificationsAlpha = behindFraction * mDefaultScrimAlpha;
                 } else {
                     if (mFeatureFlags.isEnabled(Flags.LARGE_SHADE_GRANULAR_ALPHA_INTERPOLATION)) {
                         mBehindAlpha = mLargeScreenShadeInterpolator.getBehindScrimAlpha(
