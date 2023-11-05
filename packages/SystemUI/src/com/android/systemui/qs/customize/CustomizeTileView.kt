@@ -21,7 +21,6 @@ import android.text.TextUtils
 import com.android.systemui.plugins.qs.QSIconView
 import com.android.systemui.plugins.qs.QSTile
 import com.android.systemui.qs.tileimpl.QSTileViewImpl
-import com.android.systemui.util.qs.QSStyleUtils.isRoundQS
 
 /**
  * Class for displaying tiles in [QSCustomizer] with the new design (labels on the side).
@@ -54,7 +53,7 @@ class CustomizeTileView(
         return if (showAppLabel && !TextUtils.isEmpty(text)) {
             VISIBLE
         } else {
-            if (isRoundQS()) INVISIBLE else GONE
+            INVISIBLE
         }
     }
 

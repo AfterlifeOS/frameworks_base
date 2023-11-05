@@ -17,7 +17,6 @@
 package com.android.systemui.qs;
 
 import static android.app.StatusBarManager.DISABLE2_QUICK_SETTINGS;
-import static com.android.systemui.util.qs.QSStyleUtils.isRoundQS;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -95,7 +94,7 @@ public class QSContainerImpl extends FrameLayout implements Dumpable {
         int availableHeight = View.MeasureSpec.getSize(heightMeasureSpec);
         int maxQs = availableHeight - layoutParams.topMargin - layoutParams.bottomMargin
                 - getPaddingBottom();
-                if (navBelow && isRoundQS()) {
+                if (navBelow) {
             maxQs -= getResources().getDimensionPixelSize(R.dimen.navigation_bar_height);
         }
         int padding = mPaddingLeft + mPaddingRight + layoutParams.leftMargin
