@@ -14,8 +14,6 @@
 
 package com.android.systemui.qs.customize;
 
-import static com.android.systemui.util.qs.QSStyleUtils.isRoundQS;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.Resources;
@@ -24,7 +22,6 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -134,10 +131,6 @@ public class TileAdapter extends RecyclerView.Adapter<Holder> implements TileSta
         mNumColumns = context.getResources().getInteger(NUM_COLUMNS_ID);
         mAccessibilityDelegate = new TileAdapterDelegate();
         mSizeLookup.setSpanIndexCacheEnabled(true);
-        if (isRoundQS()) {
-            mNumColumns = Settings.Secure.getInt(context.getContentResolver(),
-                    Settings.Secure.QS_NUM_COLUMNS, mNumColumns);
-        }
     }
 
     @Override
