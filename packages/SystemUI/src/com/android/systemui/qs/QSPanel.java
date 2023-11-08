@@ -79,8 +79,6 @@ public class QSPanel extends LinearLayout implements Tunable {
             "system:" + Settings.System.QS_TILE_ANIMATION_DURATION;
     public static final String QS_TILE_ANIMATION_INTERPOLATOR =
             "system:" + Settings.System.QS_TILE_ANIMATION_INTERPOLATOR;
-    public static final String QS_UI_STYLE =
-            "system:" + Settings.System.QS_UI_STYLE;
 
     private static final String TAG = "QSPanel";
 
@@ -123,7 +121,7 @@ public class QSPanel extends LinearLayout implements Tunable {
     private PageIndicator mFooterPageIndicator;
     private int mContentMarginStart;
     private int mContentMarginEnd;
-    protected boolean mUsingHorizontalLayout;
+    private boolean mUsingHorizontalLayout;
 
     @Nullable
     private LinearLayout mHorizontalLinearLayout;
@@ -709,7 +707,7 @@ public class QSPanel extends LinearLayout implements Tunable {
             reAttachMediaHost(mediaHostView, horizontal);
             if (needsDynamicRowsAndColumns()) {
                 mTileLayout.setMinRows(horizontal ? 2 : 1);
-                mTileLayout.setMaxColumns(horizontal ? 2 : 6);
+                mTileLayout.setMaxColumns(horizontal ? 2 : 4);
             }
             updateMargins(mediaHostView);
             mHorizontalLinearLayout.setVisibility(horizontal ? View.VISIBLE : View.GONE);
@@ -846,8 +844,6 @@ public class QSPanel extends LinearLayout implements Tunable {
         default void setExpansion(float expansion, float proposedTranslation) {}
 
         int getNumVisibleTiles();
-
-        void updateSettings();
 
         default void setLogger(QSLogger qsLogger) { }
     }

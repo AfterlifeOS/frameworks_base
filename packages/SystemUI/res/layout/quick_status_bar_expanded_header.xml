@@ -42,7 +42,6 @@
         android:clipToPadding="false"
         android:focusable="true"
         android:paddingBottom="@dimen/qqs_layout_padding_bottom"
-        android:paddingTop="@dimen/custom_qs_panel_padding_top"
         android:importantForAccessibility="no">
     </com.android.systemui.qs.QuickQSPanel>
 

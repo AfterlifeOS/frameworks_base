@@ -71,7 +71,7 @@ public class QuickQSPanelController extends QSPanelControllerBase<QuickQSPanel> 
             BrightnessSliderController.Factory brightnessSliderFactory
     ) {
         super(view, qsHost, qsCustomizerController, usingMediaPlayer, mediaHost, metricsLogger,
-                uiEventLogger, qsLogger, dumpManager, tunerService);
+                uiEventLogger, qsLogger, dumpManager);
         mUsingCollapsedLandscapeMediaProvider = usingCollapsedLandscapeMediaProvider;
         mTunerService = tunerService;
 
@@ -159,7 +159,6 @@ public class QuickQSPanelController extends QSPanelControllerBase<QuickQSPanel> 
     }
 
     private void setMaxTiles(int parseNumTiles) {
-        if (mView == null) return;
         mView.setMaxTiles(parseNumTiles);
         setTiles();
     }

@@ -6372,32 +6372,7 @@ public final class Settings {
         /**
          * @hide
          */
-        public static final String QS_TILE_LABEL_HIDE = "qs_tile_label_hide";
-
-        /**
-         * @hide
-         */
-        public static final String QS_TILE_VERTICAL_LAYOUT = "qs_tile_vertical_layout";
-
-        /**
-         * @hide
-         */
-        public static final String QS_LAYOUT = "qs_layout";
-
-        /**
-         * @hide
-         */
-        public static final String QQS_LAYOUT = "qqs_layout";
-
-        /**
-         * @hide
-         */
         public static final String QS_TRANSPARENCY = "qs_transparency";
-
-        /**
-         * @hide
-         */
-        public static final String QS_UI_STYLE = "qs_ui_style";
 
         /**
          * Whether to show material Dismiss All Button for notifications
@@ -12228,12 +12203,6 @@ public final class Settings {
          * @hide
          */
         public static final String QS_SHOW_AUTO_BRIGHTNESS = "qs_show_auto_brightness";
-
-	/**
-         * Quicksettings tile shape
-         * @hide
-         */
-        public static final String QS_TILE_SHAPE = "qs_tile_shape";
 
         /**
          * Control whether FLAG_SECURE is ignored for all windows.
