@@ -67,14 +67,15 @@
         android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:gravity="start|center_vertical"
+        android:gravity="center"
         android:paddingStart="@dimen/status_bar_left_clock_starting_padding"
         android:paddingEnd="@dimen/status_bar_left_clock_end_padding"
         android:singleLine="true"
+        android:textStyle="bold"
         android:textDirection="locale"
         android:textAppearance="@style/TextAppearance.QS.Status"
         android:transformPivotX="0dp"
-        android:transformPivotY="24dp"
+        android:transformPivotY="48dp"
         android:scaleX="1"
         android:scaleY="1"
     />
@@ -150,5 +151,17 @@
             android:layout_height="match_parent" />
 
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/afl_tiles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/begin_guide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date">
+
+        <include layout="@layout/afl_qs_layout" />
+        
+    </LinearLayout>
 
 </com.android.systemui.util.NoRemeasureMotionLayout>

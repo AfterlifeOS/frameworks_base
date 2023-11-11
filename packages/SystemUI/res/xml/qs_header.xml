@@ -25,7 +25,8 @@
         android:id="@+id/privacy_container">
         <Layout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/large_screen_shade_header_min_height"
+            android:layout_height="@dimen/new_qs_header_non_clickable_element_height"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="@id/end_guide"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/carrier_group"
@@ -38,9 +39,12 @@
         <Layout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/large_screen_shade_header_min_height"
+            android:layout_marginTop="@dimen/qs_panel_clock_margin_top"
+            android:gravity="center"
+            android:layout_gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/privacy_container"
-            app:layout_constraintBottom_toBottomOf="@id/carrier_group"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/batteryRemainingIcon"
         />
         <Transform
             android:scaleX="2.57"
@@ -53,10 +57,16 @@
         <Layout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/new_qs_header_non_clickable_element_height"
+            android:gravity="center"
+            android:layout_gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/carrier_group"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clock"
         />
+        <Transform
+            android:scaleX="1.15"
+            android:scaleY="1.15"
+            />
     </Constraint>
 
     <!-- LargeScreenShadeHeaderController helps with managing clock width to layout this view -->
@@ -64,13 +74,11 @@
         android:id="@+id/carrier_group">
         <Layout
             android:layout_width="0dp"
-            android:layout_height="@dimen/large_screen_shade_header_min_height"
+            android:layout_height="@dimen/new_qs_header_non_clickable_element_height"
             app:layout_constraintWidth_min="48dp"
             app:layout_constraintWidth_default="wrap"
-            app:layout_constraintStart_toStartOf="@id/clock"
             app:layout_constraintTop_toBottomOf="@id/privacy_container"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/batteryRemainingIcon"
             />
         <PropertySet
             android:alpha="1"
@@ -83,10 +91,9 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/new_qs_header_non_clickable_element_height"
             app:layout_constraintWidth_default="wrap"
-            app:layout_constraintStart_toEndOf="@id/date"
             app:layout_constraintEnd_toStartOf="@id/batteryRemainingIcon"
-            app:layout_constraintTop_toTopOf="@id/date"
-            app:layout_constraintBottom_toBottomOf="@id/date"
+            app:layout_constraintTop_toTopOf="@id/batteryRemainingIcon"
+            app:layout_constraintBottom_toBottomOf="@id/batteryRemainingIcon"
             />
     </Constraint>
 
@@ -97,10 +104,25 @@
             android:layout_height="@dimen/new_qs_header_non_clickable_element_height"
             app:layout_constraintWidth_default="wrap"
             app:layout_constraintHeight_min="@dimen/new_qs_header_non_clickable_element_height"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/date"
-            app:layout_constraintBottom_toBottomOf="@id/date"
+            app:layout_constraintEnd_toEndOf="@id/end_guide"
+            app:layout_constraintTop_toBottomOf="@id/carrier_group"
             />
+    </Constraint>
+
+    <Constraint
+        android:id="@+id/afl_tiles">
+        <Layout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date"
+            app:layout_constraintWidth_default="wrap"
+        />
+        <PropertySet
+            android:alpha="1.0"
+        />
     </Constraint>
 
 </ConstraintSet>
