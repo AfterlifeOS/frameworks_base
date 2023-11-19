@@ -6303,12 +6303,6 @@ public final class Settings {
         public static final String STATUS_BAR_LOGO_POSITION = "status_bar_logo_position";
 
         /**
-         * Statusbar logo custom style
-         * @hide
-         */
-        public static final String STATUS_BAR_LOGO_STYLE = "status_bar_logo_style";
-
-        /**
          * Whether to enable or disable vibration on succesful fingerprint auth
          * @hide
          */

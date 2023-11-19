@@ -44,15 +44,10 @@ public abstract class LogoImage extends ImageView {
 
     private boolean mShowLogo;
     public int mLogoPosition;
-    private int mLogoStyle;
     private int mTintColor = Color.WHITE;
 
-    private static final String STATUS_BAR_LOGO =
-            Settings.System.STATUS_BAR_LOGO;
-    private static final String STATUS_BAR_LOGO_POSITION =
-            Settings.System.STATUS_BAR_LOGO_POSITION;
-    private static final String STATUS_BAR_LOGO_STYLE =
-            Settings.System.STATUS_BAR_LOGO_STYLE;
+    private static final String STATUS_BAR_LOGO = "status_bar_logo";
+    private static final String STATUS_BAR_LOGO_POSITION = "status_bar_logo_position";
 
     class SettingsObserver extends ContentObserver {
 
@@ -62,14 +57,8 @@ public abstract class LogoImage extends ImageView {
 
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(
-                    Settings.System.getUriFor(STATUS_BAR_LOGO), false, this);
-            resolver.registerContentObserver(
-                    Settings.System.getUriFor(STATUS_BAR_LOGO_POSITION),
-                    false, this);
-            resolver.registerContentObserver(
-                    Settings.System.getUriFor(STATUS_BAR_LOGO_STYLE),
-                    false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(STATUS_BAR_LOGO), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(STATUS_BAR_LOGO_POSITION), false, this);
         }
 
         @Override
@@ -126,100 +115,14 @@ public abstract class LogoImage extends ImageView {
     }
 
     public void updateLogo() {
-        Drawable drawable = null;
-        switch (mLogoStyle) {
-            case 0:
-            default:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_afterlife_logo);
-                break;
-            case 1:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_bananagear_logo);
-                break;
-            case 2:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_adidas);
-                break;
-            case 3:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_airjordan);
-                break;
-            case 4:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_apple_logo);
-                break;
-            case 5:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_avengers);
-                break;
-            case 6:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_batman);
-                break;
-            case 7:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_batman_tdk);
-                break;
-            case 8:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_beats);
-                break;
-            case 9:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_biohazard);
-                break;
-            case 10:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_blackberry);
-                break;
-            case 11:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_cannabis);
-                break;
-            case 12:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_fire);
-                break;
-            case 13:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_kopigadjah);
-                break;
-            case 14:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_meta);
-                break;
-            case 15:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_mtv);
-                break;
-            case 16:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_nike);
-                break;
-            case 17:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_pac_man);
-                break;
-            case 18:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_puma);
-                break;
-            case 19:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_rog);
-                break;
-            case 20:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_spider);
-                break;
-            case 21:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_superman);
-                break;
-            case 22:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_theflash);
-                break;
-            case 23:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_ubuntu);
-                break;
-            case 24:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_windows);
-                break;
-            case 25:
-                drawable = mContext.getResources().getDrawable(R.drawable.ic_xbox);
-                break;
-        }
-
+        Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_afterlife_logo);
         drawable.setTint(mTintColor);
         setImageDrawable(drawable);
     }
 
     public void updateSettings() {
-        mShowLogo = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_LOGO, 0) != 0;
-        mLogoPosition = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_LOGO_POSITION, 0);
-        mLogoStyle = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_LOGO_STYLE, 0);
+        mShowLogo = Settings.System.getInt(mContext.getContentResolver(), STATUS_BAR_LOGO, 0) != 0;
+        mLogoPosition = Settings.System.getInt(mContext.getContentResolver(), STATUS_BAR_LOGO_POSITION, 0);
         if (!mShowLogo || !isLogoVisible()) {
             setImageDrawable(null);
             setVisibility(View.GONE);
@@ -230,7 +133,6 @@ public abstract class LogoImage extends ImageView {
     }
 
     public static int getLogoPosition(Context context) {
-        return Settings.System.getInt(context.getContentResolver(),
-                Settings.System.STATUS_BAR_LOGO_POSITION, 0);
+        return Settings.System.getInt(context.getContentResolver(), STATUS_BAR_LOGO_POSITION, 0);
     }
 }
