@@ -14,24 +14,16 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
-            android:paddingMode="stack" >
-    <item android:id="@android:id/background"
-        android:gravity="center_vertical|fill_horizontal">
-        <inset
-            android:insetLeft="@dimen/rounded_slider_track_inset"
-            android:insetRight="@dimen/rounded_slider_track_inset" >
-            <shape>
-                <size android:height="@dimen/rounded_slider_track_width" />
-                <corners android:radius="@dimen/rounded_slider_track_corner_radius" />
-                <solid android:color="?attr/offStateColor" />
-            </shape>
-        </inset>
+<layer-list android:paddingMode="stack"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="fill_horizontal|center" android:id="@android:id/background">
+        <shape>
+            <size android:height="@dimen/rounded_slider_height" />
+            <corners android:radius="@dimen/rounded_slider_corner_radius" />
+            <solid android:color="?offStateColor" />
+        </shape>
     </item>
-    <item android:id="@android:id/progress"
-          android:gravity="center_vertical|fill_horizontal">
-            <com.android.systemui.util.BrightnessProgressDrawable
-                android:drawable="@drawable/brightness_progress_full_drawable"
-            />
+    <item android:gravity="fill_horizontal|center" android:id="@android:id/progress">
+        <com.android.systemui.util.BrightnessProgressDrawable android:drawable="@drawable/brightness_progress_full_drawable" />
     </item>
 </layer-list>
