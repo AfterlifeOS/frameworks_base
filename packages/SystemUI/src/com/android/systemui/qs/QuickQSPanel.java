@@ -82,23 +82,6 @@ public class QuickQSPanel extends QSPanel implements TunerService.Tunable {
         return mBrightnessView;
     }
 
-    private void setBrightnessViewMargin(boolean top) {
-        if (mBrightnessView != null) {
-            MarginLayoutParams lp = (MarginLayoutParams) mBrightnessView.getLayoutParams();
-            if (top) {
-                lp.topMargin = mContext.getResources()
-                        .getDimensionPixelSize(R.dimen.qqs_top_brightness_margin_top);
-                lp.bottomMargin = mContext.getResources()
-                        .getDimensionPixelSize(R.dimen.qqs_top_brightness_margin_bottom);
-            } else {
-                lp.topMargin = mContext.getResources()
-                        .getDimensionPixelSize(R.dimen.qqs_bottom_brightness_margin_top);
-                lp.bottomMargin = 0;
-            }
-            mBrightnessView.setLayoutParams(lp);
-        }
-    }
-
     @Override
     void initialize(QSLogger qsLogger) {
         mQsLogger = qsLogger;
@@ -129,11 +112,30 @@ public class QuickQSPanel extends QSPanel implements TunerService.Tunable {
 
     @Override
     protected void updatePadding() {
+        setBrightnessViewMargin(mTop);
         int bottomPadding = getResources().getDimensionPixelSize(R.dimen.qqs_layout_padding_bottom);
         setPaddingRelative(getPaddingStart(),
                 getPaddingTop(),
                 getPaddingEnd(),
                 bottomPadding);
+    }
+
+    private void setBrightnessViewMargin(boolean top) {
+        if (mBrightnessView != null) {
+            MarginLayoutParams lp = (MarginLayoutParams) mBrightnessView.getLayoutParams();
+            if (top) {
+                lp.topMargin = mContext.getResources()
+                        .getDimensionPixelSize(R.dimen.qqs_top_brightness_margin_top);
+                lp.bottomMargin = mContext.getResources()
+                        .getDimensionPixelSize(R.dimen.qqs_top_brightness_margin_bottom);
+            } else {
+                lp.topMargin = mContext.getResources()
+                        .getDimensionPixelSize(R.dimen.qqs_bottom_brightness_margin_top);
+                lp.bottomMargin = mContext.getResources()
+                        .getDimensionPixelSize(R.dimen.qqs_bottom_brightness_margin_bottom);
+            }
+            mBrightnessView.setLayoutParams(lp);
+        }
     }
 
     @Override

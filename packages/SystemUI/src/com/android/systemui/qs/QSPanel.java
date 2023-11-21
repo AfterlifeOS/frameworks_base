@@ -155,7 +155,7 @@ public class QSPanel extends LinearLayout implements Tunable {
         mMediaTotalBottomMargin = getResources().getDimensionPixelSize(
                 R.dimen.quick_settings_bottom_margin_media);
         mMediaTopMargin = getResources().getDimensionPixelSize(
-                R.dimen.qs_tile_margin_vertical);
+                R.dimen.qs_media_margin_top);
         mMaxColumnsPortrait = getResources().getInteger(R.integer.qs_panel_num_columns);
         mMaxColumnsLandscape = getResources().getInteger(R.integer.qs_panel_num_columns_landscape);
         mMaxColumnsMediaPlayer = getResources().getInteger(R.integer.qs_panel_num_columns_media);
@@ -526,18 +526,18 @@ public class QSPanel extends LinearLayout implements Tunable {
             index++;
         }
 
+        if (mFooter != null) {
+            // Then the footer with the settings
+            switchToParent(mFooter, parent, index);
+            index++;
+        }
+
         // Let's first move the tileLayout to the new parent, since that should come first.
         switchToParent((View) newLayout, parent, index);
         index++;
 
         if (mBrightnessView != null && !mTop) {
             switchToParent(mBrightnessView, parent, index);
-            index++;
-        }
-
-        if (mFooter != null) {
-            // Then the footer with the settings
-            switchToParent(mFooter, parent, index);
             index++;
         }
     }
