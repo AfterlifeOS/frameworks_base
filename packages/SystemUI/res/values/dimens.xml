@@ -1105,7 +1105,7 @@
 
     <dimen name="qs_media_session_enabled_seekbar_vertical_padding">15dp</dimen>
     <dimen name="qs_media_session_disabled_seekbar_vertical_padding">16dp</dimen>
-    <dimen name="qs_media_session_height_expanded">125dp</dimen>
+    <dimen name="qs_media_session_height_expanded">110dp</dimen>
     <dimen name="qs_media_session_height_collapsed">110dp</dimen>
     <dimen name="qs_media_seekbar_progress_wavelength">20dp</dimen>
     <dimen name="qs_media_seekbar_progress_amplitude">1.5dp</dimen>
