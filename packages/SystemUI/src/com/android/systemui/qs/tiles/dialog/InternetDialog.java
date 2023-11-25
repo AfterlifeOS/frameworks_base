@@ -278,6 +278,7 @@ public class InternetDialog extends SystemUIDialog implements
             Log.d(TAG, "onStop");
         }
         mMobileNetworkLayout.setOnClickListener(null);
+        mMobileNetworkLayout.setOnLongClickListener(null);
         mConnectedWifListLayout.setOnClickListener(null);
         if (mSecondaryMobileNetworkLayout != null) {
             mSecondaryMobileNetworkLayout.setOnClickListener(null);
@@ -351,6 +352,13 @@ public class InternetDialog extends SystemUIDialog implements
                 mInternetDialogController.setMobileDataEnabled(mContext, mDefaultDataSubId,
                         isChecked, false);
             }
+        });
+        mMobileNetworkLayout.setOnLongClickListener(v -> {
+            if (!mInternetDialogController.isDeviceLocked()) {
+                mInternetDialogController.launchMobileNetworkSettings(v, mDefaultDataSubId);
+                return true;
+            }
+            return false;
         });
         mConnectedWifListLayout.setOnClickListener(this::onClickConnectedWifi);
         mSeeAllLayout.setOnClickListener(this::onClickSeeMoreButton);
