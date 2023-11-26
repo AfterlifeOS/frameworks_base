@@ -47,8 +47,8 @@
             app:layout_constraintTop_toBottomOf="@id/batteryRemainingIcon"
         />
         <Transform
-            android:scaleX="2.77"
-            android:scaleY="2.77"
+            android:scaleX="3.0"
+            android:scaleY="3.0"
             />
     </Constraint>
 

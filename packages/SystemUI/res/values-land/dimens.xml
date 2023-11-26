@@ -72,7 +72,7 @@
     <dimen name="controls_header_horizontal_padding">12dp</dimen>
     <dimen name="controls_content_margin_horizontal">16dp</dimen>
     
-    <dimen name="large_screen_shade_header_height">48.0dip</dimen>
+    <dimen name="large_screen_shade_header_height">60.0dip</dimen>
     <dimen name="notification_panel_margin_top">16.0dip</dimen>
 
     <!-- Bouncer user switcher margins -->
