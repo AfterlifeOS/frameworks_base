@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2021 The Android Open Source Project
+    Copyright (C) 2023 AfterLife Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -15,11 +15,16 @@
     limitations under the License.
   -->
 
-<inset android:insetLeft="8.0dip" android:insetRight="8.0dip"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <selector>
-        <item android:state_checked="true" android:drawable="@drawable/settingslib_track_on_background" />
-        <item android:state_checked="false" android:drawable="@drawable/settingslib_track_off_background" />
-        <item android:state_enabled="false" android:drawable="@drawable/settingslib_track_disabled_background" />
-    </selector>
-</inset>
+<shape 
+    android:height="@dimen/settingslib_switch_track_height" 
+    android:width="@dimen/settingslib_switch_track_width" 
+    android:shape="rectangle"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <padding 
+        android:left="@dimen/settingslib_switch_thumb_margin" 
+        android:right="@dimen/settingslib_switch_thumb_margin" />
+    <solid 
+        android:color="@color/settingslib_track_off_color" />
+    <corners 
+        android:radius="@dimen/settingslib_switch_track_radius" />
+</shape>
