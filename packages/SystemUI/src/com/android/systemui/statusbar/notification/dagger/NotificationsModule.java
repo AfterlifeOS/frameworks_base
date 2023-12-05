@@ -17,6 +17,11 @@
 package com.android.systemui.statusbar.notification.dagger;
 
 import android.content.Context;
+import android.content.pm.LauncherApps;
+import android.content.pm.ShortcutManager;
+import android.os.Handler;
+import android.os.UserManager;
+import android.view.accessibility.AccessibilityManager;
 
 import com.android.systemui.R;
 import com.android.systemui.dagger.SysUISingleton;
@@ -90,6 +95,78 @@ public interface NotificationsModule {
 
     @Binds
     StackScrollAlgorithm.BypassController bindBypassController(KeyguardBypassController impl);
+
+    /** Provides an instance of {@link NotificationEntryManager} */
+    @SysUISingleton
+    @Provides
+    static NotificationEntryManager provideNotificationEntryManager(
+            NotificationEntryManagerLogger logger,
+            NotificationGroupManagerLegacy groupManager,
+            NotifPipelineFlags notifPipelineFlags,
+            Lazy<NotificationRowBinder> notificationRowBinderLazy,
+            Lazy<NotificationRemoteInputManager> notificationRemoteInputManagerLazy,
+            LeakDetector leakDetector,
+            IStatusBarService statusBarService,
+            NotifLiveDataStoreImpl notifLiveDataStore,
+            DumpManager dumpManager) {
+        return new NotificationEntryManager(
+                logger,
+                groupManager,
+                notifPipelineFlags,
+                notificationRowBinderLazy,
+                notificationRemoteInputManagerLazy,
+                leakDetector,
+                statusBarService,
+                notifLiveDataStore,
+                dumpManager);
+    }
+
+    /** Provides an instance of {@link NotificationGutsManager} */
+    @SysUISingleton
+    @Provides
+    static NotificationGutsManager provideNotificationGutsManager(
+            Context context,
+            Lazy<Optional<CentralSurfaces>> centralSurfacesOptionalLazy,
+            @Main Handler mainHandler,
+            @Background Handler bgHandler,
+            AccessibilityManager accessibilityManager,
+            HighPriorityProvider highPriorityProvider,
+            INotificationManager notificationManager,
+            NotificationEntryManager notificationEntryManager,
+            UserManager userManager,
+            PeopleSpaceWidgetManager peopleSpaceWidgetManager,
+            LauncherApps launcherApps,
+            ShortcutManager shortcutManager,
+            ChannelEditorDialogController channelEditorDialogController,
+            UserContextProvider contextTracker,
+            AssistantFeedbackController assistantFeedbackController,
+            Optional<BubblesManager> bubblesManagerOptional,
+            UiEventLogger uiEventLogger,
+            OnUserInteractionCallback onUserInteractionCallback,
+            ShadeController shadeController,
+            DumpManager dumpManager) {
+        return new NotificationGutsManager(
+                context,
+                centralSurfacesOptionalLazy,
+                mainHandler,
+                bgHandler,
+                accessibilityManager,
+                highPriorityProvider,
+                notificationManager,
+                notificationEntryManager,
+                userManager,
+                peopleSpaceWidgetManager,
+                launcherApps,
+                shortcutManager,
+                channelEditorDialogController,
+                contextTracker,
+                assistantFeedbackController,
+                bubblesManagerOptional,
+                uiEventLogger,
+                onUserInteractionCallback,
+                shadeController,
+                dumpManager);
+    }
 
     /** Provides an instance of {@link NotifGutsViewManager} */
     @Binds
