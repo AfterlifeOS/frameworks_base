@@ -25,10 +25,4 @@
     <dimen name="settingslib_listPreferredItemPaddingStart">24dp</dimen>
     <!-- Right padding of the preference -->
     <dimen name="settingslib_listPreferredItemPaddingEnd">24dp</dimen>
-
-    <dimen name="settingslib_switch_track_height">20.0dip</dimen>
-    <dimen name="settingslib_switch_track_radius">32.0dip</dimen>
-    <dimen name="settingslib_switch_track_width">25.0dip</dimen>
-    <dimen name="settingslib_switch_thumb_margin">6.0dip</dimen>
-    <dimen name="settingslib_switch_thumb_size">12.0dip</dimen>
 </resources>
