@@ -1677,15 +1677,15 @@
     <!-- Radius of switch bar -->
     <dimen name="settingslib_switch_bar_radius">35dp</dimen>
     <!-- Margin of switch thumb -->
-    <dimen name="settingslib_switch_thumb_margin">4dp</dimen>
+    <dimen name="settingslib_switch_thumb_margin">6dp</dimen>
     <!-- Size of switch thumb -->
-    <dimen name="settingslib_switch_thumb_size">20dp</dimen>
+    <dimen name="settingslib_switch_thumb_size">12dp</dimen>
     <!-- Width of switch track -->
-    <dimen name="settingslib_switch_track_width">52dp</dimen>
+    <dimen name="settingslib_switch_track_width">37dp</dimen>
     <!-- Height of switch track -->
-    <dimen name="settingslib_switch_track_height">28dp</dimen>
+    <dimen name="settingslib_switch_track_height">20dp</dimen>
     <!-- Radius of switch track -->
-    <dimen name="settingslib_switch_track_radius">35dp</dimen>
+    <dimen name="settingslib_switch_track_radius">32dp</dimen>
 
     <!-- Bluetooth dialog related dimensions -->
     <dimen name="bluetooth_dialog_layout_margin">16dp</dimen>
