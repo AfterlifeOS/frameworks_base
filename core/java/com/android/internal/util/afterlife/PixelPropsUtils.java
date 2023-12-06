@@ -404,6 +404,17 @@ public class PixelPropsUtils {
         }
     }
 
+    private static void setVersionFieldInt(String key, int value) {
+        try {
+            Field field = Build.VERSION.class.getDeclaredField(key);
+            field.setAccessible(true);
+            field.set(null, value);
+            field.setAccessible(false);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            Log.e(TAG, "Failed to spoof Build." + key, e);
+        }
+    }
+
     private static void spoofBuildGms() {
         // Alter build parameters to avoid hardware attestation enforcement
 	setPropValue("BRAND", "google");
