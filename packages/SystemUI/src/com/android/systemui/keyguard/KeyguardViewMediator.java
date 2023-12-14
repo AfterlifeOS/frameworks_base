@@ -1723,12 +1723,6 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
                     Log.d(TAG, "keyguardEnabled(false) overridden by user lockdown");
                     return;
                 }
-                if (mExitSecureCallback != null) {
-                    if (DEBUG) Log.d(TAG, "in process of verifyUnlock request, ignoring");
-                    // we're in the process of handling a request to verify the user
-                    // can get past the keyguard. ignore extraneous requests to disable / re-enable
-                    return;
-                }
 
                 // hiding keyguard that is showing, remember to reshow later
                 if (DEBUG) Log.d(TAG, "remembering to reshow, hiding keyguard, "
