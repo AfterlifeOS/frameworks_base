@@ -940,7 +940,7 @@ public class ScreenDecorations implements CoreStartable, Tunable , Dumpable {
     private void updateColorInversion(int colorsInvertedValue) {
         mTintColor = colorsInvertedValue != 0 ? Color.WHITE : Color.BLACK;
         if (DEBUG_COLOR) {
-            mTintColor = Color.RED;
+            mTintColor = Color.BLACK;
         }
 
         updateOverlayProviderViews(new Integer[] {
