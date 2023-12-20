@@ -199,7 +199,7 @@ import com.android.server.wm.WindowManagerInternal;
 import com.google.android.collect.Sets;
 import ink.kaleidoscope.server.ParallelSpaceManagerService;
 
-import com.android.internal.custom.hardware.LineageHardwareManager;
+import com.android.internal.lineage.hardware.LineageHardwareManager;
 
 import java.io.FileDescriptor;
 import java.io.IOException;

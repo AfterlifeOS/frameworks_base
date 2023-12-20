@@ -238,10 +238,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 
 // LineageHardware
-import com.android.server.custom.LineageHardwareService;
+import com.android.server.lineage.LineageHardwareService;
 
 // LiveDisplay
-import com.android.server.custom.display.LiveDisplayService;
+import com.android.server.lineage.display.LiveDisplayService;
 
 /**
  * Entry point to {@code system_server}.

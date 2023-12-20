@@ -24,7 +24,7 @@ import android.os.SystemProperties;
 import android.os.UserHandle;
 
 import static com.android.internal.util.custom.hwkeys.DeviceKeysConstants.*;
-import com.android.internal.custom.hardware.LineageHardwareManager;
+import com.android.internal.lineage.hardware.LineageHardwareManager;
 
 import static android.view.WindowManagerPolicyConstants.NAV_BAR_MODE_2BUTTON_OVERLAY;
 import static android.view.WindowManagerPolicyConstants.NAV_BAR_MODE_3BUTTON_OVERLAY;

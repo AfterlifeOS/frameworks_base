@@ -243,7 +243,7 @@ import java.util.Set;
 
 import com.android.internal.util.afterlife.AfterlifeUtils;
 import com.android.internal.util.custom.NavbarUtils;
-import com.android.internal.custom.hardware.LineageHardwareManager;
+import com.android.internal.lineage.hardware.LineageHardwareManager;
 
 /**
  * WindowManagerPolicy implementation for the Android phone UI.  This
