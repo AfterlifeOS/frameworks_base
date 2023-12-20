@@ -69,7 +69,7 @@
 
     <!-- The number of columns in the QuickQSPanel -->
     <integer name="quick_qs_panel_num_columns">5</integer>
-    <integer name="quick_qs_panel_num_columns_landscape">6</integer>
+    <integer name="quick_qs_panel_num_columns_landscape">5</integer>
     <integer name="quick_qs_panel_num_columns_media">4</integer>
 
     <!--The number of columns in the QSPanel -->
