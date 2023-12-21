@@ -280,5 +280,10 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.ADAPTIVE_PLAYBACK_ENABLED, BOOLEAN_VALIDATOR);
         VALIDATORS.put(System.ADAPTIVE_PLAYBACK_TIMEOUT, NON_NEGATIVE_INTEGER_VALIDATOR);
         VALIDATORS.put(System.MAX_VISIBLE_NOTIFICATION_ICONS, NON_NEGATIVE_INTEGER_VALIDATOR);
+        VALIDATORS.put(System.CHARGING_CONTROL_ENABLED, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.CHARGING_CONTROL_MODE, new InclusiveIntegerRangeValidator(1, 3));
+        VALIDATORS.put(System.CHARGING_CONTROL_START_TIME, new InclusiveIntegerRangeValidator(0, 86400));
+        VALIDATORS.put(System.CHARGING_CONTROL_TARGET_TIME, new InclusiveIntegerRangeValidator(0, 86400));
+        VALIDATORS.put(System.CHARGING_CONTROL_LIMIT, new InclusiveIntegerRangeValidator(70, 100));
     }
 }

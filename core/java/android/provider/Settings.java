@@ -6478,6 +6478,44 @@ public final class Settings {
         public static final String MAX_VISIBLE_NOTIFICATION_ICONS = "max_visible_notification_icons";
 
         /**
+         * Whether charging control should be enabled.
+         * The value is boolean (1 or 0).
+         *
+         * @hide
+         */
+        public static final String CHARGING_CONTROL_ENABLED = "charging_control_enabled";
+
+        /**
+         * Charging control mode, one of AUTO (1; default), CUSTOM (2), or LIMIT (3).
+         *
+         * @hide
+         */
+        public static final String CHARGING_CONTROL_MODE = "charging_control_mode";
+
+        /**
+         * Time when charging control is automatically activated in CUSTOM mode.
+         * The value is represented as seconds from midnight.
+         *
+         * @hide
+         */
+        public static final String CHARGING_CONTROL_START_TIME = "charging_control_start_time";
+
+        /**
+         * Target time when battery is fully charged in CUSTOM mode.
+         * The value is represented as seconds from midnight.
+         *
+         * @hide
+         */
+        public static final String CHARGING_CONTROL_TARGET_TIME = "charging_control_target_time";
+
+        /**
+         * Limit to stop charging.
+         *
+         * @hide
+         */
+        public static final String CHARGING_CONTROL_LIMIT = "charging_control_charging_limit";
+
+        /**
          * These are all public system settings
          *
          * @hide
@@ -6632,6 +6670,11 @@ public final class Settings {
             PRIVATE_SETTINGS.add(ADAPTIVE_PLAYBACK_TIMEOUT);
             PRIVATE_SETTINGS.add(OMNIJAWS_WEATHER_ICON_PACK);
             PRIVATE_SETTINGS.add(MAX_VISIBLE_NOTIFICATION_ICONS);
+            PRIVATE_SETTINGS.add(CHARGING_CONTROL_ENABLED);
+            PRIVATE_SETTINGS.add(CHARGING_CONTROL_MODE);
+            PRIVATE_SETTINGS.add(CHARGING_CONTROL_START_TIME);
+            PRIVATE_SETTINGS.add(CHARGING_CONTROL_TARGET_TIME);
+            PRIVATE_SETTINGS.add(CHARGING_CONTROL_LIMIT);
         }
 
         /**
