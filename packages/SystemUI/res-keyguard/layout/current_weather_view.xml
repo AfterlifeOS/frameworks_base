@@ -20,8 +20,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="start"
     android:gravity="center_vertical"
-    android:clipToPadding="false"
-    android:paddingStart="@dimen/below_clock_padding_start">
+    android:clipToPadding="false">
 
     <LinearLayout
         android:id="@+id/current"
