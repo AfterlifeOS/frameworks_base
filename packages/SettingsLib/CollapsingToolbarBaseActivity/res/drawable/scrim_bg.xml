@@ -9,7 +9,7 @@
     </item>
     <item android:id="@android:id/checkbox">
         <shape android:shape="rectangle">
-            <solid android:color="@color/settingslib_colorSurfaceHeader" />
+            <solid android:color="@color/scrim_color" />
             <corners android:topLeftRadius="0.0dip" android:topRightRadius="0.0dip" android:bottomLeftRadius="20.0dip" android:bottomRightRadius="20.0dip" />
         </shape>
     </item>
