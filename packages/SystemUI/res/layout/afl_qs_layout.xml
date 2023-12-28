@@ -24,7 +24,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1.0"
-                android:layout_marginEnd="4.0dip"
+                android:layout_marginEnd="8.0dip"
                 android:paddingStart="16.0dip"
                 android:paddingEnd="16.0dip">
                 <ImageView
@@ -58,7 +58,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="60dp"
                 android:layout_weight="1.0"
-                android:layout_marginStart="4.0dip"
+                android:layout_marginStart="8.0dip"
                 android:paddingStart="16.0dip"
                 android:paddingEnd="16.0dip">
                 <ImageView
