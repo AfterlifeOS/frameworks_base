@@ -923,6 +923,10 @@ final class DefaultPermissionGrantPolicy {
         // OnePlus Gallery
         grantSystemFixedPermissionsToSystemPackage(pm, "com.oneplus.gallery", userId,
                 STORAGE_PERMISSIONS);
+
+        // OmniJaws
+        String omnijawsServicePackageName = "org.omnirom.omnijaws";
+        grantSystemFixedPermissionsToSystemPackage(pm, omnijawsServicePackageName, userId, ALWAYS_LOCATION_PERMISSIONS);
     }
 
     private String getDefaultSystemHandlerActivityPackageForCategory(PackageManagerWrapper pm,
