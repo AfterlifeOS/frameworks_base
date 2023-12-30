@@ -31,9 +31,9 @@ import com.declan.prjct.utils.DeclanUtils;
 
 public class DeclanCategoryLayout extends LinearLayout {
 	
-	private boolean iconEnabled, allCapsEnabled, boldEnabled, strokeEnabled, dividerEnabled;
+	private boolean iconEnabled, allCapsEnabled, boldEnabled, bgEnabled, dividerEnabled;
 	private int cornerTopLeft, cornerTopRight, cornerBotRight, cornerBotLeft, paddingTop, paddingBot, paddingLeft, paddingRight,
-	iconStyle, strokeColorStyle, strokeCustomColor, strokeWidth;
+	iconStyle, backgroundColorStyle, backgroundCustomColor;
 	
 	private ImageView iconView;
 	private View iconView1, dividerView;
@@ -60,7 +60,7 @@ public class DeclanCategoryLayout extends LinearLayout {
 		iconStyle = Settings.System.getInt(cr, "declan_category_icon_style", 0);
 		allCapsEnabled = Settings.System.getInt(cr, "declan_category_allcaps_enabled", 0) == 1;
 		boldEnabled = Settings.System.getInt(cr, "declan_category_bold_enabled", 0) == 1;
-		strokeEnabled = Settings.System.getInt(cr, "declan_category_stroke_enabled", 0) == 1;
+		bgEnabled = Settings.System.getInt(cr, "declan_category_bg_enabled", 0) == 1;
 		cornerTopLeft = DeclanUtils.getValueInDp(Settings.System.getInt(cr, "declan_category_corner_topL", 8));
 		cornerTopRight = DeclanUtils.getValueInDp(Settings.System.getInt(cr, "declan_category_corner_topR", 8));
 		cornerBotLeft = DeclanUtils.getValueInDp(Settings.System.getInt(cr, "declan_category_corner_botL", 8));
@@ -69,9 +69,8 @@ public class DeclanCategoryLayout extends LinearLayout {
 		paddingRight = DeclanUtils.getValueInDp(Settings.System.getInt(cr, "declan_category_padding_right", 4));
 		paddingTop = DeclanUtils.getValueInDp(Settings.System.getInt(cr, "declan_category_padding_top", 4));
 		paddingBot = DeclanUtils.getValueInDp(Settings.System.getInt(cr, "declan_category_padding_bot", 4));
-		strokeColorStyle = Settings.System.getInt(cr, "declan_category_stroke_style", 0);
-		strokeCustomColor = Settings.System.getInt(cr, "declan_category_stroke_color", 0);
-		strokeWidth = DeclanUtils.getValueInDp(Settings.System.getInt(cr, "declan_category_stroke_width", 2));
+		backgroundColorStyle = Settings.System.getInt(cr, "declan_category_bg_style", 0);
+		backgroundCustomColor = Settings.System.getInt(cr, "declan_category_bg_custom_color", 0);
 		dividerEnabled = Settings.System.getInt(cr, "declan_category_divider_enabled", 0) == 1;
 		updateTextTitle();
 		updateIconStyle();
@@ -112,10 +111,9 @@ public class DeclanCategoryLayout extends LinearLayout {
 	
 	private void updateBackgroundTitle() {
 		GradientDrawable backgroundDrawable = new GradientDrawable();
-		backgroundDrawable.setColor(android.R.color.transparent);
+		backgroundDrawable.setColor(getBackgroundColor());
 		backgroundDrawable.setCornerRadii(new float[]{cornerTopLeft, cornerTopLeft, cornerTopRight, cornerTopRight, cornerBotRight, cornerBotRight, cornerBotLeft, cornerBotLeft});
-		backgroundDrawable.setStroke(strokeWidth, getStrokeColor());
-		if (strokeEnabled) {
+		if (bgEnabled) {
 			titleView.setBackground(backgroundDrawable);
 			titleView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBot);
 		} else {
@@ -127,18 +125,20 @@ public class DeclanCategoryLayout extends LinearLayout {
 	private void updateDividerView() {
 		if (dividerEnabled) {
 			dividerView.setVisibility(View.VISIBLE);
-			dividerView.setBackgroundColor(getStrokeColor());
+			dividerView.setBackgroundColor(getBackgroundColor());
 		} else {
 			dividerView.setVisibility(View.GONE);
 			dividerView.setBackgroundResource(android.R.color.transparent);
 		}
 	}
 	
-	private int getStrokeColor() {
-		if (strokeColorStyle == 1) {
-			return strokeCustomColor;
+	private int getBackgroundColor() {
+		if (backgroundColorStyle == 1) {
+			return DeclanUtils.getColorAttr(mContext, com.android.internal.R.attr.colorAccentSecondary);
+		} else if (backgroundColorStyle == 2) {
+			return backgroundCustomColor;
 		} else {
-			return DeclanUtils.getColorAttr(mContext, android.R.attr.colorAccent);
+			return DeclanUtils.getColorAttr(mContext, com.android.internal.R.attr.colorSurface);
 		}
 	}
 	
@@ -153,7 +153,7 @@ public class DeclanCategoryLayout extends LinearLayout {
 			cr.registerContentObserver(Settings.System.getUriFor("declan_category_icon_style"), false, this);
 			cr.registerContentObserver(Settings.System.getUriFor("declan_category_allcaps_enabled"), false, this);
 			cr.registerContentObserver(Settings.System.getUriFor("declan_category_bold_enabled"), false, this);
-			cr.registerContentObserver(Settings.System.getUriFor("declan_category_stroke_enabled"), false, this);
+			cr.registerContentObserver(Settings.System.getUriFor("declan_category_bg_enabled"), false, this);
 			cr.registerContentObserver(Settings.System.getUriFor("declan_category_corner_topL"), false, this);
 			cr.registerContentObserver(Settings.System.getUriFor("declan_category_corner_topR"), false, this);
 			cr.registerContentObserver(Settings.System.getUriFor("declan_category_corner_botL"), false, this);
@@ -162,9 +162,8 @@ public class DeclanCategoryLayout extends LinearLayout {
 			cr.registerContentObserver(Settings.System.getUriFor("declan_category_padding_right"), false, this);
 			cr.registerContentObserver(Settings.System.getUriFor("declan_category_padding_top"), false, this);
 			cr.registerContentObserver(Settings.System.getUriFor("declan_category_padding_bot"), false, this);
-			cr.registerContentObserver(Settings.System.getUriFor("declan_category_stroke_style"), false, this);
-			cr.registerContentObserver(Settings.System.getUriFor("declan_category_stroke_color"), false, this);
-			cr.registerContentObserver(Settings.System.getUriFor("declan_category_stroke_width"), false, this);
+			cr.registerContentObserver(Settings.System.getUriFor("declan_category_bg_style"), false, this);
+			cr.registerContentObserver(Settings.System.getUriFor("declan_category_bg_custom_color"), false, this);
 			cr.registerContentObserver(Settings.System.getUriFor("declan_category_divider_enabled"), false, this);
 		}
 		
