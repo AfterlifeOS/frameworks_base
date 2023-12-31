@@ -32,6 +32,13 @@
     android:paddingEnd="0dp"
     android:paddingStart="0dp"
     android:elevation="4dp" >
+    	
+    <com.android.systemui.afterlife.TimeHeaderImage
+        android:id="@+id/image_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_height"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginRight="-50dp" />
 
     <com.android.systemui.qs.QuickQSPanel
         android:id="@+id/quick_qs_panel"
