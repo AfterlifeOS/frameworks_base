@@ -16,30 +16,32 @@
   -->
 
 <com.android.systemui.util.animation.TransitionLayout 
-    android:theme="@style/MediaPlayer" 
-    android:gravity="fill_vertical|center" 
-    android:id="@+id/qs_media_controls" 
-    android:background="@drawable/qs_media_outline_layout_bg" 
-    android:clipChildren="true" 
-    android:clipToPadding="true" 
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:forceHasOverlappingRendering="false" 
-    android:clipToOutline="true"
-    xmlns:android="http://schemas.android.com/apk/res/android" 
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/MediaPlayer"
+    android:gravity="center|fill_vertical"
+    android:id="@+id/qs_media_controls"
+    android:background="@drawable/qs_media_outline_layout_bg"
+    android:clipChildren="true"
+    android:clipToPadding="true"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/qs_media_session_height_expanded"
+    android:backgroundTint="@android:color/transparent"
+    android:forceHasOverlappingRendering="false"
+    android:clipToOutline="true">
 
-    <ImageView 
-        android:id="@+id/album_art" 
-        android:background="@drawable/qs_media_outline_album_bg" 
-        android:layout_width="fill_parent" 
-        android:layout_height="@dimen/qs_media_session_height_expanded" 
-        android:scaleType="centerCrop" 
-        android:adjustViewBounds="true" 
-        android:translationZ="0.0dip" 
-        android:clipToOutline="true" 
-        app:layout_constraintBottom_toBottomOf="parent" 
-        app:layout_constraintEnd_toEndOf="parent" 
+    <ImageView
+        android:id="@+id/album_art"
+        android:background="@drawable/qs_media_outline_album_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/qs_media_session_height_expanded"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:translationZ="0dp"
+        android:backgroundTint="@android:color/transparent"
+        android:clipToOutline="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.android.systemui.surfaceeffects.ripple.MultiRippleView
@@ -49,10 +51,10 @@
         android:layout_height="@dimen/qs_media_session_height_expanded"
         android:backgroundTint="@android:color/transparent"
         android:clipToOutline="true"
-        app:layout_constraintBottom_toBottomOf="@id/album_art"
-        app:layout_constraintEnd_toEndOf="@id/album_art"
-        app:layout_constraintStart_toStartOf="@id/album_art"
-        app:layout_constraintTop_toTopOf="@id/album_art" />
+        app:layout_constraintBottom_toBottomOf="@+id/album_art"
+        app:layout_constraintEnd_toEndOf="@+id/album_art"
+        app:layout_constraintStart_toStartOf="@+id/album_art"
+        app:layout_constraintTop_toTopOf="@+id/album_art" />
 
     <com.android.systemui.surfaceeffects.turbulencenoise.TurbulenceNoiseView
         android:id="@+id/turbulence_noise_view"
@@ -61,286 +63,286 @@
         android:layout_height="@dimen/qs_media_session_height_expanded"
         android:backgroundTint="@android:color/transparent"
         android:clipToOutline="true"
-        app:layout_constraintBottom_toBottomOf="@id/album_art"
-        app:layout_constraintEnd_toEndOf="@id/album_art"
-        app:layout_constraintStart_toStartOf="@id/album_art"
-        app:layout_constraintTop_toTopOf="@id/album_art" />
+        app:layout_constraintBottom_toBottomOf="@+id/album_art"
+        app:layout_constraintEnd_toEndOf="@+id/album_art"
+        app:layout_constraintStart_toStartOf="@+id/album_art"
+        app:layout_constraintTop_toTopOf="@+id/album_art" />
 
-    <androidx.constraintlayout.widget.Guideline 
-        android:orientation="vertical" 
-        android:id="@+id/center_vertical_guideline" 
-        android:layout_width="wrap_content" 
-        android:layout_height="wrap_content" 
+    <androidx.constraintlayout.widget.Guideline
+        android:orientation="vertical"
+        android:id="@+id/center_vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintGuide_percent="0.6" />
 
-    <androidx.constraintlayout.widget.Guideline 
-        android:orientation="vertical" 
-        android:id="@+id/action_button_guideline" 
-        android:layout_width="0.0dip" 
-        android:layout_height="0.0dip" 
+    <androidx.constraintlayout.widget.Guideline
+        android:orientation="vertical"
+        android:id="@+id/action_button_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintGuide_end="@dimen/qs_media_session_collapsed_guideline" />
 
-    <com.android.internal.widget.CachingIconView 
-        android:id="@+id/icon" 
-        android:layout_width="@dimen/qs_media_app_icon_size" 
-        android:layout_height="@dimen/qs_media_app_icon_size" 
-        android:layout_marginTop="@dimen/qs_media_padding" 
-        android:layout_marginStart="@dimen/qs_media_padding" 
-        app:layout_constraintStart_toStartOf="parent" 
+    <com.android.internal.widget.CachingIconView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/qs_media_app_icon_size"
+        android:layout_height="@dimen/qs_media_app_icon_size"
+        android:layout_marginTop="@dimen/qs_media_padding"
+        android:layout_marginStart="@dimen/qs_media_padding"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout 
-        android:gravity="end|center|top" 
-        android:orientation="horizontal" 
-        android:id="@+id/media_seamless" 
-        android:background="@drawable/qs_media_light_source" 
-        android:paddingTop="@dimen/qs_media_padding" 
-        android:layout_width="wrap_content" 
-        android:layout_height="@dimen/min_clickable_item_size" 
-        android:paddingEnd="@dimen/qs_media_padding" 
-        android:layout_marginStart="@dimen/qs_center_guideline_padding" 
-        android:forceHasOverlappingRendering="false" 
-        app:layout_constrainedWidth="true" 
-        app:layout_constraintEnd_toEndOf="parent" 
-        app:layout_constraintHeight_min="@dimen/min_clickable_item_size" 
-        app:layout_constraintHorizontal_bias="1.0" 
-        app:layout_constraintStart_toEndOf="@+id/center_vertical_guideline" 
-        app:layout_constraintTop_toTopOf="parent" 
+    <LinearLayout
+        android:gravity="center|end|top"
+        android:orientation="horizontal"
+        android:id="@+id/media_seamless"
+        android:background="@drawable/qs_media_light_source"
+        android:paddingTop="@dimen/qs_media_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/min_clickable_item_size"
+        android:paddingEnd="@dimen/qs_media_padding"
+        android:layout_marginStart="@dimen/qs_center_guideline_padding"
+        android:forceHasOverlappingRendering="false"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_min="@dimen/min_clickable_item_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/center_vertical_guideline"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_min="@dimen/min_clickable_item_size">
 
-        <com.android.systemui.animation.view.LaunchableLinearLayout 
-            android:theme="@style/MediaPlayer.SolidButton" 
-            android:orientation="horizontal" 
-            android:id="@+id/media_seamless_button" 
-            android:background="@drawable/qs_media_seamless_background" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" 
-            android:maxHeight="@dimen/min_clickable_item_size" 
-            android:minHeight="@dimen/qs_seamless_height" 
+        <com.android.systemui.animation.view.LaunchableLinearLayout
+            android:theme="@style/MediaPlayer.SolidButton"
+            android:orientation="horizontal"
+            android:id="@+id/media_seamless_button"
+            android:background="@drawable/qs_media_seamless_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="@dimen/min_clickable_item_size"
+            android:minHeight="@dimen/qs_seamless_height"
             android:contentDescription="@string/quick_settings_media_device_label">
 
-            <ImageView 
-                android:layout_gravity="center" 
-                android:id="@+id/media_seamless_image" 
-                android:layout_width="@dimen/qs_seamless_icon_size" 
-                android:layout_height="@dimen/qs_seamless_icon_size" 
-                android:src="@null" 
-                android:tint="?android:textColorPrimary" />
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/media_seamless_image"
+                android:layout_width="@dimen/qs_seamless_icon_size"
+                android:layout_height="@dimen/qs_seamless_icon_size"
+                android:src="@*android:drawable/ic_media_seamless"
+                android:tint="?android:attr/textColorPrimary" />
 
-            <TextView 
-                android:textSize="12.0sp" 
-                android:layout_gravity="center_vertical" 
-                android:id="@+id/media_seamless_text" 
-                android:layout_width="wrap_content" 
-                android:layout_height="wrap_content" 
-                android:text="@*android:string/ext_media_seamless_action" 
-                android:singleLine="true" 
-                android:fontFamily="@*android:string/config_headlineFontFamilyMedium" 
-                android:textDirection="locale" 
-                android:layout_marginStart="4.0dip" 
-                android:lineHeight="16.0sp" />
-
+            <TextView
+                android:textSize="12sp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/media_seamless_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@*android:string/ext_media_seamless_action"
+                android:singleLine="true"
+                android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+                android:textDirection="locale"
+                android:layout_marginStart="4dp"
+                android:lineHeight="16sp" />
         </com.android.systemui.animation.view.LaunchableLinearLayout>
-        
+
     </LinearLayout>
 
-    <FrameLayout 
-        android:orientation="horizontal" 
-        android:paddingTop="10.0dip" 
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content" 
+    <FrameLayout
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/icon">
 
-        <LinearLayout 
-            android:gravity="start|center" 
-            android:orientation="vertical" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" 
-            android:layout_marginStart="@dimen/qs_media_padding" 
-            android:layout_marginEnd="70.0dip">
+        <LinearLayout
+            android:gravity="center|start"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/qs_media_padding"
+            android:layout_marginEnd="70dp">
 
-        <LinearLayout 
-            android:gravity="start|center" 
-            android:orientation="horizontal" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content">
+            <LinearLayout
+                android:gravity="center|start"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-            <com.android.internal.widget.CachingIconView 
-                android:id="@+id/media_explicit_indicator" 
-                android:layout_width="@dimen/qs_media_explicit_indicator_icon_size" 
-                android:layout_height="@dimen/qs_media_explicit_indicator_icon_size" 
-                android:src="@drawable/ic_media_explicit_indicator" 
-                android:layout_weight="1.0" 
-                android:layout_marginEnd="5.0dip" />
+                <com.android.internal.widget.CachingIconView
+                    android:id="@+id/media_explicit_indicator"
+                    android:layout_width="@dimen/qs_media_explicit_indicator_icon_size"
+                    android:layout_height="@dimen/qs_media_explicit_indicator_icon_size"
+                    android:src="@drawable/ic_media_explicit_indicator"
+                    android:layout_weight="1.0"
+                    android:layout_marginEnd="5dp" />
 
-            <TextView 
-                android:textSize="13.0sp" 
-                android:id="@+id/header_title" 
-                android:layout_width="wrap_content" 
-                android:layout_height="wrap_content" 
-                android:maxLines="2" 
-                android:singleLine="false" 
-                android:fontFamily="@*android:string/config_headlineFontFamilyMedium" />
+                <TextView
+                    android:textSize="13sp"
+                    android:id="@+id/header_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:singleLine="false"
+                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium" />
 
             </LinearLayout>
 
-            <TextView 
-                android:textSize="11.0sp" 
-                android:id="@+id/header_artist" 
-                android:layout_width="wrap_content" 
-                android:layout_height="wrap_content" 
-                android:singleLine="true" 
-                android:fontFamily="@*android:string/config_headlineFontFamily" 
-                style="@style/MediaPlayer.Subtitle" 
-                android:layout_marginStart="5dp" />
+            <TextView
+                android:textSize="11sp"
+                android:id="@+id/header_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:fontFamily="@*android:string/config_headlineFontFamily"
+                android:layout_marginStart="5dp"
+                style="@style/MediaPlayer.Subtitle" />
 
         </LinearLayout>
 
-        <ImageButton 
-            android:gravity="end|center" 
-            android:layout_gravity="end|center" 
-            android:id="@+id/actionPlayPause" 
-            android:layout_width="38.0dip" 
-            android:layout_height="38.0dip" 
-            android:layout_marginStart="@dimen/qs_media_padding" 
-            android:layout_marginEnd="@dimen/qs_media_padding" 
+        <ImageButton
+            android:gravity="center|end"
+            android:layout_gravity="center|end"
+            android:id="@+id/actionPlayPause"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="@dimen/qs_media_padding"
+            android:layout_marginEnd="@dimen/qs_media_padding"
             style="@style/MediaPlayer.SessionAction.Primary" />
 
     </FrameLayout>
 
-    <androidx.constraintlayout.widget.Barrier 
-        android:orientation="vertical" 
-        android:id="@+id/media_action_barrier_start" 
-        android:layout_width="0.0dip" 
-        android:layout_height="0.0dip" 
-        app:barrierDirection="start" 
-        app:constraint_referenced_ids="actionPrev,media_scrubbing_elapsed_time,media_progress_bar,actionNext,media_scrubbing_total_time,action0,action1,action2,action3,action4" 
-        app:layout_constraintBottom_toBottomOf="parent" 
-        app:layout_constraintStart_toStartOf="parent" 
+    <androidx.constraintlayout.widget.Barrier
+        android:orientation="vertical"
+        android:id="@+id/media_action_barrier_start"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="actionPrev,media_scrubbing_elapsed_time,media_progress_bar,actionNext,media_scrubbing_total_time,action0,action1,action2,action3,action4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header_title" />
 
-    <androidx.constraintlayout.widget.Barrier 
-        android:orientation="vertical" 
-        android:id="@+id/media_action_barrier_end" 
-        android:layout_width="0.0dip" 
-        android:layout_height="0.0dip" 
-        app:barrierDirection="end" 
-        app:constraint_referenced_ids="actionPrev,media_scrubbing_elapsed_time,media_progress_bar,actionNext,media_scrubbing_total_time,action0,action1,action2,action3,action4" 
-        app:layout_constraintBottom_toBottomOf="parent" 
-        app:layout_constraintRight_toRightOf="@+id/actionPlayPause" 
+    <androidx.constraintlayout.widget.Barrier
+        android:orientation="vertical"
+        android:id="@+id/media_action_barrier_end"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="actionPrev,media_scrubbing_elapsed_time,media_progress_bar,actionNext,media_scrubbing_total_time,action0,action1,action2,action3,action4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/actionPlayPause"
         app:layout_constraintTop_toBottomOf="@+id/media_seamless" />
 
-    <androidx.constraintlayout.widget.Barrier 
-        android:id="@+id/media_action_barrier_top" 
-        android:layout_width="fill_parent" 
-        android:layout_height="0.0dip" 
-        app:barrierDirection="top" 
-        app:constraint_referenced_ids="actionPrev,media_scrubbing_elapsed_time,media_progress_bar,actionNext,media_scrubbing_total_time,action0,action1,action2,action3,action4" 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/media_action_barrier_top"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="actionPrev,media_scrubbing_elapsed_time,media_progress_bar,actionNext,media_scrubbing_total_time,action0,action1,action2,action3,action4"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <ImageButton 
-        android:id="@+id/actionPrev" 
-        android:layout_width="48.0dip" 
-        android:layout_height="48.0dip" 
-        android:layout_marginTop="0.0dip" 
-        android:layout_marginBottom="@dimen/qs_media_padding" 
-        android:layout_marginStart="@dimen/qs_media_action_spacing" 
-        android:layout_marginEnd="0.0dip" 
+    <ImageButton
+        android:id="@+id/actionPrev"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/qs_media_padding"
+        android:layout_marginStart="@dimen/qs_media_action_spacing"
+        android:layout_marginEnd="0dp"
         style="@style/MediaPlayer.SessionAction.Secondary" />
 
-    <TextView 
-        android:id="@+id/media_scrubbing_elapsed_time" 
-        android:visibility="gone" 
-        android:layout_width="48.0dip" 
-        android:layout_height="48.0dip" 
-        android:layout_marginTop="0.0dip" 
-        android:layout_marginBottom="@dimen/qs_media_padding" 
-        android:layout_marginStart="@dimen/qs_media_action_spacing" 
-        android:layout_marginEnd="0.0dip" style="@style/MediaPlayer.ScrubbingTime" />
-
-    <SeekBar 
-        android:id="@+id/media_progress_bar" 
-        android:paddingTop="@dimen/qs_media_session_enabled_seekbar_vertical_padding" 
-        android:paddingBottom="12.0dip" 
-        android:layout_width="0.0dip" 
-        android:layout_height="48.0dip" 
-        android:layout_marginTop="0.0dip" 
-        android:layout_marginBottom="@dimen/qs_media_padding" 
-        android:maxHeight="@dimen/qs_media_enabled_seekbar_height" 
-        android:layout_marginStart="0.0dip" 
-        android:layout_marginEnd="0.0dip" 
-        android:splitTrack="false" 
-        style="@style/MediaPlayer.ProgressBar" />
-
-    <ImageButton 
-        android:id="@+id/actionNext" 
-        android:layout_width="48.0dip" 
-        android:layout_height="48.0dip" 
-        android:layout_marginTop="0.0dip" 
-        android:layout_marginBottom="@dimen/qs_media_padding" 
-        android:layout_marginStart="0.0dip" 
-        android:layout_marginEnd="@dimen/qs_media_action_spacing" 
-        style="@style/MediaPlayer.SessionAction.Secondary" />
-
-    <TextView 
-        android:id="@+id/media_scrubbing_total_time" 
-        android:visibility="gone" 
-        android:layout_width="48.0dip" 
-        android:layout_height="48.0dip" 
-        android:layout_marginTop="0.0dip" 
-        android:layout_marginBottom="@dimen/qs_media_padding" 
-        android:layout_marginStart="0.0dip" 
-        android:layout_marginEnd="@dimen/qs_media_action_spacing" 
+    <TextView
+        android:id="@+id/media_scrubbing_elapsed_time"
+        android:visibility="gone"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/qs_media_padding"
+        android:layout_marginStart="@dimen/qs_media_action_spacing"
+        android:layout_marginEnd="0dp"
         style="@style/MediaPlayer.ScrubbingTime" />
 
-    <ImageButton 
-        android:id="@+id/action0" 
-        android:layout_width="48.0dip" 
-        android:layout_height="48.0dip" 
-        android:layout_marginTop="0.0dip" 
-        android:layout_marginBottom="@dimen/qs_media_padding" 
-        android:layout_marginStart="@dimen/qs_media_action_spacing" 
-        android:layout_marginEnd="@dimen/qs_media_action_spacing" 
+    <SeekBar
+        android:id="@+id/media_progress_bar"
+        android:paddingTop="@dimen/qs_media_session_enabled_seekbar_vertical_padding"
+        android:paddingBottom="12dp"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/qs_media_padding"
+        android:maxHeight="@dimen/qs_media_enabled_seekbar_height"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:splitTrack="false"
+        style="@style/MediaPlayer.ProgressBar" />
+
+    <ImageButton
+        android:id="@+id/actionNext"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/qs_media_padding"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="@dimen/qs_media_action_spacing"
         style="@style/MediaPlayer.SessionAction.Secondary" />
 
-    <ImageButton 
-        android:id="@+id/action1" 
-        android:layout_width="48.0dip" 
-        android:layout_height="48.0dip" 
-        android:layout_marginTop="0.0dip" 
-        android:layout_marginBottom="@dimen/qs_media_padding" 
-        android:layout_marginStart="@dimen/qs_media_action_spacing" 
-        android:layout_marginEnd="@dimen/qs_media_action_spacing" 
+    <TextView
+        android:id="@+id/media_scrubbing_total_time"
+        android:visibility="gone"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/qs_media_padding"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="@dimen/qs_media_action_spacing"
+        style="@style/MediaPlayer.ScrubbingTime" />
+
+    <ImageButton
+        android:id="@+id/action0"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/qs_media_padding"
+        android:layout_marginStart="@dimen/qs_media_action_spacing"
+        android:layout_marginEnd="@dimen/qs_media_action_spacing"
         style="@style/MediaPlayer.SessionAction.Secondary" />
 
-    <ImageButton 
-        android:id="@+id/action2" 
-        android:layout_width="48.0dip" 
-        android:layout_height="48.0dip" 
-        android:layout_marginTop="0.0dip" 
-        android:layout_marginBottom="@dimen/qs_media_padding" 
-        android:layout_marginStart="@dimen/qs_media_action_spacing" 
-        android:layout_marginEnd="@dimen/qs_media_action_spacing" 
+    <ImageButton
+        android:id="@+id/action1"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/qs_media_padding"
+        android:layout_marginStart="@dimen/qs_media_action_spacing"
+        android:layout_marginEnd="@dimen/qs_media_action_spacing"
         style="@style/MediaPlayer.SessionAction.Secondary" />
 
-    <ImageButton 
-        android:id="@+id/action3" 
-        android:layout_width="48.0dip" 
-        android:layout_height="48.0dip" 
-        android:layout_marginTop="0.0dip" 
-        android:layout_marginBottom="@dimen/qs_media_padding" 
-        android:layout_marginStart="@dimen/qs_media_action_spacing" 
-        android:layout_marginEnd="@dimen/qs_media_action_spacing" 
+    <ImageButton
+        android:id="@+id/action2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/qs_media_padding"
+        android:layout_marginStart="@dimen/qs_media_action_spacing"
+        android:layout_marginEnd="@dimen/qs_media_action_spacing"
         style="@style/MediaPlayer.SessionAction.Secondary" />
 
-    <ImageButton 
-        android:id="@+id/action4" 
-        android:layout_width="48.0dip" 
-        android:layout_height="48.0dip" 
-        android:layout_marginTop="0.0dip" 
-        android:layout_marginBottom="@dimen/qs_media_padding" 
-        android:layout_marginStart="@dimen/qs_media_action_spacing" 
-        android:layout_marginEnd="@dimen/qs_media_action_spacing" 
+    <ImageButton
+        android:id="@+id/action3"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/qs_media_padding"
+        android:layout_marginStart="@dimen/qs_media_action_spacing"
+        android:layout_marginEnd="@dimen/qs_media_action_spacing"
+        style="@style/MediaPlayer.SessionAction.Secondary" />
+
+    <ImageButton
+        android:id="@+id/action4"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/qs_media_padding"
+        android:layout_marginStart="@dimen/qs_media_action_spacing"
+        android:layout_marginEnd="@dimen/qs_media_action_spacing"
         style="@style/MediaPlayer.SessionAction.Secondary" />
 
     <include layout="@layout/media_long_press_menu" />
