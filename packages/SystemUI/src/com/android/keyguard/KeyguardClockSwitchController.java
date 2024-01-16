@@ -50,6 +50,7 @@ import com.android.systemui.dagger.qualifiers.Background;
 import com.android.systemui.dagger.qualifiers.Main;
 import com.android.systemui.dump.DumpManager;
 import com.android.systemui.flags.FeatureFlagsClassic;
+import com.android.systemui.lockscreen.LockScreenWidgets;
 import com.android.systemui.keyguard.KeyguardUnlockAnimationController;
 import com.android.systemui.keyguard.domain.interactor.KeyguardClockInteractor;
 import com.android.systemui.keyguard.domain.interactor.KeyguardInteractor;
@@ -58,6 +59,7 @@ import com.android.systemui.keyguard.ui.viewmodel.KeyguardRootViewModel;
 import com.android.systemui.log.LogBuffer;
 import com.android.systemui.log.core.LogLevel;
 import com.android.systemui.log.dagger.KeyguardClockLog;
+import com.android.systemui.plugins.ActivityStarter;
 import com.android.systemui.plugins.clocks.ClockController;
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.res.R;
@@ -75,6 +77,8 @@ import com.android.systemui.statusbar.notification.stack.AnimationProperties;
 import com.android.systemui.statusbar.phone.DozeParameters;
 import com.android.systemui.statusbar.phone.NotificationIconAreaController;
 import com.android.systemui.statusbar.phone.NotificationIconContainer;
+import com.android.systemui.statusbar.policy.ConfigurationController;
+import com.android.systemui.statusbar.policy.FlashlightController;
 import com.android.systemui.tuner.TunerService;
 import com.android.systemui.util.ViewController;
 import com.android.systemui.util.concurrency.DelayableExecutor;
@@ -112,6 +116,9 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
     private final LogBuffer mLogBuffer;
     private final NotificationIconContainerAlwaysOnDisplayViewBinder mNicViewBinder;
     private final TunerService  mTunerService;
+    private final ActivityStarter mActivityStarter;
+    private final ConfigurationController mConfigurationController;
+    private final FlashlightController mFlashlightController;
 
     private FrameLayout mSmallClockFrame; // top aligned clock
     private FrameLayout mLargeClockFrame; // centered clock
@@ -210,7 +217,10 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
             KeyguardInteractor keyguardInteractor,
             KeyguardClockInteractor keyguardClockInteractor,
             FeatureFlagsClassic featureFlags,
-            InWindowLauncherUnlockAnimationManager inWindowLauncherUnlockAnimationManager) {
+            InWindowLauncherUnlockAnimationManager inWindowLauncherUnlockAnimationManager,
+            ActivityStarter activityStarter,
+            ConfigurationController configurationController,
+            FlashlightController flashlightController) {
         super(keyguardClockSwitch);
         mStatusBarStateController = statusBarStateController;
         mClockRegistry = clockRegistry;
@@ -227,6 +237,9 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
         mLogBuffer = logBuffer;
         mView.setLogBuffer(mLogBuffer);
         mFeatureFlags = featureFlags;
+        mActivityStarter = activityStarter;
+        mConfigurationController = configurationController;
+        mFlashlightController = flashlightController;
         mKeyguardInteractor = keyguardInteractor;
         mKeyguardClockInteractor = keyguardClockInteractor;
         mInWindowLauncherUnlockAnimationManager = inWindowLauncherUnlockAnimationManager;
@@ -285,6 +298,12 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
             mLargeClockFrame = mView.findViewById(R.id.lockscreen_clock_view_large);
             mCurrentWeatherView = mView.findViewById(R.id.weather_container);
             mCustomClockFrame = mView.findViewById(R.id.clock_ls);
+            View kgWidgets = mCustomClockFrame.findViewById(R.id.keyguard_widgets);
+            LockScreenWidgets lsWidgets = mCustomClockFrame.findViewById(R.id.lockscreen_widgets);
+            lsWidgets.setActivityStarter(mActivityStarter);
+            lsWidgets.setConfigurationController(mConfigurationController);
+            lsWidgets.setFlashLightController(mFlashlightController);
+            lsWidgets.setStatusBarStateController(mStatusBarStateController);
         }
 
         if (!mOnlyClock) {
