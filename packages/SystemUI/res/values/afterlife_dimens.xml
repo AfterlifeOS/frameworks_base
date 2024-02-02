@@ -112,6 +112,6 @@
     <dimen name="status_bar_battery_icon_width_landscape_o">22.0dip</dimen>
 
     <!-- Island notification -->
-    <dimen name="island_icon_size">36dp</dimen>
+    <dimen name="island_icon_size">48dp</dimen>
     <dimen name="island_side_margin">12dp</dimen>
 </resources>

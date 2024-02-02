@@ -159,4 +159,8 @@
     <!-- SoundSearch Tile -->
     <string name="quick_settings_sound_search">Sound search</string>
     <string name="quick_settings_sound_search_no_app">Install a sound search app first</string>
+
+    <!-- Island notification -->
+    <string name="now_playing_on">Now Playing on %1$s</string>
+    <string name="by_artist">%1$s by %2$s</string>
 </resources>
