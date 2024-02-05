@@ -583,9 +583,8 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
     }
     
     private void updateCustomClock() {
-        mEnableCustomClock = mSecureSettings.getIntForUser(
-            Settings.Secure.CLOCK_LS, 1,
-                UserHandle.USER_CURRENT) != 0;
+        mEnableCustomClock = mSecureSettings.getInt(
+            Settings.Secure.CLOCK_LS, 0) == 1;
         
         ViewGroup.LayoutParams params = mSmallClockFrame.getLayoutParams();
         ViewGroup.LayoutParams params2 = mLargeClockFrame.getLayoutParams();
