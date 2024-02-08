@@ -16,6 +16,8 @@
 
 package com.android.server.audio;
 
+import static android.media.AudioSystem.isBluetoothDevice;
+
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.content.Context;
@@ -52,7 +54,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -72,11 +73,12 @@ public class SpatializerHelper {
 
     private final @NonNull AudioSystemAdapter mASA;
     private final @NonNull AudioService mAudioService;
+    private final @NonNull AudioDeviceBroker mDeviceBroker;
     private @Nullable SensorManager mSensorManager;
 
     //------------------------------------------------------------
 
-    private static final SparseIntArray SPAT_MODE_FOR_DEVICE_TYPE = new SparseIntArray(15) {
+    /*package*/ static final SparseIntArray SPAT_MODE_FOR_DEVICE_TYPE = new SparseIntArray(15) {
         {
             append(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER, SpatializationMode.SPATIALIZER_TRANSAURAL);
             append(AudioDeviceInfo.TYPE_WIRED_HEADSET, SpatializationMode.SPATIALIZER_BINAURAL);
@@ -98,13 +100,6 @@ public class SpatializerHelper {
         }
     };
 
-    private static final int[] WIRELESS_TYPES = { AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
-            AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
-            AudioDeviceInfo.TYPE_BLE_HEADSET,
-            AudioDeviceInfo.TYPE_BLE_SPEAKER,
-            AudioDeviceInfo.TYPE_BLE_BROADCAST
-    };
-
     // Spatializer state machine
     /*package*/ static final int STATE_UNINITIALIZED = 0;
     /*package*/ static final int STATE_NOT_SUPPORTED = 1;
@@ -118,6 +113,7 @@ public class SpatializerHelper {
     /** current level as reported by native Spatializer in callback */
     private int mSpatLevel = Spatializer.SPATIALIZER_IMMERSIVE_LEVEL_NONE;
     private int mCapableSpatLevel = Spatializer.SPATIALIZER_IMMERSIVE_LEVEL_NONE;
+
     private boolean mTransauralSupported = false;
     private boolean mBinauralSupported = false;
     private boolean mIsHeadTrackingSupported = false;
@@ -149,7 +145,7 @@ public class SpatializerHelper {
             .build();
     // device array to store the routing for the default attributes and format, initialized to
     // an empty list as routing hasn't been established yet
-    private static ArrayList<AudioDeviceAttributes> sRoutingDevices = new ArrayList<>(0);
+    private static final AudioDeviceAttributes[] ROUTING_DEVICES = new AudioDeviceAttributes[1];
 
     //---------------------------------------------------------------
     // audio device compatibility / enabled
@@ -160,31 +156,16 @@ public class SpatializerHelper {
      */
     private final ArrayList<Integer> mSACapableDeviceTypes = new ArrayList<>(0);
 
-    /**
-     * List of devices where Spatial Audio is possible. Each device can be enabled or disabled
-     * (== user choice to use or not)
-     */
-    @GuardedBy("this")
-    private final ArrayList<SADeviceState> mSADevices = new ArrayList<>(0);
-
     //------------------------------------------------------
     // initialization
-    @SuppressWarnings("StaticAssignmentInConstructor")
     SpatializerHelper(@NonNull AudioService mother, @NonNull AudioSystemAdapter asa,
-            boolean binauralEnabledDefault,
-            boolean transauralEnabledDefault,
-            boolean headTrackingEnabledDefault) {
+            @NonNull AudioDeviceBroker deviceBroker) {
         mAudioService = mother;
         mASA = asa;
-        // "StaticAssignmentInConstructor" warning is suppressed as the SpatializerHelper being
-        // constructed here is the factory for SADeviceState, thus SADeviceState and its
-        // private static field sHeadTrackingEnabledDefault should never be accessed directly.
-        SADeviceState.sBinauralEnabledDefault = binauralEnabledDefault;
-        SADeviceState.sTransauralEnabledDefault = transauralEnabledDefault;
-        SADeviceState.sHeadTrackingEnabledDefault = headTrackingEnabledDefault;
+        mDeviceBroker = deviceBroker;
     }
 
-    synchronized void init(boolean effectExpected, @Nullable String settings) {
+    synchronized void init(boolean effectExpected) {
         loglogi("init effectExpected=" + effectExpected);
         if (!effectExpected) {
             loglogi("init(): setting state to STATE_NOT_SUPPORTED due to effect not expected");
@@ -204,7 +185,6 @@ public class SpatializerHelper {
         }
         // capabilities of spatializer?
         resetCapabilities();
-
         try {
             byte[] levels = spat.getSupportedLevels();
             if (levels == null
@@ -223,7 +203,6 @@ public class SpatializerHelper {
                     break;
                 }
             }
-
             // Note: head tracking support must be initialized before spatialization modes as
             // addCompatibleAudioDevice() calls onRoutingUpdated() which will initialize the
             // sensors according to mIsHeadTrackingSupported.
@@ -257,7 +236,6 @@ public class SpatializerHelper {
                 mDesiredHeadTrackingModeWhenEnabled = Spatializer.HEAD_TRACKING_MODE_UNSUPPORTED;
                 mDesiredHeadTrackingMode = Spatializer.HEAD_TRACKING_MODE_UNSUPPORTED;
             }
-
             byte[] spatModes = spat.getSupportedModes();
             for (byte mode : spatModes) {
                 switch (mode) {
@@ -277,7 +255,6 @@ public class SpatializerHelper {
                 mState = STATE_NOT_SUPPORTED;
                 return;
             }
-
             // initialize list of compatible devices
             for (int i = 0; i < SPAT_MODE_FOR_DEVICE_TYPE.size(); i++) {
                 int mode = SPAT_MODE_FOR_DEVICE_TYPE.valueAt(i);
@@ -287,22 +264,26 @@ public class SpatializerHelper {
                     mSACapableDeviceTypes.add(SPAT_MODE_FOR_DEVICE_TYPE.keyAt(i));
                 }
             }
-
-            // When initialized from AudioService, the settings string will be non-null.
-            // Saved settings need to be applied after spatialization support is initialized above.
-            if (settings != null) {
-                setSADeviceSettings(settings);
+            // Log the saved device states that are compatible with SA
+            for (AdiDeviceState deviceState : mDeviceBroker.getImmutableDeviceInventory()) {
+                if (isSADevice(deviceState)) {
+                    logDeviceState(deviceState, "setSADeviceSettings");
+                }
             }
-
             // for both transaural / binaural, we are not forcing enablement as the init() method
             // could have been called another time after boot in case of audioserver restart
-            addCompatibleAudioDevice(
-                    new AudioDeviceAttributes(AudioSystem.DEVICE_OUT_SPEAKER, ""),
-                            false /*forceEnable*/);
-            // not force-enabling as this device might already be in the device list
-            addCompatibleAudioDevice(
-                    new AudioDeviceAttributes(AudioSystem.DEVICE_OUT_WIRED_HEADPHONE, ""),
-                            false /*forceEnable*/);
+            if (mTransauralSupported) {
+                // not force-enabling as this device might already be in the device list
+                addCompatibleAudioDevice(
+                        new AudioDeviceAttributes(AudioSystem.DEVICE_OUT_SPEAKER, ""),
+                                false /*forceEnable*/);
+            }
+            if (mBinauralSupported) {
+                // not force-enabling as this device might already be in the device list
+                addCompatibleAudioDevice(
+                        new AudioDeviceAttributes(AudioSystem.DEVICE_OUT_WIRED_HEADPHONE, ""),
+                                false /*forceEnable*/);
+            }
         } catch (RemoteException e) {
             resetCapabilities();
         } finally {
@@ -317,7 +298,8 @@ public class SpatializerHelper {
             return;
         }
         mState = STATE_DISABLED_UNAVAILABLE;
-        sRoutingDevices = getRoutingDevices(DEFAULT_ATTRIBUTES);
+        mASA.getDevicesForAttributes(
+                DEFAULT_ATTRIBUTES, false /* forVolume */).toArray(ROUTING_DEVICES);
         // note at this point mSpat is still not instantiated
     }
 
@@ -331,7 +313,7 @@ public class SpatializerHelper {
         mState = STATE_UNINITIALIZED;
         mSpatLevel = Spatializer.SPATIALIZER_IMMERSIVE_LEVEL_NONE;
         mActualHeadTrackingMode = Spatializer.HEAD_TRACKING_MODE_UNSUPPORTED;
-        init(true, null /* settings */);
+        init(/*effectExpected=*/true);
         setSpatializerEnabledInt(featureEnabled);
     }
 
@@ -359,46 +341,33 @@ public class SpatializerHelper {
             case STATE_DISABLED_AVAILABLE:
                 break;
         }
-
-        sRoutingDevices = getRoutingDevices(DEFAULT_ATTRIBUTES);
-
-        // check validity of routing information
-        if (sRoutingDevices.isEmpty()) {
-            logloge("onRoutingUpdated: no device, no Spatial Audio");
-            setDispatchAvailableState(false);
-            // not changing the spatializer level as this is likely a transient state
-            return;
-        }
-        final AudioDeviceAttributes currentDevice = sRoutingDevices.get(0);
-
+        mASA.getDevicesForAttributes(
+                DEFAULT_ATTRIBUTES, false /* forVolume */).toArray(ROUTING_DEVICES);
         // is media routed to a new device?
-        if (isWireless(currentDevice.getType())) {
-            addWirelessDeviceIfNew(currentDevice);
+        if (isBluetoothDevice(ROUTING_DEVICES[0].getInternalType())) {
+            addWirelessDeviceIfNew(ROUTING_DEVICES[0]);
         }
-
         // find if media device enabled / available
-        final Pair<Boolean, Boolean> enabledAvailable = evaluateState(currentDevice);
-
+        final Pair<Boolean, Boolean> enabledAvailable = evaluateState(ROUTING_DEVICES[0]);
         boolean able = false;
         if (enabledAvailable.second) {
             // available for Spatial audio, check w/ effect
-            able = canBeSpatializedOnDevice(DEFAULT_ATTRIBUTES, DEFAULT_FORMAT, sRoutingDevices);
+            able = canBeSpatializedOnDevice(DEFAULT_ATTRIBUTES, DEFAULT_FORMAT, ROUTING_DEVICES);
             loglogi("onRoutingUpdated: can spatialize media 5.1:" + able
-                    + " on device:" + currentDevice);
+                    + " on device:" + ROUTING_DEVICES[0]);
             setDispatchAvailableState(able);
         } else {
-            loglogi("onRoutingUpdated: device:" + currentDevice
+            loglogi("onRoutingUpdated: device:" + ROUTING_DEVICES[0]
                     + " not available for Spatial Audio");
             setDispatchAvailableState(false);
         }
-
         boolean enabled = able && enabledAvailable.first;
         if (enabled) {
             loglogi("Enabling Spatial Audio since enabled for media device:"
-                    + currentDevice);
+                    + ROUTING_DEVICES[0]);
         } else {
             loglogi("Disabling Spatial Audio since disabled for media device:"
-                    + currentDevice);
+                    + ROUTING_DEVICES[0]);
         }
         if (mSpat != null) {
             byte level = enabled ? (byte) Spatializer.SPATIALIZER_IMMERSIVE_LEVEL_MULTICHANNEL
@@ -407,15 +376,13 @@ public class SpatializerHelper {
             try {
                 mSpat.setLevel(level);
             } catch (RemoteException e) {
-                Log.e(TAG, "onRoutingUpdated() Can't set spatializer level", e);
-                // try to recover by resetting the native spatializer state
-                postReset();
-                return;
+                Log.e(TAG, "Can't set spatializer level", e);
+                mState = STATE_NOT_SUPPORTED;
+                mCapableSpatLevel = Spatializer.SPATIALIZER_IMMERSIVE_LEVEL_NONE;
+                enabled = false;
             }
         }
-
         setDispatchFeatureEnabledState(enabled, "onRoutingUpdated");
-
         if (mDesiredHeadTrackingMode != Spatializer.HEAD_TRACKING_MODE_UNSUPPORTED
                 && mDesiredHeadTrackingMode != Spatializer.HEAD_TRACKING_MODE_DISABLED) {
             postInitSensors();
@@ -520,8 +487,8 @@ public class SpatializerHelper {
     synchronized @NonNull List<AudioDeviceAttributes> getCompatibleAudioDevices() {
         // build unionOf(mCompatibleAudioDevices, mEnabledDevice) - mDisabledAudioDevices
         ArrayList<AudioDeviceAttributes> compatList = new ArrayList<>();
-        for (SADeviceState deviceState : mSADevices) {
-            if (deviceState.mEnabled) {
+        for (AdiDeviceState deviceState : mDeviceBroker.getImmutableDeviceInventory()) {
+            if (deviceState.isSAEnabled() && isSADevice(deviceState)) {
                 compatList.add(deviceState.getAudioDeviceAttributes());
             }
         }
@@ -544,33 +511,42 @@ public class SpatializerHelper {
     @GuardedBy("this")
     private void addCompatibleAudioDevice(@NonNull AudioDeviceAttributes ada,
             boolean forceEnable) {
-        if (!isDeviceCompatibleWithSpatializationModes(ada)) {
-            return;
-        }
         loglogi("addCompatibleAudioDevice: dev=" + ada);
-        final SADeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
-        SADeviceState deviceUpdated = null; // non-null on update.
+        final AdiDeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
+        initSAState(deviceState);
+        AdiDeviceState updatedDevice = null; // non-null on update.
         if (deviceState != null) {
-            if (forceEnable && !deviceState.mEnabled) {
-                deviceUpdated = deviceState;
-                deviceUpdated.mEnabled = true;
+            if (forceEnable && !deviceState.isSAEnabled()) {
+                updatedDevice = deviceState;
+                updatedDevice.setSAEnabled(true);
             }
         } else {
             // When adding, force the device type to be a canonical one.
-            final int canonicalDeviceType = getCanonicalDeviceType(ada.getType());
+            final int canonicalDeviceType = getCanonicalDeviceType(ada.getType(),
+                    ada.getInternalType());
             if (canonicalDeviceType == AudioDeviceInfo.TYPE_UNKNOWN) {
                 Log.e(TAG, "addCompatibleAudioDevice with incompatible AudioDeviceAttributes "
                         + ada);
                 return;
             }
-            deviceUpdated = new SADeviceState(canonicalDeviceType, ada.getAddress());
-            mSADevices.add(deviceUpdated);
+            updatedDevice = new AdiDeviceState(canonicalDeviceType, ada.getInternalType(),
+                    ada.getAddress());
+            initSAState(updatedDevice);
+            mDeviceBroker.addDeviceStateToInventory(updatedDevice);
         }
-        if (deviceUpdated != null) {
+        if (updatedDevice != null) {
             onRoutingUpdated();
-            mAudioService.persistSpatialAudioDeviceSettings();
-            logDeviceState(deviceUpdated, "addCompatibleAudioDevice");
+            mDeviceBroker.persistAudioDeviceSettings();
+            logDeviceState(updatedDevice, "addCompatibleAudioDevice");
         }
+    }
+
+    private void initSAState(AdiDeviceState device) {
+        if (device == null) {
+            return;
+        }
+        device.setSAEnabled(true);
+        device.setHeadTrackerEnabled(true);
     }
 
     private static final String METRICS_DEVICE_PREFIX = "audio.spatializer.device.";
@@ -580,29 +556,28 @@ public class SpatializerHelper {
     //
     // There may be different devices with the same device type (aliasing).
     // We always send the full device state info on each change.
-    private void logDeviceState(SADeviceState deviceState, String event) {
-        final int deviceType = AudioDeviceInfo.convertDeviceTypeToInternalDevice(
-                deviceState.mDeviceType);
-        final String deviceName = AudioSystem.getDeviceName(deviceType);
+    static void logDeviceState(AdiDeviceState deviceState, String event) {
+        final String deviceName = AudioSystem.getDeviceName(deviceState.getInternalDeviceType());
         new MediaMetrics.Item(METRICS_DEVICE_PREFIX + deviceName)
-            .set(MediaMetrics.Property.ADDRESS, deviceState.mDeviceAddress)
-            .set(MediaMetrics.Property.ENABLED, deviceState.mEnabled ? "true" : "false")
-            .set(MediaMetrics.Property.EVENT, TextUtils.emptyIfNull(event))
-            .set(MediaMetrics.Property.HAS_HEAD_TRACKER,
-                    deviceState.mHasHeadTracker ? "true" : "false") // this may be updated later.
-            .set(MediaMetrics.Property.HEAD_TRACKER_ENABLED,
-                    deviceState.mHeadTrackerEnabled ? "true" : "false")
-            .record();
+                .set(MediaMetrics.Property.ADDRESS, deviceState.getDeviceAddress())
+                .set(MediaMetrics.Property.ENABLED, deviceState.isSAEnabled() ? "true" : "false")
+                .set(MediaMetrics.Property.EVENT, TextUtils.emptyIfNull(event))
+                .set(MediaMetrics.Property.HAS_HEAD_TRACKER,
+                        deviceState.hasHeadTracker() ? "true"
+                                : "false") // this may be updated later.
+                .set(MediaMetrics.Property.HEAD_TRACKER_ENABLED,
+                        deviceState.isHeadTrackerEnabled() ? "true" : "false")
+                .record();
     }
 
     synchronized void removeCompatibleAudioDevice(@NonNull AudioDeviceAttributes ada) {
         loglogi("removeCompatibleAudioDevice: dev=" + ada);
 
-        final SADeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
-        if (deviceState != null && deviceState.mEnabled) {
-            deviceState.mEnabled = false;
+        final AdiDeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
+        if (deviceState != null && deviceState.isSAEnabled()) {
+            deviceState.setSAEnabled(false);
             onRoutingUpdated();
-            mAudioService.persistSpatialAudioDeviceSettings();
+            mDeviceBroker.persistAudioDeviceSettings();
             logDeviceState(deviceState, "removeCompatibleAudioDevice");
         }
     }
@@ -611,8 +586,9 @@ public class SpatializerHelper {
      * Returns a possibly aliased device type which is used
      * for spatial audio settings (or TYPE_UNKNOWN  if it doesn't exist).
      */
-    private static @AudioDeviceInfo.AudioDeviceType int getCanonicalDeviceType(int deviceType) {
-        if (isWireless(deviceType)) return deviceType;
+    @AudioDeviceInfo.AudioDeviceType
+    private static int getCanonicalDeviceType(int deviceType, int internalDeviceType) {
+        if (isBluetoothDevice(internalDeviceType)) return deviceType;
 
         final int spatMode = SPAT_MODE_FOR_DEVICE_TYPE.get(deviceType, Integer.MIN_VALUE);
         if (spatMode == SpatializationMode.SPATIALIZER_TRANSAURAL) {
@@ -627,20 +603,10 @@ public class SpatializerHelper {
      * Returns the Spatial Audio device state for an audio device attributes
      * or null if it does not exist.
      */
-    @GuardedBy("this")
     @Nullable
-    private SADeviceState findDeviceStateForAudioDeviceAttributes(AudioDeviceAttributes ada) {
-        final int deviceType = ada.getType();
-        final boolean isWireless = isWireless(deviceType);
-        final int canonicalDeviceType = getCanonicalDeviceType(deviceType);
-
-        for (SADeviceState deviceState : mSADevices) {
-            if (deviceState.mDeviceType == canonicalDeviceType
-                    && (!isWireless || ada.getAddress().equals(deviceState.mDeviceAddress))) {
-                return deviceState;
-            }
-        }
-        return null;
+    private AdiDeviceState findDeviceStateForAudioDeviceAttributes(AudioDeviceAttributes ada) {
+        return mDeviceBroker.findDeviceStateForAudioDeviceAttributes(ada,
+                getCanonicalDeviceType(ada.getType(), ada.getInternalType()));
     }
 
     /**
@@ -649,27 +615,53 @@ public class SpatializerHelper {
      * @return a pair of boolean, 1/ enabled? 2/ available?
      */
     private synchronized Pair<Boolean, Boolean> evaluateState(AudioDeviceAttributes ada) {
-        final @AudioDeviceInfo.AudioDeviceType int deviceType = ada.getType();
-        // is the device type capable of doing SA?
-        if (!mSACapableDeviceTypes.contains(deviceType)) {
-            Log.i(TAG, "Device incompatible with Spatial Audio dev:" + ada);
-            return new Pair<>(false, false);
+        // if not a wireless device, this value will be overwritten to map the type
+        // to TYPE_BUILTIN_SPEAKER or TYPE_WIRED_HEADPHONES
+        @AudioDeviceInfo.AudioDeviceType int deviceType = ada.getType();
+        final boolean wireless = isBluetoothDevice(ada.getInternalType());
+
+        // if not a wireless device: find if media device is in the speaker, wired headphones
+        if (!wireless) {
+            // is the device type capable of doing SA?
+            if (!mSACapableDeviceTypes.contains(deviceType)) {
+                Log.i(TAG, "Device incompatible with Spatial Audio dev:" + ada);
+                return new Pair<>(false, false);
+            }
+            // what spatialization mode to use for this device?
+            final int spatMode = SPAT_MODE_FOR_DEVICE_TYPE.get(deviceType, Integer.MIN_VALUE);
+            if (spatMode == Integer.MIN_VALUE) {
+                // error case, device not found
+                Log.e(TAG, "no spatialization mode found for device type:" + deviceType);
+                return new Pair<>(false, false);
+            }
+            // map the spatialization mode to the SPEAKER or HEADPHONES device
+            if (spatMode == SpatializationMode.SPATIALIZER_TRANSAURAL) {
+                deviceType = AudioDeviceInfo.TYPE_BUILTIN_SPEAKER;
+            } else {
+                deviceType = AudioDeviceInfo.TYPE_WIRED_HEADPHONES;
+            }
+        } else { // wireless device
+            if (ada.getInternalType() == AudioSystem.DEVICE_OUT_BLE_SPEAKER
+                    && !mTransauralSupported) {
+                Log.i(TAG, "Device incompatible with Spatial Audio (no transaural) dev:"
+                        + ada);
+                return new Pair<>(false, false);
+            }
+            if (!mBinauralSupported) {
+                Log.i(TAG, "Device incompatible with Spatial Audio (no binaural) dev:"
+                        + ada);
+                return new Pair<>(false, false);
+            }
         }
-        // what spatialization mode to use for this device?
-        final int spatMode = SPAT_MODE_FOR_DEVICE_TYPE.get(deviceType, Integer.MIN_VALUE);
-        if (spatMode == Integer.MIN_VALUE) {
-            // error case, device not found
-            Log.e(TAG, "no spatialization mode found for device type:" + deviceType);
-            return new Pair<>(false, false);
-        }
-        final SADeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
+
+        final AdiDeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
         if (deviceState == null) {
             // no matching device state?
             Log.i(TAG, "no spatialization device state found for Spatial Audio device:" + ada);
             return new Pair<>(false, false);
         }
         // found the matching device state.
-        return new Pair<>(deviceState.mEnabled, true /* available */);
+        return new Pair<>(deviceState.isSAEnabled(), true);
     }
 
     private synchronized void addWirelessDeviceIfNew(@NonNull AudioDeviceAttributes ada) {
@@ -678,16 +670,19 @@ public class SpatializerHelper {
         }
         if (findDeviceStateForAudioDeviceAttributes(ada) == null) {
             // wireless device types should be canonical, but we translate to be sure.
-            final int canonicalDeviceType = getCanonicalDeviceType((ada.getType()));
+            final int canonicalDeviceType = getCanonicalDeviceType(ada.getType(),
+                    ada.getInternalType());
             if (canonicalDeviceType == AudioDeviceInfo.TYPE_UNKNOWN) {
                 Log.e(TAG, "addWirelessDeviceIfNew with incompatible AudioDeviceAttributes "
                         + ada);
                 return;
             }
-            final SADeviceState deviceState =
-                    new SADeviceState(canonicalDeviceType, ada.getAddress());
-            mSADevices.add(deviceState);
-            mAudioService.persistSpatialAudioDeviceSettings();
+            final AdiDeviceState deviceState =
+                    new AdiDeviceState(canonicalDeviceType, ada.getInternalType(),
+                            ada.getAddress());
+            initSAState(deviceState);
+            mDeviceBroker.addDeviceStateToInventory(deviceState);
+            mDeviceBroker.persistAudioDeviceSettings();
             logDeviceState(deviceState, "addWirelessDeviceIfNew"); // may be updated later.
         }
     }
@@ -731,15 +726,21 @@ public class SpatializerHelper {
     }
 
     private synchronized boolean canBeSpatializedOnDevice(@NonNull AudioAttributes attributes,
-            @NonNull AudioFormat format, @NonNull ArrayList<AudioDeviceAttributes> devices) {
-        if (devices.isEmpty()) {
-            return false;
-        }
-        if (isDeviceCompatibleWithSpatializationModes(devices.get(0))) {
-            AudioDeviceAttributes[] devArray = new AudioDeviceAttributes[devices.size()];
-            return AudioSystem.canBeSpatialized(attributes, format, devices.toArray(devArray));
+            @NonNull AudioFormat format, @NonNull AudioDeviceAttributes[] devices) {
+        final byte modeForDevice = (byte) SPAT_MODE_FOR_DEVICE_TYPE.get(devices[0].getType(),
+                /*default when type not found*/ SpatializationMode.SPATIALIZER_BINAURAL);
+        if ((modeForDevice == SpatializationMode.SPATIALIZER_BINAURAL && mBinauralSupported)
+                || (modeForDevice == SpatializationMode.SPATIALIZER_TRANSAURAL
+                        && mTransauralSupported)) {
+            return AudioSystem.canBeSpatialized(attributes, format, devices);
         }
         return false;
+    }
+
+    private boolean isSADevice(AdiDeviceState deviceState) {
+        return deviceState.getDeviceType() == getCanonicalDeviceType(deviceState.getDeviceType(),
+                deviceState.getInternalDeviceType()) && isDeviceCompatibleWithSpatializationModes(
+                deviceState.getAudioDeviceAttributes());
     }
 
     private boolean isDeviceCompatibleWithSpatializationModes(@NonNull AudioDeviceAttributes ada) {
@@ -747,10 +748,10 @@ public class SpatializerHelper {
         // spatial audio. For instance mono devices like earpiece, speaker safe or sco must
         // not be included.
         final byte modeForDevice = (byte) SPAT_MODE_FOR_DEVICE_TYPE.get(ada.getType(),
-                /*default when type not found*/ -1);
+            /*default when type not found*/ -1);
         if ((modeForDevice == SpatializationMode.SPATIALIZER_BINAURAL && mBinauralSupported)
                 || (modeForDevice == SpatializationMode.SPATIALIZER_TRANSAURAL
-                        && mTransauralSupported)) {
+                    && mTransauralSupported)) {
             return true;
         }
         return false;
@@ -768,7 +769,7 @@ public class SpatializerHelper {
                 return;
             }
             if (mState == STATE_UNINITIALIZED) {
-                init(true, null /* settings */);
+                init(true);
             }
             setSpatializerEnabledInt(true);
         } else {
@@ -1010,7 +1011,6 @@ public class SpatializerHelper {
             case STATE_ENABLED_AVAILABLE:
                 break;
         }
-
         // filter on AudioAttributes usage
         switch (attributes.getUsage()) {
             case AudioAttributes.USAGE_MEDIA:
@@ -1020,13 +1020,10 @@ public class SpatializerHelper {
                 logd("canBeSpatialized false due to usage:" + attributes.getUsage());
                 return false;
         }
-
+        AudioDeviceAttributes[] devices = new AudioDeviceAttributes[1];
         // going through adapter to take advantage of routing cache
-        final ArrayList<AudioDeviceAttributes> devices = getRoutingDevices(attributes);
-        if (devices.isEmpty()) {
-            logloge("canBeSpatialized got no device for " + attributes);
-            return false;
-        }
+        mASA.getDevicesForAttributes(
+                attributes, false /* forVolume */).toArray(devices);
         final boolean able = canBeSpatializedOnDevice(attributes, format, devices);
         logd("canBeSpatialized usage:" + attributes.getUsage()
                 + " format:" + format.toLogFriendlyString() + " returning " + able);
@@ -1144,31 +1141,22 @@ public class SpatializerHelper {
             Log.v(TAG, "no headtracking support, ignoring setHeadTrackerEnabled to " + enabled
                     + " for " + ada);
         }
-        final SADeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
+        final AdiDeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
         if (deviceState == null) return;
-        if (!deviceState.mHasHeadTracker) {
+        if (!deviceState.hasHeadTracker()) {
             Log.e(TAG, "Called setHeadTrackerEnabled enabled:" + enabled
                     + " device:" + ada + " on a device without headtracker");
             return;
         }
         Log.i(TAG, "setHeadTrackerEnabled enabled:" + enabled + " device:" + ada);
-        deviceState.mHeadTrackerEnabled = enabled;
-        mAudioService.persistSpatialAudioDeviceSettings();
+        deviceState.setHeadTrackerEnabled(enabled);
+        mDeviceBroker.persistAudioDeviceSettings();
         logDeviceState(deviceState, "setHeadTrackerEnabled");
-
         // check current routing to see if it affects the headtracking mode
-        if (sRoutingDevices.isEmpty()) {
-            logloge("setHeadTrackerEnabled: no device, bailing");
-            return;
-        }
-        final AudioDeviceAttributes currentDevice = sRoutingDevices.get(0);
-        if (currentDevice.getType() == ada.getType()
-                && currentDevice.getAddress().equals(ada.getAddress())) {
+        if (ROUTING_DEVICES[0].getType() == ada.getType()
+                && ROUTING_DEVICES[0].getAddress().equals(ada.getAddress())) {
             setDesiredHeadTrackingMode(enabled ? mDesiredHeadTrackingModeWhenEnabled
                     : Spatializer.HEAD_TRACKING_MODE_DISABLED);
-            if (enabled && !mHeadTrackerAvailable) {
-                postInitSensors();
-            }
         }
     }
 
@@ -1177,8 +1165,8 @@ public class SpatializerHelper {
             Log.v(TAG, "no headtracking support, hasHeadTracker always false for " + ada);
             return false;
         }
-        final SADeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
-        return deviceState != null && deviceState.mHasHeadTracker;
+        final AdiDeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
+        return deviceState != null && deviceState.hasHeadTracker();
     }
 
     /**
@@ -1191,14 +1179,14 @@ public class SpatializerHelper {
             Log.v(TAG, "no headtracking support, setHasHeadTracker always false for " + ada);
             return false;
         }
-        final SADeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
+        final AdiDeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
         if (deviceState != null) {
-            if (!deviceState.mHasHeadTracker) {
-                deviceState.mHasHeadTracker = true;
-                mAudioService.persistSpatialAudioDeviceSettings();
+            if (!deviceState.hasHeadTracker()) {
+                deviceState.setHasHeadTracker(true);
+                mDeviceBroker.persistAudioDeviceSettings();
                 logDeviceState(deviceState, "setHasHeadTracker");
             }
-            return deviceState.mHeadTrackerEnabled;
+            return deviceState.isHeadTrackerEnabled();
         }
         Log.e(TAG, "setHasHeadTracker: device not found for:" + ada);
         return false;
@@ -1209,9 +1197,9 @@ public class SpatializerHelper {
             Log.v(TAG, "no headtracking support, isHeadTrackerEnabled always false for " + ada);
             return false;
         }
-        final SADeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
+        final AdiDeviceState deviceState = findDeviceStateForAudioDeviceAttributes(ada);
         return deviceState != null
-                && deviceState.mHasHeadTracker && deviceState.mHeadTrackerEnabled;
+                && deviceState.hasHeadTracker() && deviceState.isHeadTrackerEnabled();
     }
 
     synchronized boolean isHeadTrackerAvailable() {
@@ -1550,144 +1538,6 @@ public class SpatializerHelper {
         pw.println("\tsupports binaural:" + mBinauralSupported + " / transaural:"
                 + mTransauralSupported);
         pw.println("\tmSpatOutput:" + mSpatOutput);
-        pw.println("\tdevices:");
-        for (SADeviceState device : mSADevices) {
-            pw.println("\t\t" + device);
-        }
-    }
-
-    /*package*/ static final class SADeviceState {
-        private static boolean sBinauralEnabledDefault = true;
-        private static boolean sTransauralEnabledDefault = true;
-        private static boolean sHeadTrackingEnabledDefault = false;
-        final @AudioDeviceInfo.AudioDeviceType int mDeviceType;
-        final @NonNull String mDeviceAddress;
-        boolean mEnabled;
-        boolean mHasHeadTracker = false;
-        boolean mHeadTrackerEnabled;
-        static final String SETTING_FIELD_SEPARATOR = ",";
-        static final String SETTING_DEVICE_SEPARATOR_CHAR = "|";
-        static final String SETTING_DEVICE_SEPARATOR = "\\|";
-
-        /**
-         * Constructor
-         * @param deviceType
-         * @param address must be non-null for wireless devices
-         * @throws NullPointerException if a null address is passed for a wireless device
-         */
-        SADeviceState(@AudioDeviceInfo.AudioDeviceType int deviceType, @Nullable String address) {
-            mDeviceType = deviceType;
-            mDeviceAddress = isWireless(deviceType) ? Objects.requireNonNull(address) : "";
-            final int spatMode = SPAT_MODE_FOR_DEVICE_TYPE.get(deviceType, Integer.MIN_VALUE);
-            mEnabled = spatMode == SpatializationMode.SPATIALIZER_BINAURAL
-                    ? sBinauralEnabledDefault
-                    : spatMode == SpatializationMode.SPATIALIZER_TRANSAURAL
-                            ? sTransauralEnabledDefault
-                            : false;
-            mHeadTrackerEnabled = sHeadTrackingEnabledDefault;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            // type check and cast
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final SADeviceState sads = (SADeviceState) obj;
-            return mDeviceType == sads.mDeviceType
-                    && mDeviceAddress.equals(sads.mDeviceAddress)
-                    && mEnabled == sads.mEnabled
-                    && mHasHeadTracker == sads.mHasHeadTracker
-                    && mHeadTrackerEnabled == sads.mHeadTrackerEnabled;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(mDeviceType, mDeviceAddress, mEnabled, mHasHeadTracker,
-                    mHeadTrackerEnabled);
-        }
-
-        @Override
-        public String toString() {
-            return "type: " + mDeviceType + " addr: " + mDeviceAddress + " enabled: " + mEnabled
-                    + " HT: " + mHasHeadTracker + " HTenabled: " + mHeadTrackerEnabled;
-        }
-
-        String toPersistableString() {
-            return (new StringBuilder().append(mDeviceType)
-                    .append(SETTING_FIELD_SEPARATOR).append(mDeviceAddress)
-                    .append(SETTING_FIELD_SEPARATOR).append(mEnabled ? "1" : "0")
-                    .append(SETTING_FIELD_SEPARATOR).append(mHasHeadTracker ? "1" : "0")
-                    .append(SETTING_FIELD_SEPARATOR).append(mHeadTrackerEnabled ? "1" : "0")
-                    .toString());
-        }
-
-        static @Nullable SADeviceState fromPersistedString(@Nullable String persistedString) {
-            if (persistedString == null) {
-                return null;
-            }
-            if (persistedString.isEmpty()) {
-                return null;
-            }
-            String[] fields = TextUtils.split(persistedString, SETTING_FIELD_SEPARATOR);
-            if (fields.length != 5) {
-                // expecting all fields, fewer may mean corruption, ignore those settings
-                return null;
-            }
-            try {
-                final int deviceType = Integer.parseInt(fields[0]);
-                final SADeviceState deviceState = new SADeviceState(deviceType, fields[1]);
-                deviceState.mEnabled = Integer.parseInt(fields[2]) == 1;
-                deviceState.mHasHeadTracker = Integer.parseInt(fields[3]) == 1;
-                deviceState.mHeadTrackerEnabled = Integer.parseInt(fields[4]) == 1;
-                return deviceState;
-            } catch (NumberFormatException e) {
-                Log.e(TAG, "unable to parse setting for SADeviceState: " + persistedString, e);
-                return null;
-            }
-        }
-
-        public AudioDeviceAttributes getAudioDeviceAttributes() {
-            return new AudioDeviceAttributes(AudioDeviceAttributes.ROLE_OUTPUT,
-                    mDeviceType, mDeviceAddress == null ? "" : mDeviceAddress);
-        }
-
-    }
-
-    /*package*/ synchronized String getSADeviceSettings() {
-        // expected max size of each String for each SADeviceState is 25 (accounting for separator)
-        final StringBuilder settingsBuilder = new StringBuilder(mSADevices.size() * 25);
-        for (int i = 0; i < mSADevices.size(); i++) {
-            settingsBuilder.append(mSADevices.get(i).toPersistableString());
-            if (i != mSADevices.size() - 1) {
-                settingsBuilder.append(SADeviceState.SETTING_DEVICE_SEPARATOR_CHAR);
-            }
-        }
-        return settingsBuilder.toString();
-    }
-
-    /*package*/ synchronized void setSADeviceSettings(@NonNull String persistedSettings) {
-        String[] devSettings = TextUtils.split(Objects.requireNonNull(persistedSettings),
-                SADeviceState.SETTING_DEVICE_SEPARATOR);
-        // small list, not worth overhead of Arrays.stream(devSettings)
-        for (String setting : devSettings) {
-            SADeviceState devState = SADeviceState.fromPersistedString(setting);
-            // Note if the device is not compatible with spatialization mode
-            // or the device type is not canonical, it is ignored.
-            if (devState != null
-                    && devState.mDeviceType == getCanonicalDeviceType(devState.mDeviceType)
-                    && isDeviceCompatibleWithSpatializationModes(
-                            devState.getAudioDeviceAttributes())) {
-                mSADevices.add(devState);
-                logDeviceState(devState, "setSADeviceSettings");
-            }
-        }
     }
 
     private static String spatStateString(int state) {
@@ -1709,23 +1559,9 @@ public class SpatializerHelper {
         }
     }
 
-    private static boolean isWireless(@AudioDeviceInfo.AudioDeviceType int deviceType) {
-        for (int type : WIRELESS_TYPES) {
-            if (type == deviceType) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private int getHeadSensorHandleUpdateTracker() {
         int headHandle = -1;
-        if (sRoutingDevices.isEmpty()) {
-            logloge("getHeadSensorHandleUpdateTracker: no device, no head tracker");
-            return headHandle;
-        }
-        final AudioDeviceAttributes currentDevice = sRoutingDevices.get(0);
-        UUID routingDeviceUuid = mAudioService.getDeviceSensorUuid(currentDevice);
+        UUID routingDeviceUuid = mAudioService.getDeviceSensorUuid(ROUTING_DEVICES[0]);
         // We limit only to Sensor.TYPE_HEAD_TRACKER here to avoid confusion
         // with gaming sensors. (Note that Sensor.TYPE_ROTATION_VECTOR
         // and Sensor.TYPE_GAME_ROTATION_VECTOR are supported internally by
@@ -1736,7 +1572,7 @@ public class SpatializerHelper {
             final UUID uuid = sensor.getUuid();
             if (uuid.equals(routingDeviceUuid)) {
                 headHandle = sensor.getHandle();
-                if (!setHasHeadTracker(currentDevice)) {
+                if (!setHasHeadTracker(ROUTING_DEVICES[0])) {
                     headHandle = -1;
                 }
                 break;
@@ -1783,21 +1619,5 @@ public class SpatializerHelper {
     private static String logloge(String msg) {
         AudioService.sSpatialLogger.loglog(msg, AudioEventLogger.Event.ALOGE, TAG);
         return msg;
-    }
-
-    //------------------------------------------------
-    // for testing purposes only
-
-    /*package*/ void clearSADevices() {
-        mSADevices.clear();
-    }
-
-    /*package*/ synchronized void forceStateForTest(int state) {
-        mState = state;
-    }
-
-    /*package*/ synchronized void initForTest(boolean hasBinaural, boolean hasTransaural) {
-        mBinauralSupported = hasBinaural;
-        mTransauralSupported = hasTransaural;
     }
 }
