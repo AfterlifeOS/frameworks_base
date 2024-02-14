@@ -88,7 +88,7 @@
                     android:layout_height="1dp"
                     android:layout_width="1dp" />
 
-                <FrameLayout
+                <com.android.systemui.animation.view.LaunchableFrameLayout
                     android:id="@+id/settings_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                         android:background="@drawable/ripple_drawable_20dp"
                         android:tint="?androidprv:attr/colorAccent"
                         android:soundEffectsEnabled="false" />
-                </FrameLayout>
+                </com.android.systemui.animation.view.LaunchableFrameLayout>
 
                 <View
                     android:layout_height="2dp"
