@@ -220,10 +220,10 @@ public class PixelPropsUtils {
                 dlog("Spoofing build for GMS");
                 // Alter model name and fingerprint to Redmi Go to avoid hardware attestation enforcement
                 // Alter build parameters to Nexus 6P for avoiding hardware attestation enforcement
-                setPropValue("DEVICE", "bullhead");
-                setPropValue("FINGERPRINT", "google/bullhead/bullhead:8.0.0/OPR6.170623.013/4283548:user/release-keys");
-                setPropValue("MODEL", "Nexus 5X");
-                setPropValue("PRODUCT", "bullhead");
+                setPropValue("DEVICE", "HS6735MT");
+                setPropValue("FINGERPRINT", "Hisense/F30/HS6735MT:6.0/MRA58K/L1228.6.01.01:user/release-keys");
+                setPropValue("MODEL", "Hisense F30");
+                setPropValue("PRODUCT", "F30");
                 setVersionField("DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.N);
                 return true;
             }
