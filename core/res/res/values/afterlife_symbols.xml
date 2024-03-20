@@ -43,6 +43,11 @@
     <!-- For dynamic default font styles -->
     <java-symbol type="string" name="config_bodyFontFamily" />
 
+    <!-- StatusBarUtils default values -->
+    <java-symbol type="dimen" name="status_bar_padding_start" />
+    <java-symbol type="dimen" name="status_bar_padding_end" />
+    <java-symbol type="dimen" name="status_bar_padding_top" />
+
     <!-- Immersive UI mode toast messages -->
     <java-symbol type="string" name="immersive_ui_mode_notify_locked" />
 
