@@ -47,7 +47,7 @@ import com.android.systemui.qs.QSHost;
 import com.android.systemui.qs.QsEventLogger;
 import com.android.systemui.qs.logging.QSLogger;
 import com.android.systemui.qs.tileimpl.QSTileImpl;
-import com.android.systemui.qs.SettingObserver;
+import com.android.systemui.qs.UserSettingObserver;
 import com.android.systemui.settings.UserTracker;
 import com.android.systemui.util.settings.SecureSettings;
 
@@ -62,7 +62,7 @@ public class VPNTetheringTile extends QSTileImpl<BooleanState> {
     private static final Intent TETHER_SETTINGS = new Intent().setComponent(new ComponentName(
             "com.android.settings", "com.android.settings.TetherSettings"));
 
-    private final SettingObserver mSetting;
+    private final UserSettingObserver mSetting;
 
     @Inject
     public VPNTetheringTile(
@@ -81,7 +81,7 @@ public class VPNTetheringTile extends QSTileImpl<BooleanState> {
         super(host, uiEventLogger, backgroundLooper, mainHandler, falsingManager, metricsLogger,
                 statusBarStateController, activityStarter, qsLogger);
 
-        mSetting = new SettingObserver(secureSettings, mHandler, Secure.TETHERING_ALLOW_VPN_UPSTREAMS,
+        mSetting = new UserSettingObserver(secureSettings, mHandler, Settings.Secure.TETHERING_ALLOW_VPN_UPSTREAMS,
                 userTracker.getUserId(), 0) {
             @Override
             protected void handleValueChanged(int value, boolean observedChange) {
