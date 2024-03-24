@@ -70,8 +70,8 @@ void AnimatorManager::setAnimationHandle(AnimationHandle* handle) {
 void AnimatorManager::pushStaging() {
     if (mNewAnimators.size()) {
         if (CC_UNLIKELY(!mAnimationHandle)) {
-            ALOGW("Trying to start new animators on %p (%s) without an animation handle!", &mParent,
-                  mParent.getName());
+            //ALOGW("Trying to start new animators on %p (%s) without an animation handle!", &mParent,
+                  //mParent.getName());
             return;
         }
 
