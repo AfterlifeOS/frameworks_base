@@ -190,6 +190,7 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
     private DynamicScheme mDynamicSchemeDark;
     private DynamicScheme mDynamicSchemeLight;
     private final TunerService mTunerService;
+    private final AfterlifeThemeController mThemeController;
 
     // Defers changing themes until Setup Wizard is done.
     private boolean mDeferredThemeEvaluation;
@@ -480,6 +481,7 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
         mTunerService = tunerService;
         mActivityManager = activityManager;
         dumpManager.registerDumpable(TAG, this);
+        mThemeController = new AfterlifeThemeController(mContext.getContentResolver(), mBgHandler);
     }
 
     @Override
