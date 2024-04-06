@@ -642,15 +642,24 @@ final class MediaRoute2ProviderServiceProxy extends MediaRoute2Provider
 
         @Override
         public void notifyProviderUpdated(MediaRoute2ProviderInfo providerInfo) {
+            if (providerInfo == null || providerInfo.getRoutes() == null) {
+                // Log a warning or handle the situation where providerInfo or its routes are null
+                Log.w(TAG, "ProviderInfo or routes are null");
+                return;
+            }
             for (MediaRoute2Info route : providerInfo.getRoutes()) {
+                if (route == null) {
+                    // Log a warning or handle the situation where a route is null
+                    Log.w(TAG, "Encountered a null route in providerInfo");
+                    continue;
+                }
                 if (route.isSystemRoute()) {
                     throw new SecurityException(
-                            "Only the system is allowed to publish system routes. "
-                                    + "Disallowed route: "
-                                    + route);
+                        "Only the system is allowed to publish system routes. "
+                        + "Disallowed route: "
+                        + route);
                 }
             }
-
             Connection connection = mConnectionRef.get();
             if (connection != null) {
                 connection.postProviderUpdated(providerInfo);
