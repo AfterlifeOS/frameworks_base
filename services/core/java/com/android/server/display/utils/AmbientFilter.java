@@ -55,7 +55,9 @@ abstract public class AmbientFilter {
      *      - horizon is not positive.
      */
     AmbientFilter(String tag, int horizon) {
-        validateArguments(horizon);
+        if (horizon <= 0) {
+            throw new IllegalArgumentException("horizon must be positive");
+        }
         mTag = tag;
         mLoggingEnabled = false;
         mHorizon = horizon;
