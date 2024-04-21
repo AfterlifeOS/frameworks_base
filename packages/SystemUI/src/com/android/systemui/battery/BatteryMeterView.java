@@ -1351,9 +1351,23 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver ,Tune
                     (int) (batteryWidth * iconScaleFactor), (int) (batteryHeight * iconScaleFactor));
                 scaledLayoutParams.setMargins(0, 0, 0, defaultMarginBottom);
                 mBatteryIconView.setLayoutParams(scaledLayoutParams);
-            } else if (mBatteryStyle == BATTERY_STYLE_CIRCLE || mBatteryStyle == BATTERY_STYLE_DOTTED_CIRCLE || mBatteryStyle == BATTERY_STYLE_FULL_CIRCLE || mBatteryStyle == BATTERY_STYLE_BIG_CIRCLE || mBatteryStyle == BATTERY_STYLE_BIG_DOTTED_CIRCLE) {
-                int batteryWidth = res.getDimensionPixelSize(R.dimen.status_bar_battery_icon_circle_width);
+            } else if (mBatteryStyle == BATTERY_STYLE_CIRCLE || mBatteryStyle == BATTERY_STYLE_DOTTED_CIRCLE || mBatteryStyle == BATTERY_STYLE_FULL_CIRCLE) {
+                int batteryWidth = res.getDimensionPixelSize(R.dimen.status_bar_battery_icon_big_circle_width);
                 int batteryHeight = res.getDimensionPixelSize(R.dimen.status_bar_battery_icon_height);
+                LinearLayout.LayoutParams scaledLayoutParams = new LinearLayout.LayoutParams(
+                    (int) (batteryWidth * iconScaleFactor), (int) (batteryHeight * iconScaleFactor));
+                scaledLayoutParams.setMargins(0, 0, 0, defaultMarginBottom);
+                mBatteryIconView.setLayoutParams(scaledLayoutParams);
+            } else if (mBatteryStyle == BATTERY_STYLE_BIG_CIRCLE || mBatteryStyle == BATTERY_STYLE_BIG_DOTTED_CIRCLE) {
+                int batteryWidth = res.getDimensionPixelSize(R.dimen.status_bar_battery_icon_big_circle_width);
+                int batteryHeight = res.getDimensionPixelSize(R.dimen.status_bar_battery_icon_big_circle_width);
+                LinearLayout.LayoutParams scaledLayoutParams = new LinearLayout.LayoutParams(
+                    (int) (batteryWidth * iconScaleFactor), (int) (batteryHeight * iconScaleFactor));
+                scaledLayoutParams.setMargins(0, 0, 0, defaultMarginBottom);
+                mBatteryIconView.setLayoutParams(scaledLayoutParams);
+            }  else if (mBatteryStyle == BATTERY_STYLE_LANDSCAPE || mBatteryStyle == BATTERY_STYLE_RLANDSCAPE) {
+                int batteryWidth = res.getDimensionPixelSize(R.dimen.status_bar_battery_icon_width_landscape);
+                int batteryHeight = res.getDimensionPixelSize(R.dimen.status_bar_battery_icon_height_landscape);
                 LinearLayout.LayoutParams scaledLayoutParams = new LinearLayout.LayoutParams(
                     (int) (batteryWidth * iconScaleFactor), (int) (batteryHeight * iconScaleFactor));
                 scaledLayoutParams.setMargins(0, 0, 0, defaultMarginBottom);
