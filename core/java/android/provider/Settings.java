@@ -6618,6 +6618,12 @@ public final class Settings {
         public static final String STATUS_BAR_LOGO_POSITION = "status_bar_logo_position";
 
         /**
+         * Whether to turn on Bluetooth automatically when showing the Bluetooth dialog
+         * @hide
+         */
+        public static final String QS_BT_AUTO_ON = "qs_bt_auto_on";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
