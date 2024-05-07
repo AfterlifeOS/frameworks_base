@@ -151,7 +151,7 @@ open class QSTileViewImpl @JvmOverloads constructor(
     protected var showRippleEffect = true
 
     private lateinit var ripple: RippleDrawable
-    private lateinit var backgroundDrawable: LayerDrawable
+    private lateinit var backgroundDrawable: Drawable
     private lateinit var backgroundBaseDrawable: Drawable
     private lateinit var backgroundOverlayDrawable: Drawable
 
@@ -383,13 +383,18 @@ open class QSTileViewImpl @JvmOverloads constructor(
     }
 
     fun createTileBackground(): Drawable {
-        ripple = mContext.getDrawable(if (isRoundQS()) R.drawable.qs_tile_background_no_mask else R.drawable.qs_tile_background)!!.mutate() as RippleDrawable
-        backgroundDrawable = ripple.findDrawableByLayerId(R.id.background) as LayerDrawable
-        backgroundBaseDrawable =
-            backgroundDrawable.findDrawableByLayerId(R.id.qs_tile_background_base)
-        backgroundOverlayDrawable =
-            backgroundDrawable.findDrawableByLayerId(R.id.qs_tile_background_overlay)
-        backgroundOverlayDrawable.mutate().setTintMode(PorterDuff.Mode.SRC)
+        if (isRoundQS()) {
+            ripple = mContext.getDrawable(R.drawable.qs_tile_background_no_mask) as RippleDrawable
+            backgroundDrawable = ripple.findDrawableByLayerId(R.id.background) as GradientDrawable
+        } else {
+            ripple = mContext.getDrawable(R.drawable.qs_tile_background) as RippleDrawable
+            backgroundDrawable = ripple.findDrawableByLayerId(R.id.background) as LayerDrawable
+            backgroundBaseDrawable =
+                (backgroundDrawable as LayerDrawable).findDrawableByLayerId(R.id.qs_tile_background_base)
+            backgroundOverlayDrawable =
+                (backgroundDrawable as LayerDrawable).findDrawableByLayerId(R.id.qs_tile_background_overlay)
+            backgroundOverlayDrawable.mutate().setTintMode(PorterDuff.Mode.SRC)
+        }
         return ripple
     }
 
@@ -655,10 +660,12 @@ open class QSTileViewImpl @JvmOverloads constructor(
                     state.disabledByPolicy,
                     getBackgroundColorForState(state.state, state.disabledByPolicy))
             if (allowAnimations) {
-                shapeAnimator.setFloatValues(
-                    (backgroundDrawable as GradientDrawable).cornerRadius,
-                    getCornerRadiusForState(state.state)
-                )
+                if (isRoundQS()) {
+                    shapeAnimator.setFloatValues(
+                        (backgroundDrawable as GradientDrawable).cornerRadius,
+                        getCornerRadiusForState(state.state)
+                    )
+                }
                 singleAnimator.setValues(
                         colorValuesHolder(
                                 BACKGROUND_NAME,
@@ -729,7 +736,11 @@ open class QSTileViewImpl @JvmOverloads constructor(
     }
 
     private fun setColor(color: Int) {
-        backgroundBaseDrawable.mutate().setTint(color)
+        if (isRoundQS()) {
+            backgroundDrawable.mutate().setTint(color)
+        } else {
+            backgroundBaseDrawable.mutate().setTint(color)
+        }
         backgroundColor = color
     }
 
@@ -746,8 +757,10 @@ open class QSTileViewImpl @JvmOverloads constructor(
     }
 
     private fun setOverlayColor(overlayColor: Int) {
-        backgroundOverlayDrawable.setTint(overlayColor)
-        backgroundOverlayColor = overlayColor
+        if (!isRoundQS()) {
+            backgroundOverlayDrawable.setTint(overlayColor)
+            backgroundOverlayColor = overlayColor
+        }
     }
 
     private fun loadSideViewDrawableIfNecessary(state: QSTile.State) {
