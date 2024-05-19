@@ -172,6 +172,9 @@ public class PixelPropsUtils {
                 return;
             } else if (Arrays.asList(packagesToChangePixel8Pro).contains(packageName)) {
                 propsToChange.putAll(propsToChangePixel8Pro);
+            } else if (Arrays.asList(packagesToChangePixel5a).contains(packageName)
+                || packageName.startsWith("com.samsung.")) {
+                propsToChange.putAll(propsToChangePixel5a);
             }
 
             if (DEBUG) Log.d(TAG, "Defining props for: " + packageName);
