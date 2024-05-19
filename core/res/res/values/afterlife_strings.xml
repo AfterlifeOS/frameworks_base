@@ -42,4 +42,7 @@
     <string name="charging_control_notification_content_limit_reached">Battery is charged to %1$d%%</string>
     <string name="charging_control_notification_content_target">Battery will be fully charged at %1$s</string>
     <string name="charging_control_notification_content_target_reached">Battery is charged</string>
+
+    <!-- Immersive UI mode toast messages -->
+    <string name="immersive_ui_mode_notify_locked">Swipe again to disable gesture lock</string>
 </resources>

@@ -43,6 +43,9 @@
     <!-- For dynamic default font styles -->
     <java-symbol type="string" name="config_bodyFontFamily" />
 
+    <!-- Immersive UI mode toast messages -->
+    <java-symbol type="string" name="immersive_ui_mode_notify_locked" />
+
     <!-- App error dialog -->
     <java-symbol type="id" name="aerr_copy" />
     <java-symbol type="string" name="url_copy_success" />
