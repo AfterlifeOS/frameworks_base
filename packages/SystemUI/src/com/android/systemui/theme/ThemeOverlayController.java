@@ -481,7 +481,7 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
         mTunerService = tunerService;
         mActivityManager = activityManager;
         dumpManager.registerDumpable(TAG, this);
-        mThemeController = new AfterlifeThemeController(mContext.getContentResolver(), mBgHandler);
+        mThemeController = new AfterlifeThemeController(mContext, mBgHandler);
     }
 
     @Override
