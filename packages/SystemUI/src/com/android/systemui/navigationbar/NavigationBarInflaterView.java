@@ -194,7 +194,7 @@ public class NavigationBarInflaterView extends FrameLayout
                 defaultResource == R.string.config_navBarLayoutQuickstep) && mCompactLayout){
             return "left;back,home,recent;right";
         }
-        if (!mIsHintEnabled && defaultResource == R.string.config_navBarLayoutHandle) {
+        if (mIsHintEnabled && defaultResource == R.string.config_navBarLayoutHandle) {
             return getContext().getString(defaultResource).replace(HOME_HANDLE, "");
         }
         return getContext().getString(defaultResource);
@@ -336,7 +336,7 @@ public class NavigationBarInflaterView extends FrameLayout
     private void updateHint() {
         final IOverlayManager iom = IOverlayManager.Stub.asInterface(
                 ServiceManager.getService(Context.OVERLAY_SERVICE));
-        final boolean state = mNavBarMode == NAV_BAR_MODE_GESTURAL && !mIsHintEnabled;
+        final boolean state = mNavBarMode == NAV_BAR_MODE_GESTURAL && mIsHintEnabled;
         final int userId = ActivityManager.getCurrentUser();
         try {
             iom.setEnabled(OVERLAY_NAVIGATION_HIDE_HINT, state, userId);
