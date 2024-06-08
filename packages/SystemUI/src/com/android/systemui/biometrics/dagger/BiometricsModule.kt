@@ -100,10 +100,6 @@ interface BiometricsModule {
         @Provides fun providesUdfpsUtils(): UdfpsUtils = UdfpsUtils()
 
         @Provides
-        fun providesFingerprintInteractiveToAuth(ctx: Context): FingerprintInteractiveToAuthProvider =
-            FingerprintInteractiveToAuthProviderImpl(ctx);
-
-        @Provides
         @SysUISingleton
         fun providesOverlapDetector(): OverlapDetector {
             val selectedOption =
