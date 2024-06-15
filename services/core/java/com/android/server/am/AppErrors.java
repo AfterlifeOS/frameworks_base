@@ -46,6 +46,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Process;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.ArrayMap;
@@ -653,7 +654,10 @@ class AppErrors {
                 return;
             }
 
-            // Add paste content for Memochō option
+            // Add paste content for MkrBin option
+            String devFP = SystemProperties.get("ro.vendor.build.fingerprint", "");
+            String aflVers = SystemProperties.get("ro.afterlife.version", "");
+            String boardName = SystemProperties.get("ro.product.board", "");
             data.paste = "time: " + timeMillis + "\n" +
                     "msg: " + longMsg + "\n" +
                     "stacktrace: " + stackTrace;
