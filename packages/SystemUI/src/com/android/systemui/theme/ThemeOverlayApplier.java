@@ -264,7 +264,7 @@ public class ThemeOverlayApplier implements Dumpable {
                 mOverlayManager.setEnabled(overlayName, enable, UserHandle.SYSTEM);
             } catch (SecurityException | IllegalStateException e) {
                 Log.e(TAG, "Failed to enable overlay", e);
-	    }
+            }
         });
     }
 
