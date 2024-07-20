@@ -37,7 +37,7 @@ import com.android.systemui.plugins.DarkIconDispatcher.DarkReceiver;
 
 import java.util.ArrayList;
 
-public abstract class LogoImage extends ImageView {
+public abstract class LogoImage extends ImageView implements DarkReceiver {
 
     private Context mContext;
 
