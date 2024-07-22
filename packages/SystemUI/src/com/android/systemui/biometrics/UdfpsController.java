@@ -55,6 +55,7 @@ import android.os.UserHandle;
 import android.os.VibrationAttributes;
 import android.os.VibrationEffect;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -74,8 +75,9 @@ import com.android.internal.util.everest.udfps.CustomUdfpsUtils;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.systemui.Dumpable;
 import com.android.systemui.R;
-import com.android.systemui.animation.ActivityLaunchAnimator;
+import com.android.systemui.animation.ActivityTransitionAnimator;
 import com.android.systemui.biometrics.dagger.BiometricsBackground;
+import com.android.systemui.biometrics.domain.interactor.UdfpsOverlayInteractor;
 import com.android.systemui.biometrics.shared.model.UdfpsOverlayParams;
 import com.android.systemui.biometrics.udfps.InteractionEvent;
 import com.android.systemui.biometrics.udfps.NormalizedTouchData;
@@ -87,18 +89,19 @@ import com.android.systemui.biometrics.ui.viewmodel.DeviceEntryUdfpsTouchOverlay
 import com.android.systemui.bouncer.domain.interactor.AlternateBouncerInteractor;
 import com.android.systemui.bouncer.domain.interactor.PrimaryBouncerInteractor;
 import com.android.systemui.dagger.SysUISingleton;
+import com.android.systemui.dagger.qualifiers.Application;
 import com.android.systemui.dagger.qualifiers.Main;
+import com.android.systemui.deviceentry.domain.interactor.DeviceEntryFaceAuthInteractor;
 import com.android.systemui.deviceentry.shared.DeviceEntryUdfpsRefactor;
 import com.android.systemui.doze.DozeReceiver;
 import com.android.systemui.dump.DumpManager;
 import com.android.systemui.keyguard.ScreenLifecycle;
-import com.android.systemui.keyguard.domain.interactor.KeyguardFaceAuthInteractor;
 import com.android.systemui.keyguard.domain.interactor.KeyguardTransitionInteractor;
-import com.android.systemui.keyguard.ui.adapter.UdfpsKeyguardViewControllerAdapter;
-import com.android.systemui.keyguard.ui.viewmodel.UdfpsKeyguardViewModels;
 import com.android.systemui.log.SessionTracker;
 import com.android.systemui.plugins.FalsingManager;
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
+import com.android.systemui.power.domain.interactor.PowerInteractor;
+import com.android.systemui.shade.domain.interactor.ShadeInteractor;
 import com.android.systemui.shared.system.SysUiStatsLog;
 import com.android.systemui.statusbar.LockscreenShadeTransitionController;
 import com.android.systemui.statusbar.VibratorHelper;
@@ -110,7 +113,6 @@ import com.android.systemui.statusbar.policy.KeyguardStateController;
 import com.android.systemui.user.domain.interactor.SelectedUserInteractor;
 import com.android.systemui.util.concurrency.DelayableExecutor;
 import com.android.systemui.util.concurrency.Execution;
-import com.android.systemui.util.settings.SecureSettings;
 import com.android.systemui.util.time.SystemClock;
 
 import dagger.Lazy;
@@ -124,8 +126,8 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
+import kotlinx.coroutines.CoroutineScope;
 import kotlinx.coroutines.ExperimentalCoroutinesApi;
 
 /**
@@ -161,8 +163,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
     @NonNull private final DumpManager mDumpManager;
     @NonNull private final SystemUIDialogManager mDialogManager;
     @NonNull private final KeyguardUpdateMonitor mKeyguardUpdateMonitor;
-    @NonNull private final KeyguardFaceAuthInteractor mKeyguardFaceAuthInteractor;
-    @NonNull private final Provider<UdfpsKeyguardViewModels> mUdfpsKeyguardViewModels;
+    @NonNull private final DeviceEntryFaceAuthInteractor mDeviceEntryFaceAuthInteractor;
     @NonNull private final VibratorHelper mVibrator;
     @NonNull private final FalsingManager mFalsingManager;
     @NonNull private final PowerManager mPowerManager;
@@ -174,8 +175,9 @@ public class UdfpsController implements DozeReceiver, Dumpable {
             mUnlockedScreenOffAnimationController;
     @NonNull private final LatencyTracker mLatencyTracker;
     @VisibleForTesting @NonNull final BiometricDisplayListener mOrientationListener;
-    @NonNull private final ActivityLaunchAnimator mActivityLaunchAnimator;
+    @NonNull private final ActivityTransitionAnimator mActivityTransitionAnimator;
     @NonNull private final PrimaryBouncerInteractor mPrimaryBouncerInteractor;
+    @NonNull private final ShadeInteractor mShadeInteractor;
     @Nullable private final TouchProcessor mTouchProcessor;
     @NonNull private final SessionTracker mSessionTracker;
     @NonNull private final Lazy<DeviceEntryUdfpsTouchOverlayViewModel>
@@ -183,7 +185,9 @@ public class UdfpsController implements DozeReceiver, Dumpable {
     @NonNull private final Lazy<DefaultUdfpsTouchOverlayViewModel>
             mDefaultUdfpsTouchOverlayViewModel;
     @NonNull private final AlternateBouncerInteractor mAlternateBouncerInteractor;
-    @NonNull private final SecureSettings mSecureSettings;
+    @NonNull private final UdfpsOverlayInteractor mUdfpsOverlayInteractor;
+    @NonNull private final PowerInteractor mPowerInteractor;
+    @NonNull private final CoroutineScope mScope;
     @NonNull private final InputManager mInputManager;
     @NonNull private final UdfpsKeyguardAccessibilityDelegate mUdfpsKeyguardAccessibilityDelegate;
     @NonNull private final SelectedUserInteractor mSelectedUserInteractor;
@@ -200,7 +204,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
     @Nullable private UdfpsDisplayModeProvider mUdfpsDisplayMode;
 
     // The ID of the pointer for which ACTION_DOWN has occurred. -1 means no pointer is active.
-    private int mActivePointerId = -1;
+    private int mActivePointerId = MotionEvent.INVALID_POINTER_ID;
     // Whether a pointer has been pilfered for current gesture
     private boolean mPointerPilfered = false;
     // The timestamp of the most recent touch log.
@@ -305,7 +309,6 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                         mKeyguardStateController,
                         mUnlockedScreenOffAnimationController,
                         mUdfpsDisplayMode,
-                        mSecureSettings,
                         requestId,
                         reason,
                         callback,
@@ -314,14 +317,19 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                             event,
                             fromUdfpsView
                         ),
-                        mActivityLaunchAnimator,
+                        mActivityTransitionAnimator,
                         mPrimaryBouncerInteractor,
                         mAlternateBouncerInteractor,
                         mUdfpsKeyguardAccessibilityDelegate,
                         mKeyguardTransitionInteractor,
                         mSelectedUserInteractor,
                         mDeviceEntryUdfpsTouchOverlayViewModel,
-                        mDefaultUdfpsTouchOverlayViewModel
+                        mDefaultUdfpsTouchOverlayViewModel,
+                        mShadeInteractor,
+                        mUdfpsOverlayInteractor,
+                        mPowerInteractor,
+                        null, // SecureSettings parameter
+                        mScope
                     )));
         }
 
@@ -555,7 +563,16 @@ public class UdfpsController implements DozeReceiver, Dumpable {
             hideUdfpsAnimation();
             return false;
         }
-        if (!DeviceEntryUdfpsRefactor.isEnabled()) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN
+                || event.getAction() == MotionEvent.ACTION_HOVER_ENTER) {
+            // Reset on ACTION_DOWN, start of new gesture
+            mPointerPilfered = false;
+            if (mActivePointerId != MotionEvent.INVALID_POINTER_ID) {
+                Log.w(TAG, "onTouch down received without a preceding up");
+            }
+            mActivePointerId = MotionEvent.INVALID_POINTER_ID;
+            mOnFingerDown = false;
+        } else if (!DeviceEntryUdfpsRefactor.isEnabled()) {
             if ((mLockscreenShadeTransitionController.getQSDragProgress() != 0f
                     && !mAlternateBouncerInteractor.isVisibleState())
                     || mPrimaryBouncerInteractor.isInTransit()) {
@@ -563,11 +580,6 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                 hideUdfpsAnimation();
                 return false;
             }
-        }
-        if (event.getAction() == MotionEvent.ACTION_DOWN
-                || event.getAction() == MotionEvent.ACTION_HOVER_ENTER) {
-            // Reset on ACTION_DOWN, start of new gesture
-            mPointerPilfered = false;
         }
 
         final TouchProcessorResult result = mTouchProcessor.processTouch(event, mActivePointerId,
@@ -669,7 +681,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
         } else {
             onKeyguard = mOverlay != null
                     && mOverlay.getAnimationViewController()
-                        instanceof UdfpsKeyguardViewControllerAdapter;
+                        instanceof UdfpsKeyguardViewControllerLegacy;
         }
         return onKeyguard
                 && mKeyguardStateController.canDismissLockScreen()
@@ -704,22 +716,24 @@ public class UdfpsController implements DozeReceiver, Dumpable {
             @NonNull UnlockedScreenOffAnimationController unlockedScreenOffAnimationController,
             @NonNull SystemUIDialogManager dialogManager,
             @NonNull LatencyTracker latencyTracker,
-            @NonNull ActivityLaunchAnimator activityLaunchAnimator,
+            @NonNull ActivityTransitionAnimator activityTransitionAnimator,
             @NonNull @BiometricsBackground Executor biometricsExecutor,
             @NonNull PrimaryBouncerInteractor primaryBouncerInteractor,
+            @NonNull ShadeInteractor shadeInteractor,
             @NonNull SinglePointerTouchProcessor singlePointerTouchProcessor,
             @NonNull SessionTracker sessionTracker,
             @NonNull AlternateBouncerInteractor alternateBouncerInteractor,
-            @NonNull SecureSettings secureSettings,
             @NonNull InputManager inputManager,
-            @NonNull KeyguardFaceAuthInteractor keyguardFaceAuthInteractor,
+            @NonNull DeviceEntryFaceAuthInteractor deviceEntryFaceAuthInteractor,
             @NonNull UdfpsKeyguardAccessibilityDelegate udfpsKeyguardAccessibilityDelegate,
-            @NonNull Provider<UdfpsKeyguardViewModels> udfpsKeyguardViewModelsProvider,
             @NonNull SelectedUserInteractor selectedUserInteractor,
             @NonNull FpsUnlockTracker fpsUnlockTracker,
             @NonNull KeyguardTransitionInteractor keyguardTransitionInteractor,
             Lazy<DeviceEntryUdfpsTouchOverlayViewModel> deviceEntryUdfpsTouchOverlayViewModel,
-            Lazy<DefaultUdfpsTouchOverlayViewModel> defaultUdfpsTouchOverlayViewModel) {
+            Lazy<DefaultUdfpsTouchOverlayViewModel> defaultUdfpsTouchOverlayViewModel,
+            @NonNull UdfpsOverlayInteractor udfpsOverlayInteractor,
+            @NonNull PowerInteractor powerInteractor,
+            @Application CoroutineScope scope) {
         mContext = context;
         mExecution = execution;
         mVibrator = vibrator;
@@ -748,13 +762,22 @@ public class UdfpsController implements DozeReceiver, Dumpable {
         mSystemClock = systemClock;
         mUnlockedScreenOffAnimationController = unlockedScreenOffAnimationController;
         mLatencyTracker = latencyTracker;
-        mActivityLaunchAnimator = activityLaunchAnimator;
-        mSensorProps = findFirstUdfps();
+        mActivityTransitionAnimator = activityTransitionAnimator;
+        mSensorProps = new FingerprintSensorPropertiesInternal(
+                -1 /* sensorId */,
+                SensorProperties.STRENGTH_CONVENIENCE,
+                0 /* maxEnrollmentsPerUser */,
+                new ArrayList<>() /* componentInfo */,
+                FingerprintSensorProperties.TYPE_UNKNOWN,
+                false /* resetLockoutRequiresHardwareAuthToken */);
 
         mBiometricExecutor = biometricsExecutor;
         mPrimaryBouncerInteractor = primaryBouncerInteractor;
+        mShadeInteractor = shadeInteractor;
         mAlternateBouncerInteractor = alternateBouncerInteractor;
-        mSecureSettings = secureSettings;
+        mUdfpsOverlayInteractor = udfpsOverlayInteractor;
+        mPowerInteractor = powerInteractor;
+        mScope = scope;
         mInputManager = inputManager;
         mUdfpsKeyguardAccessibilityDelegate = udfpsKeyguardAccessibilityDelegate;
         mSelectedUserInteractor = selectedUserInteractor;
@@ -780,8 +803,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                     }
                     return Unit.INSTANCE;
                 });
-        mKeyguardFaceAuthInteractor = keyguardFaceAuthInteractor;
-        mUdfpsKeyguardViewModels = udfpsKeyguardViewModelsProvider;
+        mDeviceEntryFaceAuthInteractor = deviceEntryFaceAuthInteractor;
 
         final UdfpsOverlayController mUdfpsOverlayController = new UdfpsOverlayController();
         mFingerprintManager.setUdfpsOverlayController(mUdfpsOverlayController);
@@ -798,20 +820,23 @@ public class UdfpsController implements DozeReceiver, Dumpable {
 
         mAmbientDisplayConfiguration = new AmbientDisplayConfiguration(mContext);
         boolean screenOffFodSupported = mContext.getResources().getBoolean(
-                com.android.internal.R.bool.config_supportsScreenOffUdfps);
+                com.android.internal.R.bool.config_supportsScreenOffUdfps) ||
+                !TextUtils.isEmpty(mContext.getResources().getString(
+                    com.android.internal.R.string.config_dozeUdfpsLongPressSensorType));
         if (screenOffFodSupported) {
-            mScreenOffFod = mSecureSettings.getIntForUser(
+            mScreenOffFod = Settings.Secure.getIntForUser(context.getContentResolver(),
                 Settings.Secure.SCREEN_OFF_UDFPS_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
-            mSecureSettings.registerContentObserver(Settings.Secure.SCREEN_OFF_UDFPS_ENABLED,
+            mContext.getContentResolver().registerContentObserver(
+                Settings.Secure.getUriFor(Settings.Secure.SCREEN_OFF_UDFPS_ENABLED), false,
                 new ContentObserver(mainHandler) {
                     @Override
                     public void onChange(boolean selfChange, Uri uri) {
                         if (uri.getLastPathSegment().equals(Settings.Secure.SCREEN_OFF_UDFPS_ENABLED)) {
-                            mScreenOffFod = mSecureSettings.getIntForUser(
+                            mScreenOffFod = Settings.Secure.getIntForUser(context.getContentResolver(),
                                 Settings.Secure.SCREEN_OFF_UDFPS_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
                         }
                     }
-                }
+                }, UserHandle.USER_ALL
             );
         }
 
@@ -1192,7 +1217,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
         if (!mOnFingerDown) {
             playStartHaptic();
 
-            mKeyguardFaceAuthInteractor.onUdfpsSensorTouched();
+            mDeviceEntryFaceAuthInteractor.onUdfpsSensorTouched();
         }
         mOnFingerDown = true;
         mFingerprintManager.onPointerDown(requestId, mSensorProps.sensorId, pointerId, x, y,
@@ -1248,7 +1273,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
             long gestureStart,
             boolean isAod) {
         mExecution.assertIsMainThread();
-        mActivePointerId = -1;
+        mActivePointerId = MotionEvent.INVALID_POINTER_ID;
         mAcquiredReceived = false;
         if (mOnFingerDown) {
             mFingerprintManager.onPointerUp(requestId, mSensorProps.sensorId, pointerId, x,

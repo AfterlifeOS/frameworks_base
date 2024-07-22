@@ -39,7 +39,6 @@ import android.annotation.Nullable;
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
 import android.app.ExitTransitionCoordinator;
-import android.app.ExitTransitionCoordinator.ExitTransitionCallbacks;
 import android.app.ICompatCameraControlCallback;
 import android.app.Notification;
 import android.app.assist.AssistContent;
@@ -65,6 +64,7 @@ import android.os.RemoteException;
 import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.os.VibrationAttributes;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -95,13 +95,12 @@ import com.android.internal.app.ChooserActivity;
 import com.android.internal.logging.UiEventLogger;
 import com.android.internal.policy.PhoneWindow;
 import com.android.settingslib.applications.InterestingConfigChanges;
-import com.android.systemui.res.R;
 import com.android.systemui.broadcast.BroadcastSender;
 import com.android.systemui.clipboardoverlay.ClipboardOverlayController;
 import com.android.systemui.dagger.qualifiers.Main;
 import com.android.systemui.flags.FeatureFlags;
 import com.android.systemui.flags.Flags;
-import com.android.systemui.screenshot.ScreenshotController.SavedImageData.ActionTransition;
+import com.android.systemui.res.R;
 import com.android.systemui.screenshot.TakeScreenshotService.RequestCallback;
 import com.android.systemui.util.Assert;
 
@@ -119,7 +118,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import javax.inject.Provider;
 
@@ -179,35 +177,22 @@ public class ScreenshotController {
      */
     static class SavedImageData {
         public Uri uri;
-        public Supplier<ActionTransition> shareTransition;
-        public Supplier<ActionTransition> editTransition;
-        public Notification.Action deleteAction;
         public Notification.Action lensAction;
         public List<Notification.Action> smartActions;
+        public Notification.Action deleteAction;
         public Notification.Action quickShareAction;
         public UserHandle owner;
         public String subject;  // Title for sharing
-
-        /**
-         * POD for shared element transition.
-         */
-        static class ActionTransition {
-            public Bundle bundle;
-            public Notification.Action action;
-            public Runnable onCancelRunnable;
-        }
 
         /**
          * Used to reset the return data on error
          */
         public void reset() {
             uri = null;
-            shareTransition = null;
-            editTransition = null;
-            deleteAction = null;
             lensAction = null;
             smartActions = null;
             quickShareAction = null;
+            deleteAction = null;
             subject = null;
         }
     }
@@ -265,6 +250,12 @@ public class ScreenshotController {
 
     private static final int SCREENSHOT_CORNER_DEFAULT_TIMEOUT_MILLIS = 3000;
 
+    private static final VibrationEffect VIBRATION_EFFECT =
+            VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK);
+
+    private static final VibrationAttributes VIBRATION_ATTRS =
+            VibrationAttributes.createForUsage(VibrationAttributes.USAGE_TOUCH);
+
     private final WindowContext mContext;
     private final FeatureFlags mFlags;
     private final ScreenshotNotificationsController mNotificationsController;
@@ -283,7 +274,6 @@ public class ScreenshotController {
     private final ScreenshotSoundController mScreenshotSoundController;
     private final AudioManager mAudioManager;
     private final Vibrator mVibrator;
-    private final CameraManager mCameraManager;
     private int mCamsInUse = 0;
     private final ScrollCaptureClient mScrollCaptureClient;
     private final PhoneWindow mWindow;
@@ -334,6 +324,17 @@ public class ScreenshotController {
                     | ActivityInfo.CONFIG_SCREEN_LAYOUT
                     | ActivityInfo.CONFIG_ASSETS_PATHS);
 
+    private CameraManager.AvailabilityCallback mCamCallback =
+            new CameraManager.AvailabilityCallback() {
+        @Override
+        public void onCameraOpened(String cameraId, String packageId) {
+            mCamsInUse++;
+        }
+        @Override
+        public void onCameraClosed(String cameraId) {
+            mCamsInUse--;
+        }
+    };
 
     @AssistedInject
     ScreenshotController(
@@ -416,9 +417,13 @@ public class ScreenshotController {
         // Grab system services needed for screenshot sound
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
-        mCameraManager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
-        mCameraManager.registerAvailabilityCallback(mCamCallback,
-                new Handler(Looper.getMainLooper()));
+
+        if (SystemProperties.getBoolean("audio.camerasound.force", false)
+                || mContext.getResources().getBoolean(
+                        com.android.internal.R.bool.config_camera_sound_forced)) {
+            mContext.getSystemService(CameraManager.class).registerAvailabilityCallback(
+                    mCamCallback, new Handler(Looper.getMainLooper()));
+        }
 
         mCopyBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -491,8 +496,9 @@ public class ScreenshotController {
 
         if (!shouldShowUi()) {
             saveScreenshotInWorkerThread(
-                screenshot.getUserHandle(), finisher, this::logSuccessOnActionsReady,
-                (ignored) -> {});
+                    screenshot.getUserHandle(), finisher, this::logSuccessOnActionsReady,
+                    (ignored) -> {
+                    });
             return;
         }
 
@@ -511,7 +517,7 @@ public class ScreenshotController {
         if (screenshot.getType() == WindowManager.TAKE_SCREENSHOT_PROVIDED_IMAGE) {
             if (screenshot.getScreenBounds() != null
                     && aspectRatiosMatch(screenshot.getBitmap(), screenshot.getInsets(),
-                            screenshot.getScreenBounds())) {
+                    screenshot.getScreenBounds())) {
                 showFlash = false;
             } else {
                 showFlash = true;
@@ -665,6 +671,12 @@ public class ScreenshotController {
             }
 
             @Override
+            public void onAction(Intent intent, UserHandle owner, boolean overrideTransition) {
+                mActionExecutor.launchIntentAsync(
+                        intent, createWindowTransition(), owner, overrideTransition);
+            }
+
+            @Override
             public void onDismiss() {
                 finishDismiss();
             }
@@ -673,7 +685,7 @@ public class ScreenshotController {
             public void onTouchOutside() {
                 dismissScreenshot(SCREENSHOT_DISMISSED_OTHER);
             }
-        }, mActionExecutor, mFlags);
+        }, mFlags);
         mScreenshotView.setDefaultDisplay(mDisplayId);
         mScreenshotView.setDefaultTimeoutMillis(mScreenshotHandler.getDefaultTimeoutMillis());
 
@@ -985,6 +997,35 @@ public class ScreenshotController {
         mScreenshotAnimation.start();
     }
 
+    /**
+     * Supplies the necessary bits for the shared element transition to share sheet.
+     * Note that once called, the action intent to share must be sent immediately after.
+     */
+    private Pair<ActivityOptions, ExitTransitionCoordinator> createWindowTransition() {
+        ExitTransitionCoordinator.ExitTransitionCallbacks callbacks =
+                new ExitTransitionCoordinator.ExitTransitionCallbacks() {
+                    @Override
+                    public boolean isReturnTransitionAllowed() {
+                        return false;
+                    }
+
+                    @Override
+                    public void hideSharedElements() {
+                        finishDismiss();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                    }
+                };
+        Pair<ActivityOptions, ExitTransitionCoordinator> transition =
+                ActivityOptions.startSharedElementAnimation(mWindow, callbacks, null,
+                        Pair.create(mScreenshotView.getScreenshotPreview(),
+                                ChooserActivity.FIRST_IMAGE_PREVIEW_TRANSITION_NAME));
+
+        return transition;
+    }
+
     /** Reset screenshot view and then call onCompleteRunnable */
     private void finishDismiss() {
         Log.d(TAG, "finishDismiss");
@@ -1032,7 +1073,7 @@ public class ScreenshotController {
         }
 
         mSaveInBgTask = new SaveImageInBackgroundTask(mContext, mFlags, mImageExporter,
-                mScreenshotSmartActions, data, getActionTransitionSupplier(),
+                mScreenshotSmartActions, data,
                 mScreenshotNotificationSmartActionsProvider);
         mSaveInBgTask.execute();
     }
@@ -1096,26 +1137,6 @@ public class ScreenshotController {
                 }
             });
         }
-    }
-
-    /**
-     * Supplies the necessary bits for the shared element transition to share sheet.
-     * Note that once supplied, the action intent to share must be sent immediately after.
-     */
-    private Supplier<ActionTransition> getActionTransitionSupplier() {
-        return () -> {
-            Pair<ActivityOptions, ExitTransitionCoordinator> transition =
-                    ActivityOptions.startSharedElementAnimation(
-                            mWindow, new ScreenshotExitTransitionCallbacksSupplier(true).get(),
-                            null, Pair.create(mScreenshotView.getScreenshotPreview(),
-                                    ChooserActivity.FIRST_IMAGE_PREVIEW_TRANSITION_NAME));
-            transition.second.startExit();
-
-            ActionTransition supply = new ActionTransition();
-            supply.bundle = transition.first.toBundle();
-            supply.onCancelRunnable = () -> ActivityOptions.stopSharedElementAnimation(mWindow);
-            return supply;
-        };
     }
 
     /**
@@ -1207,59 +1228,15 @@ public class ScreenshotController {
         return matchWithinTolerance;
     }
 
-    private class ScreenshotExitTransitionCallbacksSupplier implements
-            Supplier<ExitTransitionCallbacks> {
-        final boolean mDismissOnHideSharedElements;
-
-        ScreenshotExitTransitionCallbacksSupplier(boolean dismissOnHideSharedElements) {
-            mDismissOnHideSharedElements = dismissOnHideSharedElements;
-        }
-
-        @Override
-        public ExitTransitionCallbacks get() {
-            return new ExitTransitionCallbacks() {
-                @Override
-                public boolean isReturnTransitionAllowed() {
-                    return false;
-                }
-
-                @Override
-                public void hideSharedElements() {
-                    if (mDismissOnHideSharedElements) {
-                        finishDismiss();
-                    }
-                }
-
-                @Override
-                public void onFinish() {
-                }
-            };
-         }
-    }
-
-
     private void playShutterSound() {
-       boolean playSound = readCameraSoundForced() && mCamsInUse > 0;
-        switch (mAudioManager.getRingerMode()) {
-            case AudioManager.RINGER_MODE_SILENT:
-                // do nothing
-                break;
-            case AudioManager.RINGER_MODE_VIBRATE:
-                if (mVibrator != null && mVibrator.hasVibrator()) {
-                    mVibrator.vibrate(VibrationEffect.createOneShot(50,
-                            VibrationEffect.DEFAULT_AMPLITUDE));
-                }
-                break;
-            case AudioManager.RINGER_MODE_NORMAL:
-                // in this case we want to play sound even if not forced on
-                playSound = true;
-                break;
-        }
-        // We want to play the shutter sound when it's either forced or
-        // when we use normal ringer mode
-        if (playSound && Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.SCREENSHOT_SHUTTER_SOUND, 1, UserHandle.USER_CURRENT) == 1) {
+       boolean playSound = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.SCREENSHOT_SHUTTER_SOUND, 1, UserHandle.USER_CURRENT) == 1
+                && mAudioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL;
+        boolean playSoundForced = mCamsInUse > 0;
+        if (playSoundForced || playSound) {
             playCameraSoundIfNeeded();
+        } else if (mVibrator != null && mVibrator.hasVibrator()) {
+            mVibrator.vibrate(VIBRATION_EFFECT, VIBRATION_ATTRS);
         }
     }
 
@@ -1274,24 +1251,5 @@ public class ScreenshotController {
          *                                 display.
          */
         ScreenshotController create(int displayId, boolean showUIOnExternalDisplay);
-    }
-
-    private CameraManager.AvailabilityCallback mCamCallback =
-            new CameraManager.AvailabilityCallback() {
-        @Override
-        public void onCameraOpened(String cameraId, String packageId) {
-            mCamsInUse++;
-        }
-
-        @Override
-        public void onCameraClosed(String cameraId) {
-            mCamsInUse--;
-        }
-    };
-
-    private boolean readCameraSoundForced() {
-        return SystemProperties.getBoolean("audio.camerasound.force", false) ||
-                mContext.getResources().getBoolean(
-                        com.android.internal.R.bool.config_camera_sound_forced);
     }
 }

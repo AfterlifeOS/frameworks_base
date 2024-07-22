@@ -283,6 +283,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <style name="Theme.DeviceDefault" parent="Theme.DeviceDefaultBase" />
@@ -378,6 +379,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault} with no action bar and no status bar.  This theme
@@ -472,6 +474,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault} with no action bar and no status bar and
@@ -568,6 +571,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault} that has no title bar and translucent
@@ -663,6 +667,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- DeviceDefault theme for dialog windows and activities. This changes the window to be
@@ -766,6 +771,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Dialog} that has a nice minimum width for a
@@ -860,6 +866,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Dialog} without an action bar -->
@@ -953,6 +960,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Dialog_NoActionBar} that has a nice minimum width
@@ -1047,6 +1055,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- Variant of Theme.DeviceDefault.Dialog that has a fixed size. -->
@@ -1157,6 +1166,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- DeviceDefault theme for a window without an action bar that will be displayed either
@@ -1252,6 +1262,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- DeviceDefault theme for a presentation window on a secondary display. -->
@@ -1345,6 +1356,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- DeviceDefault theme for panel windows. This removes all extraneous window
@@ -1440,6 +1452,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- DeviceDefault theme for windows that want to have the user's selected wallpaper appear
@@ -1534,6 +1547,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- DeviceDefault theme for windows that want to have the user's selected wallpaper appear
@@ -1628,6 +1642,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- DeviceDefault style for input methods, which is used by the
@@ -1722,6 +1737,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- DeviceDefault style for input methods, which is used by the
@@ -1816,6 +1832,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <style name="Theme.DeviceDefault.Dialog.Alert" parent="Theme.Material.Dialog.Alert">
@@ -1911,6 +1928,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- Theme for the dialog shown when an app crashes or ANRs. -->
@@ -2010,6 +2028,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <style name="Theme.DeviceDefault.Dialog.NoFrame" parent="Theme.Material.Dialog.NoFrame">
@@ -2102,6 +2121,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault} with a light-colored style -->
@@ -2332,6 +2352,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of the DeviceDefault (light) theme that has a solid (opaque) action bar with an
@@ -2426,6 +2447,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Light} with no action bar -->
@@ -2519,6 +2541,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Light} with no action bar and no status bar.
@@ -2613,6 +2636,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Light} with no action bar and no status bar
@@ -2709,6 +2733,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Light} that has no title bar and translucent
@@ -2804,6 +2829,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- DeviceDefault light theme for dialog windows and activities. This changes the window to be
@@ -2905,6 +2931,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Light_Dialog} that has a nice minimum width for a
@@ -3002,6 +3029,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Light_Dialog} without an action bar -->
@@ -3098,6 +3126,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Light_Dialog_NoActionBar} that has a nice minimum
@@ -3195,6 +3224,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of Theme.DeviceDefault.Dialog that has a fixed size. -->
@@ -3273,6 +3303,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of Theme.DeviceDefault.Dialog.NoActionBar that has a fixed size. -->
@@ -3351,6 +3382,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- DeviceDefault light theme for a window that will be displayed either full-screen on smaller
@@ -3448,6 +3480,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- DeviceDefault light theme for a window without an action bar that will be displayed either
@@ -3546,6 +3579,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- DeviceDefault light theme for a presentation window on a secondary display. -->
@@ -3642,6 +3676,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- DeviceDefault light theme for panel windows. This removes all extraneous window
@@ -3737,6 +3772,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <style name="Theme.DeviceDefault.Light.Dialog.Alert" parent="Theme.Material.Light.Dialog.Alert">
@@ -3832,6 +3868,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <style name="Theme.DeviceDefault.Dialog.Alert.DayNight" parent="Theme.DeviceDefault.Light.Dialog.Alert" />
@@ -3926,6 +3963,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <style name="Theme.DeviceDefault.Light.Voice" parent="Theme.Material.Light.Voice">
@@ -4018,6 +4056,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- DeviceDefault theme for a window that should look like the Settings app.  -->
@@ -4118,6 +4157,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <style name="Theme.DeviceDefault.SystemUI" parent="Theme.DeviceDefault.Light">
@@ -4199,6 +4239,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <style name="Theme.DeviceDefault.SystemUI.Dialog" parent="Theme.DeviceDefault.Light.Dialog">
@@ -4272,6 +4313,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Variant of {@link #Theme_DeviceDefault_Settings_Dark} with no action bar -->
@@ -4366,6 +4408,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <style name="Theme.DeviceDefault.Settings.DialogBase" parent="Theme.Material.Light.BaseDialog">
@@ -4444,6 +4487,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <style name="Theme.DeviceDefault.Settings.Dialog" parent="Theme.DeviceDefault.Settings.DialogBase">
@@ -4562,6 +4606,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <style name="Theme.DeviceDefault.Settings.Dialog.Alert" parent="Theme.Material.Settings.Dialog.Alert">
@@ -4658,6 +4703,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <style name="Theme.DeviceDefault.Settings.Dialog.NoActionBar" parent="Theme.DeviceDefault.Light.Dialog.NoActionBar" />
@@ -4780,6 +4826,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <style name="ThemeOverlay.DeviceDefault.Accent.Light">
@@ -4832,6 +4879,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <!-- Theme overlay that replaces colorAccent with the colorAccent from {@link #Theme_DeviceDefault_DayNight}. -->
@@ -4888,6 +4936,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
 
     <style name="Theme.DeviceDefault.Light.Dialog.Alert.UserSwitchingDialog" parent="Theme.DeviceDefault.NoActionBar.Fullscreen">
@@ -4940,6 +4989,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_light</item>
         <item name="materialColorSecondary">@color/system_secondary_light</item>
         <item name="materialColorTertiary">@color/system_tertiary_light</item>
+        <item name="materialColorError">@color/system_error_light</item>
     </style>
 
     <style name="Theme.DeviceDefault.Notification" parent="@style/Theme.Material.Notification">
@@ -5003,6 +5053,7 @@ easier.
         <item name="materialColorPrimary">@color/system_primary_dark</item>
         <item name="materialColorSecondary">@color/system_secondary_dark</item>
         <item name="materialColorTertiary">@color/system_tertiary_dark</item>
+        <item name="materialColorError">@color/system_error_dark</item>
     </style>
     <style name="Theme.DeviceDefault.AutofillHalfScreenDialogList" parent="Theme.DeviceDefault.DayNight">
         <item name="colorListDivider">@color/list_divider_opacity_device_default_light</item>

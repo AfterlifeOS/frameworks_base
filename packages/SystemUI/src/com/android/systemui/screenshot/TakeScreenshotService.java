@@ -56,6 +56,7 @@ import com.android.internal.util.ScreenshotRequest;
 import com.android.systemui.res.R;
 import com.android.systemui.dagger.qualifiers.Background;
 import com.android.systemui.flags.FeatureFlags;
+import com.android.systemui.screenshot.ScreenshotController;
 
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;

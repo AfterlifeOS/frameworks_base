@@ -158,6 +158,9 @@ public class TriStateUiControllerImpl implements TriStateUiController,
         public void onConfigurationChanged() {
             updateTriStateLayout();
         }
+
+        @Override
+    	public void onVolumeChangedFromKey() { }
     };
 
     private int mDensity;

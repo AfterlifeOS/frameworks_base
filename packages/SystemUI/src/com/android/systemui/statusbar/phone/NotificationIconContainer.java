@@ -286,11 +286,22 @@ public class NotificationIconContainer extends ViewGroup {
 
     @Override
     public String toString() {
-        return "NotificationIconContainer("
-                + "dozing=" + mDozing + " onLockScreen=" + mOnLockScreen
-                + " overrideIconColor=" + mOverrideIconColor
-                + " speedBumpIndex=" + mSpeedBumpIndex
-                + " themedTextColorPrimary=#" + Integer.toHexString(mThemedTextColorPrimary) + ')';
+        if (NotificationIconContainerRefactor.isEnabled()) {
+            return super.toString()
+                    + " {"
+                    + " overrideIconColor=" + mOverrideIconColor
+                    + ", maxIcons=" + mMaxIcons
+                    + ", isStaticLayout=" + mIsStaticLayout
+                    + ", themedTextColorPrimary=#" + Integer.toHexString(mThemedTextColorPrimary)
+                    + " }";
+        } else {
+            return "NotificationIconContainer("
+                    + "dozing=" + mDozing + " onLockScreen=" + mOnLockScreen
+                    + " overrideIconColor=" + mOverrideIconColor
+                    + " speedBumpIndex=" + mSpeedBumpIndex
+                    + " themedTextColorPrimary=#" + Integer.toHexString(mThemedTextColorPrimary)
+                    + ')';
+        }
     }
 
     @VisibleForTesting
@@ -340,8 +351,12 @@ public class NotificationIconContainer extends ViewGroup {
             }
         }
         if (child instanceof StatusBarIconView) {
-            ((StatusBarIconView) child).updateIconDimens();
-            if (!NotificationIconContainerRefactor.isEnabled()) {
+            if (NotificationIconContainerRefactor.isEnabled()) {
+                if (!mChangingViewPositions) {
+                    ((StatusBarIconView) child).updateIconDimens();
+                }
+            } else {
+                ((StatusBarIconView) child).updateIconDimens();
                 ((StatusBarIconView) child).setDozing(mDozing, false, 0);
             }
         }
@@ -911,11 +926,14 @@ public class NotificationIconContainer extends ViewGroup {
                 icon.setVisibleState(visibleState, animationsAllowed);
                 boolean newIconStyle = Settings.System.getIntForUser(getContext().getContentResolver(),
                             Settings.System.STATUSBAR_COLORED_ICONS, 0, UserHandle.USER_CURRENT) == 1;
-                if (icon.getStatusBarIcon().pkg.contains("systemui") || !newIconStyle) {
-                    icon.setIconColor(mOverrideIconColor ? mThemedTextColorPrimary : iconColor,
-                            needsCannedAnimation && animationsAllowed);
+
+                if (NotificationIconContainerRefactor.isEnabled()) {
+                    if (mOverrideIconColor) {
+                        icon.setIconColor(mThemedTextColorPrimary,
+                                /* animate= */ needsCannedAnimation && animationsAllowed);
+                    }
                 } else {
-                    icon.setIconColor(StatusBarIconView.NO_COLOR,
+                    icon.setIconColor(mOverrideIconColor ? mThemedTextColorPrimary : iconColor,
                             needsCannedAnimation && animationsAllowed);
                 }
                 if (animate) {
