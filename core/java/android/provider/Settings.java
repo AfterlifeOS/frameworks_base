@@ -12750,6 +12750,12 @@ public final class Settings {
         public static final String QQS_NUM_COLUMNS_LANDSCAPE = "qqs_num_columns_landscape";
 
         /**
+         * Qs panel styles
+         * @hide
+         */
+        public static final String QS_PANEL_STYLE = "qs_panel_style";
+
+        /**
          * These entries are considered common between the personal and the managed profile,
          * since the managed profile doesn't get to change them.
          */

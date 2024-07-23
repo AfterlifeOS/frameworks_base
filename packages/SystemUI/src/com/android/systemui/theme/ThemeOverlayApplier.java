@@ -114,6 +114,12 @@ public class ThemeOverlayApplier implements Dumpable {
     @VisibleForTesting
     static final String OVERLAY_CATEGORY_ICON_WIFI =
             "android.theme.customization.wifi_icon";
+    @VisibleForTesting
+    static final String OVERLAY_QS_PANEL =
+            "com.android.systemui.qs_panel";
+    @VisibleForTesting
+    static final String OVERLAY_QS_PANEL_O =
+            "com.android.systemui.qs_panel_outline";
 
     /*
      * All theme customization categories used by the system, in order that they should be applied,
@@ -143,6 +149,12 @@ public class ThemeOverlayApplier implements Dumpable {
             OVERLAY_CATEGORY_SHAPE,
             OVERLAY_CATEGORY_ICON_ANDROID,
             OVERLAY_CATEGORY_ICON_SYSUI);
+
+    /* Qs panel TwoTone overlays */
+    static final List<String> QS_PANEL_OVERLAYS = Lists.newArrayList(
+            "",
+            OVERLAY_QS_PANEL,
+            OVERLAY_QS_PANEL_O);
 
     /* Allowed overlay categories for each target package. */
     private final Map<String, Set<String>> mTargetPackageToCategories = new ArrayMap<>();
@@ -280,6 +292,21 @@ public class ThemeOverlayApplier implements Dumpable {
                         enable, UserHandle.SYSTEM);
             } catch (SecurityException | IllegalStateException e) {
                 Log.e(TAG, "setEnabled failed", e);
+            }
+        });
+    }
+
+    /* Set qs panel styles */
+    public void setqsPanelStyle(int qsPanelStyle) {
+        mBgExecutor.execute(() -> {
+            try {
+                for (int i = 1; i < QS_PANEL_OVERLAYS.size(); i++) {
+                    String overlay = QS_PANEL_OVERLAYS.get(i);
+                    boolean enable = (i == qsPanelStyle);
+                    mOverlayManager.setEnabled(overlay, enable, UserHandle.SYSTEM);
+                }
+            } catch (SecurityException | IllegalStateException e) {
+                Log.e(TAG, "Failed to set Qs Panel Style", e);
             }
         });
     }
