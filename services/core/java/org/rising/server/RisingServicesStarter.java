@@ -22,15 +22,16 @@ public class RisingServicesStarter {
 
     private final SystemServiceManager mSystemServiceManager;
 
-    private static final String ADAPTIVE_SOUND_ENGINE_SERVICE_CLASS =
-            "org.rising.server.AdaptiveSoundEngineService";
+    private static final String SOUND_ENGINE_SERVICE_CLASS =
+            "org.rising.server.SoundEngineService";
 
     public RisingServicesStarter(SystemServiceManager systemServiceManager) {
         this.mSystemServiceManager = systemServiceManager;
     }
 
     public void startAllServices() {
-        startService(ADAPTIVE_SOUND_ENGINE_SERVICE_CLASS);
+        startService(SOUND_ENGINE_SERVICE_CLASS);
+        startService(NETWORK_OPT_SERVICE_CLASS);
     }
 
     private void startService(String serviceClassName) {
