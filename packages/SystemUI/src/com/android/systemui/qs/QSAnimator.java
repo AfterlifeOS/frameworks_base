@@ -356,8 +356,8 @@ public class QSAnimator implements QSHost.Callback, PagedTileLayout.PageListener
 
                     // Icons
                     translateContent(
-                            quickTileView.getIconWithBackground(),
-                            tileView.getIconWithBackground(),
+                            quickTileView.getIcon(),
+                            tileView.getIcon(),
                             view,
                             xOffset,
                             yOffset,
@@ -399,13 +399,13 @@ public class QSAnimator implements QSHost.Callback, PagedTileLayout.PageListener
                     // Therefore, we use a quadratic interpolator animator to animate the alpha
                     // for tiles in QQS to match.
                     quadraticInterpolatorBuilder
-                            .addFloat(quickTileView.getLabelContainer(), "alpha", 0, 1);
+                            .addFloat(quickTileView.getSecondaryLabel(), "alpha", 0, 1);
                     nonFirstPageAlphaBuilder
-                            .addFloat(quickTileView.getLabelContainer(), "alpha", 0, 0);
+                            .addFloat(quickTileView.getSecondaryLabel(), "alpha", 0, 0);
 
                     mAnimatedQsViews.add(tileView);
                     mAllViews.add(quickTileView);
-                    mAllViews.add(quickTileView.getLabelContainer());
+                    mAllViews.add(quickTileView.getSecondaryLabel());
                 } else if (!isIconInAnimatedRow(count)) {
                     // Pretend there's a corresponding QQS tile (for the position) that we are
                     // expanding from.
@@ -424,8 +424,8 @@ public class QSAnimator implements QSHost.Callback, PagedTileLayout.PageListener
                     mOtherFirstPageTilesHeightAnimator.addView(tileView);
                     tileView.setClipChildren(true);
                     tileView.setClipToPadding(true);
-                    firstPageBuilder.addFloat(tileView.getLabelContainer(), "alpha", 0, 1);
-                    mAllViews.add(tileView.getLabelContainer());
+                    firstPageBuilder.addFloat(tileView.getSecondaryLabel(), "alpha", 0, 1);
+                    mAllViews.add(tileView.getSecondaryLabel());
                 }
 
                 mAllViews.add(tileView);
