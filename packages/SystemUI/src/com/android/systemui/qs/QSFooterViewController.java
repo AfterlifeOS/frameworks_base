@@ -16,12 +16,10 @@
 
 package com.android.systemui.qs;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
+import android.content.*;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
 import com.android.systemui.res.R;
 import com.android.systemui.plugins.ActivityStarter;
@@ -43,7 +41,7 @@ public class QSFooterViewController extends ViewController<QSFooterView> impleme
     private final QSPanelController mQsPanelController;
     private final TextView mBuildText;
     private final PageIndicator mPageIndicator;
-    private final View mEditButton;
+    private final View mSettingsButton, mEditButton, mRunningServiceButton, mInterfaceButton;
     private final FalsingManager mFalsingManager;
     private final ActivityStarter mActivityStarter;
     private final RetailModeInteractor mRetailModeInteractor;
@@ -66,6 +64,10 @@ public class QSFooterViewController extends ViewController<QSFooterView> impleme
         mBuildText = mView.findViewById(R.id.build);
         mPageIndicator = mView.findViewById(R.id.footer_page_indicator);
         mEditButton = mView.findViewById(android.R.id.edit);
+
+        mSettingsButton = mView.findViewById(R.id.settings_button);
+		mRunningServiceButton = mView.findViewById(R.id.running_services_button);
+		mInterfaceButton = mView.findViewById(R.id.interface_button);
     }
 
     @Override
@@ -91,9 +93,29 @@ public class QSFooterViewController extends ViewController<QSFooterView> impleme
             mActivityStarter
                     .postQSRunnableDismissingKeyguard(() -> mQsPanelController.showEdit(view));
         });
+        mSettingsButton.setOnClickListener(mSettingsOnClickListener);
+		mRunningServiceButton.setOnClickListener(mSettingsOnClickListener);
+		mInterfaceButton.setOnClickListener(mSettingsOnClickListener);
         mQsPanelController.setFooterPageIndicator(mPageIndicator);
         mView.updateEverything();
     }
+
+    private final View.OnClickListener mSettingsOnClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (mFalsingManager.isFalseTap(FalsingManager.LOW_PENALTY)) {
+				return;
+			}
+
+			if (v == mSettingsButton) {
+				startSettingsActivity();
+			} else if (v == mRunningServiceButton) {
+				startRunningServicesActivity();
+			} else if (v == mInterfaceButton) {
+				startAfterLabActivity();
+			}
+		}
+	};
 
     @Override
     protected void onViewDetached() {}
@@ -124,5 +146,21 @@ public class QSFooterViewController extends ViewController<QSFooterView> impleme
     @Override
     public void disable(int state1, int state2, boolean animate) {
         mView.disable(state2);
+    }
+
+    private void startSettingsActivity() {
+		mActivityStarter.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS), true /* dismissShade */);
+    }
+
+	private void startRunningServicesActivity() {
+		Intent intent = new Intent();
+		intent.setClassName("com.android.settings", "com.android.settings.Settings$DevRunningServicesActivity");
+		mActivityStarter.startActivity(intent, true /* dismissShade */);
+    }
+
+	private void startAfterLabActivity() {
+    Intent nIntent = new Intent(Intent.ACTION_MAIN);
+    nIntent.setClassName("com.android.settings", "com.android.settings.Settings$AfterlabSettingsActivity");
+    mActivityStarter.startActivity(nIntent, true /* dismissShade */);
     }
 }
