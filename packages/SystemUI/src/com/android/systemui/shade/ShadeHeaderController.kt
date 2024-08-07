@@ -27,13 +27,17 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Insets
+import android.net.Uri
 import android.os.Bundle
 import android.os.Trace
 import android.os.Trace.TRACE_TAG_APP
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.os.UserHandle;
 import android.provider.Settings
+import android.provider.CalendarContract
 import android.view.DisplayCutout
 import android.view.View
 import android.view.WindowInsets
@@ -111,7 +115,7 @@ constructor(
     private val activityStarter: ActivityStarter,
     private val tunerService: TunerService,
     private val statusOverlayHoverListenerFactory: StatusOverlayHoverListenerFactory,
-) : ViewController<View>(header), Dumpable {
+) : ViewController<View>(header), Dumpable, View.OnClickListener, View.OnLongClickListener {
 
     companion object {
         /** IDs for transitions and constraints for the [MotionLayout]. */
@@ -163,6 +167,7 @@ constructor(
     private val mShadeCarrierGroup: ShadeCarrierGroup = header.requireViewById(R.id.carrier_group)
     private val systemIconsHoverContainer: View =
         header.requireViewById(R.id.hover_system_icons_container)
+    private val vibrator: Vibrator = header.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
     private var roundedCorners = 0
     private var cutout: DisplayCutout? = null
@@ -170,6 +175,7 @@ constructor(
     private var nextAlarmIntent: PendingIntent? = null
     private var textColorPrimary = Color.TRANSPARENT
 
+    private var privacyChipVisible = false
     private var qsDisabled = false
     private var visible = false
         set(value) {
@@ -220,6 +226,7 @@ constructor(
             if (qsVisible && field != value) {
                 header.alpha = ShadeInterpolation.getContentAlpha(value)
                 field = value
+                updateVisibility()
             }
         }
 
@@ -271,6 +278,8 @@ constructor(
                 val update =
                     combinedShadeHeadersConstraintManager.privacyChipVisibilityConstraints(visible)
                 header.updateAllConstraints(update)
+                privacyChipVisible = visible
+                setBatteryClickable(qsExpandedFraction == 1f || !visible)
             }
         }
 
@@ -377,6 +386,35 @@ constructor(
         }, QS_SHOW_BATTERY_PERCENT)
 
         updateQsBatteryStyle()
+
+        // click actions
+        date.setOnClickListener(this)
+        setBatteryClickable(true)
+    }
+
+    override fun onClick(v: View) {
+        if (v == date) {
+            val builder: Uri.Builder = CalendarContract.CONTENT_URI.buildUpon()
+            builder.appendPath("time")
+            builder.appendPath(System.currentTimeMillis().toString())
+            val todayIntent: Intent = Intent(Intent.ACTION_VIEW, builder.build())
+            activityStarter.postStartActivityDismissingKeyguard(todayIntent, 0)
+        } else if (v == batteryIcon) {
+            activityStarter.postStartActivityDismissingKeyguard(Intent(
+                    Intent.ACTION_POWER_USAGE_SUMMARY), 0)
+        }
+    }
+
+    override fun onLongClick(v: View): Boolean {
+        if (v == clock || v == date) {
+            val nIntent: Intent = Intent(Intent.ACTION_MAIN)
+            nIntent.setClassName("com.android.settings",
+                    "com.android.settings.Settings\$DateTimeSettingsActivity")
+            activityStarter.startActivity(nIntent, true /* dismissShade */)
+            vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
+            return true
+        }
+        return false
     }
 
     override fun onViewAttached() {
@@ -560,6 +598,7 @@ constructor(
             logInstantEvent("updatePosition: $qsExpandedFraction")
             header.progress = qsExpandedFraction
         }
+        setBatteryClickable(qsExpandedFraction == 1f || !privacyChipVisible)
     }
 
     private fun logInstantEvent(message: String) {
@@ -626,6 +665,11 @@ constructor(
             clockPaddingEnd,
             clock.paddingBottom
         )
+    }
+
+    private fun setBatteryClickable(clickable: Boolean) {
+        batteryIcon.setOnClickListener(if (clickable) this else null)
+        batteryIcon.setClickable(clickable)
     }
 
     override fun dump(pw: PrintWriter, args: Array<out String>) {
