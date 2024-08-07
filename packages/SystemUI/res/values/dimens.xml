@@ -483,7 +483,7 @@
     <dimen name="qs_footer_height">72dp</dimen>
 
     <!-- 40dp (circles) + 8dp (circle padding) + 8dp (top) + 4dp (bottom) -->
-    <dimen name="footer_actions_height">60dp</dimen>
+    <dimen name="footer_actions_height">0dp</dimen>
 
     <!-- The size of each of the icon buttons in the QS footer -->
     <dimen name="qs_footer_action_button_size">48dp</dimen>
@@ -523,7 +523,7 @@
     <dimen name="match_parent">-1px</dimen>
 
     <!-- Height of status bar in split shade mode - visible only on large screens -->
-    <dimen name="large_screen_shade_header_height">48dp</dimen>
+    <dimen name="large_screen_shade_header_height">130dp</dimen>
     <dimen name="large_screen_shade_header_min_height">@dimen/qs_header_row_min_height</dimen>
     <dimen name="large_screen_shade_header_left_padding">@dimen/qs_horizontal_margin</dimen>
     <dimen name="shade_header_system_icons_height">@dimen/large_screen_shade_header_min_height</dimen>
@@ -663,10 +663,10 @@
     <dimen name="qs_tiles_page_horizontal_margin">@dimen/notification_side_paddings</dimen>
 
     <dimen name="qs_customize_internal_side_paddings">6dp</dimen>
-    <dimen name="qs_icon_size">20dp</dimen>
+    <dimen name="qs_icon_size">26dp</dimen>
     <dimen name="qs_side_view_size">28dp</dimen>
     <dimen name="qs_label_container_margin">6dp</dimen>
-    <dimen name="qs_quick_tile_size">55dp</dimen>
+    <dimen name="qs_quick_tile_size">60dp</dimen>
     <dimen name="qs_tile_padding">18dp</dimen>
     <dimen name="qs_tile_start_padding">16dp</dimen>
     <dimen name="qs_drawable_end_margin">4dp</dimen>
@@ -681,7 +681,9 @@
     <dimen name="qs_dual_tile_padding_horizontal">6dp</dimen>
     <dimen name="qs_panel_elevation">4dp</dimen>
     <dimen name="qs_panel_padding_bottom">@dimen/footer_actions_height</dimen>
-    <dimen name="qs_panel_padding_top">80dp</dimen>
+    <dimen name="qs_panel_padding_top">78dp</dimen>
+    <dimen name="qs_panel_spacer">120dp</dimen>
+    <dimen name="qs_panel_clock_margin_top">70dp</dimen>
 
     <dimen name="qs_data_usage_text_size">14sp</dimen>
     <dimen name="qs_data_usage_usage_text_size">36sp</dimen>

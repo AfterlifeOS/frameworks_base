@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2023-2024 AfterlifeOS
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+  <LinearLayout
+    android:gravity="center_vertical"
+    android:id="@+id/afl_qs_container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="2.0dip"
+    android:layout_marginEnd="2.0dip"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <com.android.systemui.animation.view.LaunchableLinearLayout
+                android:gravity="start|center"
+                android:layout_gravity="start|center"
+                android:orientation="horizontal"
+                android:id="@+id/afl_inet"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1.0"
+                android:layout_marginEnd="4.0dip"
+                android:paddingStart="16.0dip"
+                android:paddingEnd="16.0dip">
+                <ImageView
+                    android:layout_gravity="start|center"
+                    android:layout_width="25.0dip"
+                    android:layout_height="25.0dip"
+                    android:id="@+id/afl_qs_internet_icon"
+                    android:src="@drawable/ic_statusbar_wifi" />
+                <TextView
+                    android:textAppearance="@style/TextAppearance.QS.TileLabel"
+                    android:textColor="?android:textColorPrimary"
+                    android:id="@+id/afl_qs_internet_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Internet"
+                    android:layout_weight="1.0"
+                    android:textDirection="locale"
+                    android:layout_marginStart="16.0dip" />
+                <ImageView
+                    android:id="@+id/inet_chevron"
+                    android:layout_gravity="end|center"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@*android:drawable/ic_chevron_end" />
+            </com.android.systemui.animation.view.LaunchableLinearLayout>
+            <com.android.systemui.animation.view.LaunchableLinearLayout
+                android:gravity="start|center"
+                android:layout_gravity="start|center"
+                android:orientation="horizontal"
+                android:id="@+id/afl_bt"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1.0"
+                android:layout_marginStart="4.0dip"
+                android:paddingStart="16.0dip"
+                android:paddingEnd="16.0dip">
+                <ImageView
+                    android:layout_gravity="start|center"
+                    android:layout_width="25.0dip"
+                    android:layout_height="25.0dip"
+                    android:id="@+id/afl_icon_bt"
+                    android:src="@drawable/qs_bluetooth_icon_on" />
+                <TextView
+                    android:textAppearance="@style/TextAppearance.QS.TileLabel"
+                    android:textColor="?android:textColorPrimary"
+                    android:id="@+id/afl_text_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bluetooth"
+                    android:layout_weight="1.0"
+                    android:textDirection="locale"
+                    android:layout_marginStart="16.0dip" />
+                <ImageView
+                    android:id="@+id/bt_chevron"
+                    android:layout_gravity="end|center"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@*android:drawable/ic_chevron_end" />
+            </com.android.systemui.animation.view.LaunchableLinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
