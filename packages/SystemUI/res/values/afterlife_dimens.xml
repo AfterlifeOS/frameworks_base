@@ -129,4 +129,8 @@
     <dimen name="qs_footer_avatar_size">50.0dip</dimen>
     <dimen name="qs_footer_circle_size">60.0dip</dimen>
     <dimen name="bg_footer_radius">22.0dip</dimen>
+
+    <!-- Bluetooth dialog -->
+    <dimen name="bluetooth_dialog_active_device_bottom_margin">4dp</dimen>
+    <dimen name="bluetooth_dialog_toggle_height">56dp</dimen>
 </resources>
