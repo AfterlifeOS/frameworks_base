@@ -95,4 +95,8 @@
 
     <dimen name="keyguard_indication_margin_bottom">8dp</dimen>
     <dimen name="lock_icon_margin_bottom">24dp</dimen>
+
+    <dimen name="qs_panel_spacer">0dp</dimen>
+    <dimen name="large_screen_shade_header_height">48.0dip</dimen>
+    <dimen name="notification_panel_margin_top">16.0dip</dimen>
 </resources>

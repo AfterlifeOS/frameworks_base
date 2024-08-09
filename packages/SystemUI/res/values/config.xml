@@ -65,7 +65,7 @@
     <integer name="quick_settings_num_columns">2</integer>
 
     <!-- The number of rows in the QuickSettings -->
-    <integer name="quick_settings_max_rows">3</integer>
+    <integer name="quick_settings_max_rows">2</integer>
 
     <!-- Override column number for quick settings.
     For now, this value has effect only when flag lockscreen.enable_landscape is enabled.
@@ -408,7 +408,7 @@
     <bool name="config_vibrateOnIconAnimation">false</bool>
 
     <!-- Notifications are sized to match the width of two (of 4) qs tiles in landscape. -->
-    <bool name="config_skinnyNotifsInLandscape">true</bool>
+    <bool name="config_skinnyNotifsInLandscape">false</bool>
 
     <!-- Snooze: default notificaiton snooze time. -->
     <integer name="config_notification_snooze_time_default">60</integer>
