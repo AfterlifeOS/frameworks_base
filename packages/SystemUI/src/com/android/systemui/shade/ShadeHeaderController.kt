@@ -171,16 +171,16 @@ constructor(
     private var qsBatteryStyle = Settings.System.getIntForUser(
              context.contentResolver, Settings.System.QS_BATTERY_STYLE, -1, UserHandle.USER_CURRENT)
 
-    private val mBluetoothIcon: ImageView = header.findViewById(R.id.afl_icon_bt)
-    private val mBluetoothText: TextView = header.findViewById(R.id.afl_text_bt)
-    private val mBtChevron: ImageView = header.findViewById(R.id.bt_chevron)
+    private val mBluetoothIcon: ImageView = header.requireViewById(R.id.afl_icon_bt)
+    private val mBluetoothText: TextView = header.requireViewById(R.id.afl_text_bt)
+    private val mBtChevron: ImageView = header.requireViewById(R.id.bt_chevron)
 
-    private val mInternetIcon: ImageView = header.findViewById(R.id.afl_qs_internet_icon)
-    private val mInternetText: TextView = header.findViewById(R.id.afl_qs_internet_text)
-    private val mInternetChevron: ImageView = header.findViewById(R.id.inet_chevron)
+    private val mInternetIcon: ImageView = header.requireViewById(R.id.afl_qs_internet_icon)
+    private val mInternetText: TextView = header.requireViewById(R.id.afl_qs_internet_text)
+    private val mInternetChevron: ImageView = header.requireViewById(R.id.inet_chevron)
 
-    private val btTile: LinearLayout = header.findViewById(R.id.afl_bt)
-    private val inetTile: LinearLayout = header.findViewById(R.id.afl_inet)
+    private val btTile: LinearLayout = header.requireViewById(R.id.afl_bt)
+    private val inetTile: LinearLayout = header.requireViewById(R.id.afl_inet)
 
     private lateinit var iconManager: StatusBarIconController.TintedIconManager
     private lateinit var carrierIconSlots: List<String>
