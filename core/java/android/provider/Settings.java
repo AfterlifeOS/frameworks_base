@@ -10157,6 +10157,28 @@ public final class Settings {
         public static final String DOZE_ALWAYS_ON = "doze_always_on";
 
         /**
+         * Indicates whether doze turns on automatically
+         * 0 = disabled (default)
+         * 1 = from sunset to sunrise
+         * 2 = custom time
+         * 3 = from sunset till a time
+         * 4 = from a time till sunrise
+         * @hide
+         */
+        @Readable
+        public static final String DOZE_ALWAYS_ON_AUTO_MODE = "doze_always_on_auto_mode";
+
+        /**
+         * The custom time {@link DOZE_ALWAYS_ON} should be on at
+         * Only relevant when {@link DOZE_ALWAYS_ON_AUTO_MODE} is set to 2 and above
+         * 0 = Disabled (default)
+         * format: HH:mm,HH:mm (since,till)
+         * @hide
+         */
+        @Readable
+        public static final String DOZE_ALWAYS_ON_AUTO_TIME = "doze_always_on_auto_time";
+
+        /**
          * Whether the device should pulse on pick up gesture.
          * @hide
          */
@@ -12433,6 +12455,128 @@ public final class Settings {
          * @hide
          */
         public static final String BACK_GESTURE_ARROW = "back_gesture_arrow";
+
+        
+
+        /**
+         * Pulse navbar music visualizer
+         * @hide
+         */
+        public static final String NAVBAR_PULSE_ENABLED = "navbar_pulse_enabled";
+
+        /**
+         * Pulse ambient music visualizer
+         * @hide
+         */
+        public static final String AMBIENT_PULSE_ENABLED = "ambient_pulse_enabled";
+
+        /**
+         * Pulse lockscreen music visualizer
+         * @hide
+         */
+        public static final String LOCKSCREEN_PULSE_ENABLED = "lockscreen_pulse_enabled";
+
+        /**
+         * Pulse navbar music visualizer color type
+         * @hide
+         */
+        public static final String PULSE_COLOR_MODE = "pulse_color_mode";
+
+        /**
+         * Pulse music visualizer user defined color
+         * @hide
+         */
+        public static final String PULSE_COLOR_USER = "pulse_color_user";
+
+        /**
+         * Pulse lavalamp animation speed
+         * @hide
+         */
+        public static final String PULSE_LAVALAMP_SPEED = "pulse_lavalamp_speed";
+
+        /**
+         * Pulse renderer implementation
+         * @hide
+         */
+        public static final String PULSE_RENDER_STYLE = "pulse_render_style";
+
+        /**
+         * Custom Pulse Widths
+         * @hide
+         */
+        public static final String PULSE_CUSTOM_DIMEN = "pulse_custom_dimen";
+
+        /**
+         * Custom Spacing Between Pulse Bars
+         * @hide
+         */
+        public static final String PULSE_CUSTOM_DIV = "pulse_custom_div";
+
+        /**
+         * Custom Pulse Block Size
+         * @hide
+         */
+        public static final String PULSE_FILLED_BLOCK_SIZE = "pulse_filled_block_size";
+
+        /**
+         * Custom Spacing Between Pulse Blocks
+         * @hide
+         */
+        public static final String PULSE_EMPTY_BLOCK_SIZE = "pulse_empty_block_size";
+
+        /**
+         * Custom Pulse Sanity Levels
+         * @hide
+         */
+        public static final String PULSE_CUSTOM_FUDGE_FACTOR = "pulse_custom_fudge_factor";
+
+        /**
+         * Pulse Fudge Factor
+         * @hide
+         */
+        public static final String PULSE_SOLID_FUDGE_FACTOR = "pulse_solid_fudge_factor";
+
+        /**
+         * Pulse Solid units count
+         * @hide
+         */
+        public static final String PULSE_SOLID_UNITS_COUNT = "pulse_solid_units_count";
+
+        /**
+         * Pulse Solid units opacity
+         * @hide
+         */
+        public static final String PULSE_SOLID_UNITS_OPACITY = "pulse_solid_units_opacity";
+
+        /**
+         * Pulse Solid units rounded
+         * @hide
+         */
+        public static final String PULSE_SOLID_UNITS_ROUNDED = "pulse_solid_units_rounded";
+
+        /**
+         * Pulse uses FFT averaging
+         * @hide
+         */
+        public static final String PULSE_SMOOTHING_ENABLED = "pulse_smoothing_enabled";
+
+	/**
+         * Pulse gravity
+         * @hide
+         */
+        public static final String PULSE_CUSTOM_GRAVITY = "pulse_custom_gravity";
+
+        /**
+         * Enable and disable QS Panel visualizer
+         * @hide
+         */
+        public static final String VISUALIZER_CENTER_MIRRORED = "visualizer_center_mirrored";
+
+        /**
+         * Pulse vertical mirror
+         * @hide
+         */
+        public static final String PULSE_VERTICAL_MIRROR = "pulse_vertical_mirror";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
