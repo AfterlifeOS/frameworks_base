@@ -37,7 +37,6 @@ import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.os.UserHandle;
 import android.provider.Settings
-import android.provider.CalendarContract
 import android.view.DisplayCutout
 import android.view.View
 import android.view.WindowInsets
@@ -48,7 +47,7 @@ import android.graphics.drawable.*
 import android.os.Handler
 import android.bluetooth.BluetoothManager
 
-import com.android.systemui.qs.tiles.dialog.BluetoothDialogFactory
+import com.android.systemui.qs.tiles.dialog.bluetooth.BluetoothTileDialogViewModel
 import com.android.systemui.qs.tiles.dialog.InternetDialogFactory
 import com.android.systemui.statusbar.connectivity.AccessPointController
 import android.net.*
@@ -128,7 +127,7 @@ constructor(
     private val tunerService: TunerService,
     private val statusOverlayHoverListenerFactory: StatusOverlayHoverListenerFactory,
     private val accessPointController: AccessPointController,
-    private val bluetoothDialogFactory: BluetoothDialogFactory,
+    private val bluetoothDialogViewModel: BluetoothTileDialogViewModel,
     private val internetDialogFactory: InternetDialogFactory,
 ) : ViewController<View>(header), Dumpable, View.OnClickListener, View.OnLongClickListener {
 
@@ -443,9 +442,12 @@ constructor(
         } else if (v == batteryIcon) {
             activityStarter.postStartActivityDismissingKeyguard(Intent(
                     Intent.ACTION_POWER_USAGE_SUMMARY), 0)
-        } else if ( v == btTile) {
-        	Handler().post({
-                bluetoothDialogFactory.create(true, v)})
+        } else if (v == btTile) {
+            val isAutoOn = Settings.System.getInt(
+                mContext.contentResolver,
+                Settings.System.QS_BT_AUTO_ON, 0
+            ) == 1
+            bluetoothDialogViewModel.showDialog(mContext, v, isAutoOn)
         } else if ( v == inetTile ) {
     	    Handler().post({
                 internetDialogFactory.create(true,
@@ -753,7 +755,7 @@ constructor(
     }
 
     fun createTileBackground(): Drawable {
-        ripple = context.getDrawable(R.drawable.afl_qs_tile_bg). as RippleDrawable
+        ripple = context.getDrawable(R.drawable.afl_qs_tile_bg) as RippleDrawable
         colorBackgroundDrawable = ripple.findDrawableByLayerId(R.id.background)
         return ripple
     }
