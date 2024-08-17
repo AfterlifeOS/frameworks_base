@@ -336,18 +336,6 @@ public class ScreenshotController {
         }
     };
 
-    private CameraManager.AvailabilityCallback mCamCallback =
-            new CameraManager.AvailabilityCallback() {
-        @Override
-        public void onCameraOpened(String cameraId, String packageId) {
-            mCamsInUse++;
-        }
-        @Override
-        public void onCameraClosed(String cameraId) {
-            mCamsInUse--;
-        }
-    };
-
     @AssistedInject
     ScreenshotController(
             Context context,
@@ -1263,4 +1251,5 @@ public class ScreenshotController {
          *                                 display.
          */
         ScreenshotController create(int displayId, boolean showUIOnExternalDisplay);
+    }
 }
