@@ -31,7 +31,6 @@ public class RisingServicesStarter {
 
     public void startAllServices() {
         startService(SOUND_ENGINE_SERVICE_CLASS);
-        startService(NETWORK_OPT_SERVICE_CLASS);
     }
 
     private void startService(String serviceClassName) {
