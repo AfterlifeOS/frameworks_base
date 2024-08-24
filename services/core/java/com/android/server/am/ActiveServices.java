@@ -5766,10 +5766,6 @@ public final class ActiveServices {
                 bringDownServiceLocked(r, enqueueOomAdj);
                 return msg;
             }
-            if ((r.appInfo.flags & ApplicationInfo.FLAG_PERSISTENT) != 0
-                    && !TextUtils.equals(procName, r.appInfo.processName)) {
-                app.setPersistent(true);
-            }
             mAm.mProcessList.getAppStartInfoTracker().handleProcessServiceStart(startTimeNs, app, r,
                     true);
             if (isolated) {
