@@ -42,10 +42,12 @@ public class ClockStyle extends RelativeLayout implements TunerService.Tunable {
     
     private final KeyguardStateController mKeyguardStateController;
 
-    private ThemeUtils mThemeUtils;
-    private Context mContext;
+    private final ThemeUtils mThemeUtils;
+    private final Context mContext;
+    private final TunerService mTunerService;
+
     private View currentClockView;
-    private int mClockStyle;
+    private int mClockStyle;    
 
     private static final long UPDATE_INTERVAL_MILLIS = 15 * 1000;
     private final Handler mHandler;
@@ -57,7 +59,8 @@ public class ClockStyle extends RelativeLayout implements TunerService.Tunable {
         mContext = context;
         mHandler = Dependency.get(Dependency.MAIN_HANDLER);
         mThemeUtils = new ThemeUtils(context);
-        Dependency.get(TunerService.class).addTunable(this, CLOCK_STYLE);
+        mTunerService = Dependency.get(TunerService.class);
+        mTunerService.addTunable(this, CLOCK_STYLE);
         mKeyguardStateController = Dependency.get(KeyguardStateController.class);
         mKeyguardStateController.addCallback(new KeyguardStateController.Callback() {
             @Override
@@ -92,6 +95,12 @@ public class ClockStyle extends RelativeLayout implements TunerService.Tunable {
     protected void onFinishInflate() {
         super.onFinishInflate();
         updateClockView();
+    }
+    
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mTunerService.removeTunable(this);
     }
 
     private void updateTextClockViews(View view) {
