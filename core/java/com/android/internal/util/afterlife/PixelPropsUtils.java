@@ -139,11 +139,13 @@ public class PixelPropsUtils {
                 propsToChange.putAll(propsToChangePixelXL);
             } else {
                 if (!isPixelDevice) {
-                    propsToChange.putAll(propsToChangePixel5a);
+                    if (processName.toLowerCase().contains("gservice")){
+                        propsToChange.putAll(propsToChangePixel5a);
+                    }
                 }
             }
         }
-
+        
         if (packageName.equals("com.google.android.gms")) {
             if (SystemProperties.getBoolean(SPOOF_PIXEL_GMS, true)) {
                 if (shouldTryToCertifyDevice(Application.getProcessName())) {
