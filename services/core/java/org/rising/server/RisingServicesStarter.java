@@ -24,6 +24,9 @@ public class RisingServicesStarter {
 
     private static final String SOUND_ENGINE_SERVICE_CLASS =
             "org.rising.server.SoundEngineService";
+            
+    private static final String STORAGE_CLEANER_SERVICE_CLASS =
+            "org.rising.server.StorageCleanerService";
 
     public RisingServicesStarter(SystemServiceManager systemServiceManager) {
         this.mSystemServiceManager = systemServiceManager;
@@ -31,6 +34,7 @@ public class RisingServicesStarter {
 
     public void startAllServices() {
         startService(SOUND_ENGINE_SERVICE_CLASS);
+        startService(STORAGE_CLEANER_SERVICE_CLASS);
     }
 
     private void startService(String serviceClassName) {
