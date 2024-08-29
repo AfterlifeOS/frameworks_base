@@ -29,6 +29,8 @@ import java.util.List;
 
 public class ActivityLauncherUtils {
 
+    private static final String SERVICE_PACKAGE = "org.omnirom.omnijaws";
+
     private final Context mContext;
     private final ActivityStarter mActivityStarter;
 
@@ -62,7 +64,7 @@ public class ActivityLauncherUtils {
     public void launchWeatherApp() {
         final Intent launchIntent = new Intent();
         launchIntent.setAction(Intent.ACTION_MAIN);
-        launchIntent.setClassName("org.omnirom.omnijaws", "org.omnirom.omnijaws.SettingsActivity");
+        launchIntent.setClassName(SERVICE_PACKAGE, SERVICE_PACKAGE + ".WeatherActivity");
         launchAppIfAvailable(launchIntent, R.string.omnijaws_weather);
     }
 
