@@ -377,6 +377,7 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
             SelectedUserInteractor selectedUserInteractor,
             GlobalActionsInteractor interactor,
             BlurUtils blurUtils) {
+
         mContext = context;
         mWindowManagerFuncs = windowManagerFuncs;
         mAudioManager = audioManager;
@@ -412,8 +413,8 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
         mKeyguardUpdateMonitor = keyguardUpdateMonitor;
         mDialogTransitionAnimator = dialogTransitionAnimator;
         mSelectedUserInteractor = selectedUserInteractor;
-        mBlurUtils = blurUtils;
         mInteractor = interactor;
+        mBlurUtils = blurUtils;
 
         // receive broadcasts
         IntentFilter filter = new IntentFilter();
@@ -1594,37 +1595,12 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
         }
 
         @Override
-        public boolean onLongClickItem(int position) {
-            final Action action = mAdapter.getItem(position);
-            if (action instanceof LongPressAction) {
-                if (mDialog != null) {
-                    // Usually clicking an item shuts down the phone, locks, or starts an activity.
-                    // We don't want to animate back into the power button when that happens, so we
-                    // disable the dialog animation before dismissing.
-                    mDialogTransitionAnimator.disableAllCurrentDialogsExitAnimations();
-                    mDialog.dismiss();
-                } else {
-                    Log.w(TAG, "Action long-clicked while mDialog is null.");
-                }
-                return ((LongPressAction) action).onLongPress();
-            }
-            return false;
+        public void onClickItem(int position) {
+            getItem(position).onPress();
         }
 
-        public void onClickItem(int position) {
-            Action item = mAdapter.getItem(position);
-            if (!(item instanceof SilentModeTriStateAction)) {
-                if (mDialog != null) {
-                    // Usually clicking an item shuts down the phone, locks, or starts an activity.
-                    // We don't want to animate back into the power button when that happens, so we
-                    // disable the dialog animation before dismissing.
-                    mDialogTransitionAnimator.disableAllCurrentDialogsExitAnimations();
-                    mDialog.dismiss();
-                } else {
-                    Log.w(TAG, "Action clicked while mDialog is null.");
-                }
-                item.onPress();
-            }
+        public boolean onLongClickItem(int position) {
+            return false;
         }
 
         @Override

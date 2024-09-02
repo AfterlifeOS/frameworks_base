@@ -20,6 +20,12 @@
     <string name="url_copy_success">URL copied successfully</string>
     <string name="url_copy_failed">An error occured while uploading the log to Memochō</string>
 
+    <!-- Cycle through ringer modes -->
+    <string name="volume_dialog_ringer_guidance_normal">Calls and notifications will ring</string>
+
+    <!-- Lock gesture -->
+    <string name="gesture_locked_warning">Swipe again to unlock gestures</string>
+
     <!-- Advanced reboot -->
     <string name="reboot_to_recovery_title">Recovery</string>
     <string name="reboot_to_recovery_message">Rebooting to recovery</string>
@@ -27,10 +33,4 @@
     <string name="reboot_to_bootloader_message">Rebooting to bootloader</string>
     <string name="reboot_title">Reboot</string>
     <string name="reboot_message">Rebooting system</string>
-
-    <!-- Cycle through ringer modes -->
-    <string name="volume_dialog_ringer_guidance_normal">Calls and notifications will ring</string>
-
-    <!-- Lock gesture -->
-    <string name="gesture_locked_warning">Swipe again to unlock gestures</string>
 </resources>

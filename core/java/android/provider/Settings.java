@@ -6361,12 +6361,6 @@ public final class Settings {
         public static final String SCREEN_OFF_ANIMATION = "screen_off_animation";
 
 	/**
-         * Whether to show advanced reboot options in power menu
-         * @hide
-         */
-        public static final String ADVANCED_REBOOT = "advanced_reboot";
-
-	/**
          * Whether to display cross sign for a data disabled connection
          * @hide
          */
@@ -6664,6 +6658,12 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_CUSTOM_HEADER_HEIGHT = "status_bar_custom_header_height";
+
+        /**
+         * Whether to show advanced reboot options in power menu
+         * @hide
+         */
+        public static final String ADVANCED_REBOOT = "advanced_reboot";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
