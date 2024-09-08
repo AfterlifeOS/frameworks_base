@@ -50,14 +50,12 @@ public class ClockStyle extends RelativeLayout implements TunerService.Tunable {
     private int mClockStyle;    
 
     private static final long UPDATE_INTERVAL_MILLIS = 15 * 1000;
-    private final Handler mHandler;
     private long lastUpdateTimeMillis = 0;
     private boolean mIsOnKeyguard = false;
 
     public ClockStyle(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        mHandler = Dependency.get(Dependency.MAIN_HANDLER);
         mThemeUtils = new ThemeUtils(context);
         mTunerService = Dependency.get(TunerService.class);
         mTunerService.addTunable(this, CLOCK_STYLE);
