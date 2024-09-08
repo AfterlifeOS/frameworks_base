@@ -34,7 +34,7 @@ import androidx.annotation.Nullable;
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 import com.android.internal.util.afterlife.OmniJawsClient;
-import com.android.internal.util.afterlife.afterlifeUtils;
+import com.android.internal.util.afterlife.AfterlifeUtils;
 import com.android.systemui.res.R;
 import com.android.systemui.dagger.qualifiers.Background;
 import com.android.systemui.dagger.qualifiers.Main;
