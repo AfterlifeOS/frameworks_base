@@ -39,6 +39,7 @@ import com.android.systemui.qs.QSImpl;
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.statusbar.phone.ScrimController;
 import com.android.systemui.statusbar.policy.ConfigurationController;
+import com.android.systemui.statusbar.policy.KeyguardStateController;
 import com.android.systemui.tuner.TunerService;
 
 public class WallpaperDepthUtils {
@@ -55,6 +56,7 @@ public class WallpaperDepthUtils {
 
     private final Context mContext;
     private final ConfigurationController mConfigurationController;
+    private final KeyguardStateController mKeyguardStateController;
     private final ScrimController mScrimController;
     private final StatusBarStateController mStatusBarStateController;
     private final QSImpl mQS;
@@ -169,11 +171,11 @@ public class WallpaperDepthUtils {
                     updateDepthWallpaper(true);
                     break;
                 case WALLPAPER_DEPTH_OFFSET_X_KEY:
-                    mOffsetX = TunerService.parseInteger(newValue, -16);
+                    mOffsetX = TunerService.parseInteger(newValue, 0);
                     updateDepthWallpaper(true);
                     break;
                 case WALLPAPER_DEPTH_OFFSET_Y_KEY:
-                    mOffsetY = TunerService.parseInteger(newValue, -16);
+                    mOffsetY = TunerService.parseInteger(newValue, 0);
                     updateDepthWallpaper(true);
                     break;
                 default:
@@ -208,6 +210,11 @@ public class WallpaperDepthUtils {
         int subjectVisibility = canShowDepthWallpaper() ? View.VISIBLE : View.GONE;
         if (mLockScreenSubject.getVisibility() == subjectVisibility) return;
         mLockScreenSubject.post(() -> mLockScreenSubject.setVisibility(subjectVisibility));
+    }
+    
+    public void hideDepthWallpaper() {
+        if (mLockScreenSubject.getVisibility() == View.GONE) return;
+        mLockScreenSubject.post(() -> mLockScreenSubject.setVisibility(View.GONE));
     }
 
     public Bitmap getResizedBitmap(Bitmap wallpaperBitmap, float xOffsetDp, float yOffsetDp) {
@@ -254,11 +261,16 @@ public class WallpaperDepthUtils {
                     Log.d("LoadWallpaperTask", "Failed to decode bitmap from file");
                     return null;
                 }
-                mWallpaperBitmap = getResizedBitmap(bitmap, mOffsetX, mOffsetY);
-                if (mWallpaperBitmap == null) {
+                Bitmap resizedBitmap = getResizedBitmap(bitmap, mOffsetX, mOffsetY);
+                bitmap.recycle();
+                if (resizedBitmap == null) {
                     Log.d("LoadWallpaperTask", "Failed to decode resized bitmap from file");
                     return null;
-                } 
+                }
+                if (mWallpaperBitmap != null && !mWallpaperBitmap.isRecycled()) {
+                    mWallpaperBitmap.recycle();
+                }
+                mWallpaperBitmap = resizedBitmap;
                 Drawable bitmapDrawable = new BitmapDrawable(mContext.getResources(), mWallpaperBitmap);
                 bitmapDrawable.setAlpha(255);
                 mDimmingOverlay = bitmapDrawable.getConstantState().newDrawable().mutate();
@@ -275,7 +287,7 @@ public class WallpaperDepthUtils {
 
         @Override
         protected void onPostExecute(Drawable drawable) {
-            if (drawable == null || mWallpaperBitmap.isRecycled()) {
+            if (drawable == null || mWallpaperBitmap == null || mWallpaperBitmap.isRecycled()) {
                 Log.d("LoadWallpaperTask", "decodeFile returned nothing, skipping application of subject as background");
                 mWallpaperLoaded = false;
                 return;
@@ -287,6 +299,15 @@ public class WallpaperDepthUtils {
                 Log.d("LoadWallpaperTask", "Subject Loaded!");
             } else {
                 updateDepthWallpaperVisibility();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            if (mWallpaperBitmap != null && !mWallpaperBitmap.isRecycled()) {
+                mWallpaperBitmap.recycle();
+                mWallpaperBitmap = null;
             }
         }
     }
