@@ -40,7 +40,11 @@ public class AfterlifeThemeController {
         this.mBackgroundHandler = backgroundHandler;
     }
 
-    public void observeSystemSettings(Runnable reevaluateSystemThemeCallback, String... keys) {
+    public void observeSystemSettings(Runnable reevaluateSystemThemeCallback) {
+        observeSystemSettings(reevaluateSystemThemeCallback, AfterlifeSettingsConstants.SYSTEM_SETTINGS_KEYS);
+    }
+
+    private void observeSystemSettings(Runnable reevaluateSystemThemeCallback, String... keys) {
         for (String key : keys) {
             Uri uri = Settings.System.getUriFor(key);
             observe(uri, reevaluateSystemThemeCallback);
@@ -63,12 +67,8 @@ public class AfterlifeThemeController {
                     if (isDeviceSetupComplete()) {
                         toast.show();
                     }
-                    mBackgroundHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                             reevaluateSystemThemeCallback.run();
-                        }
-                    }, isDeviceSetupComplete() ? toast.getDuration() + 1250 : 0);
+                    mBackgroundHandler.postDelayed(() -> reevaluateSystemThemeCallback.run(),
+                            isDeviceSetupComplete() ? toast.getDuration() + 1250 : 0);
                 }
             };
             mContentResolver.registerContentObserver(uri, false, contentObserver);
