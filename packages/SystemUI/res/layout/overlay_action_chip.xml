@@ -26,11 +26,11 @@
     android:gravity="center"
     android:alpha="0.0">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="@dimen/overlay_action_chip_padding_vertical"
         android:background="@drawable/action_chip_background"
-        android:gravity="center">
+        android:gravity="center_vertical">
         <ImageView
             android:id="@+id/overlay_action_chip_icon"
             android:tint="?androidprv:attr/materialColorOnSecondary"
@@ -42,6 +42,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
             android:textSize="@dimen/overlay_action_chip_text_size"
-            android:textColor="?androidprv:attr/materialColorOnSecondary"/>
+            android:textColor="?androidprv:attr/materialColorOnSecondary"
+            android:maxLines="1"
+            android:ellipsize="end"/>
     </LinearLayout>
 </com.android.systemui.screenshot.OverlayActionChip>
