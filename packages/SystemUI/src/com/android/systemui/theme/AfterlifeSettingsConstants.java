@@ -27,6 +27,9 @@ public class AfterlifeSettingsConstants {
     public static final String QS_SHOW_BATTERY_PERCENT = Settings.System.QS_SHOW_BATTERY_PERCENT;
     public static final String CLOCK_STYLE = "clock_style";
 
+    public static final String QS_BRIGHTNESS_SLIDER_POSITION = "qs_brightness_slider_position";
+    public static final String QS_TILE_SHAPE = "qs_tile_shape";
+
     public static final String[] SYSTEM_SETTINGS_KEYS = {
         LOCKSCREEN_WIDGETS_ENABLED,
         LOCKSCREEN_WIDGETS,
@@ -37,4 +40,9 @@ public class AfterlifeSettingsConstants {
         QS_SHOW_BATTERY_PERCENT,
         CLOCK_STYLE
     };
+
+    public static final String[] SECURE_SETTINGS_KEYS = {
+        QS_BRIGHTNESS_SLIDER_POSITION,
+        QS_TILE_SHAPE
+    }; 
 }

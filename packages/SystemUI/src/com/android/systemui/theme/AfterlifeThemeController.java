@@ -51,7 +51,11 @@ public class AfterlifeThemeController {
         }
     }
 
-    public void observeSecureSettings(Runnable reevaluateSystemThemeCallback, String... keys) {
+    public void observeSecureSettings(Runnable reevaluateSystemThemeCallback) {
+        observeSecureSettings(reevaluateSystemThemeCallback, AfterlifeSettingsConstants.SECURE_SETTINGS_KEYS);
+    }
+
+    private void observeSecureSettings(Runnable reevaluateSystemThemeCallback, String... keys) {
         for (String key : keys) {
             Uri uri = Settings.Secure.getUriFor(key);
             observe(uri, reevaluateSystemThemeCallback);
