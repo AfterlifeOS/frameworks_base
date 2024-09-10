@@ -13111,12 +13111,6 @@ public final class Settings {
         public static final String SWAP_CAPACITIVE_KEYS = "swap_capacitive_keys";
 
         /**
-         * Quicksettings tile shape
-         * @hide
-         */
-        public static final String QS_TILE_SHAPE = "qs_tile_shape";
-
-        /**
          * Quicksettings UI Style
          * @hide
          */
