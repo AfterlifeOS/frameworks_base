@@ -1,5 +1,5 @@
 <!--
-    Copyright (C) 2016 The Android Open Source Project
+    Copyright (C) 2024 Anu Bareng
 
     You may obtain a copy of the License at
 
@@ -11,14 +11,15 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="8dp"
-    android:height="8dp"
-    android:viewportWidth="8"
-    android:viewportHeight="8">
 
-    <path
-        android:fillColor="#000000"
-        android:pathData="M8,0H0v8C0,3.6,3.6,0,8,0z" />
+<vector
+    android:height="28.0dip"
+    android:width="28.0dip"
+    android:viewportWidth="28.0"
+    android:viewportHeight="28.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+	<path
+		android:fillColor="#ff000000"
+		android:pathData="M-0.00,0.00L0.00,32.00Q0.11,27.39,1.49,23.19C3.08,18.06,6.12,13.46,8.94,10.46C12.62,6.48,17.11,3.91,19.96,2.71Q26.39,-0.02,32.00,0.00z"/>
 
 </vector>

@@ -122,7 +122,7 @@ public class ScreenDecorations implements
     private static final boolean DEBUG_SCREENSHOT_ROUNDED_CORNERS =
             SystemProperties.getBoolean("debug.screenshot_rounded_corners", false);
     private boolean mDebug = DEBUG_SCREENSHOT_ROUNDED_CORNERS;
-    private int mDebugColor = Color.RED;
+    private int mDebugColor = Color.BLACK;
 
     private static final int[] DISPLAY_CUTOUT_IDS = {
             R.id.display_cutout,
