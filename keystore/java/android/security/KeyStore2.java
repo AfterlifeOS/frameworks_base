@@ -34,8 +34,6 @@ import android.util.Log;
 
 import java.util.Calendar;
 
-import com.android.internal.util.afterlife.AttestationHooks;
-
 /**
  * @hide This should not be made public in its present form because it
  * assumes that private and secret key bytes are available and would
@@ -285,9 +283,7 @@ public class KeyStore2 {
             throws KeyStoreException {
         StrictMode.noteDiskRead();
 
-        KeyEntryResponse response = handleRemoteExceptionWithRetry((service) -> service.getKeyEntry(descriptor));
-
-        return AttestationHooks.onGetKeyEntry(response);
+        return handleRemoteExceptionWithRetry((service) -> service.getKeyEntry(descriptor));
     }
 
     /**
