@@ -35,7 +35,7 @@ import java.io.InputStream;
 import java.util.Calendar;
 
 import com.android.systemui.res.R;
-import com.android.internal.util.crdroid.Utils;
+import com.android.internal.util.afterlife.AfterlifeUtils;
 
 public class StaticHeaderProvider implements
         StatusBarHeaderMachine.IStatusBarHeaderProvider {
@@ -103,7 +103,7 @@ public class StaticHeaderProvider implements
         if (mRes == null) {
             return null;
         }
-        if (!Utils.isPackageInstalled(mContext, mPackageName)) {
+        if (!AfterlifeUtils.isPackageInstalled(mContext, mPackageName)) {
             Log.w(TAG, "Header pack image " + mImage + " no longer available");
             return null;
         }
