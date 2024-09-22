@@ -25,7 +25,6 @@ import com.android.systemui.qs.tiles.CompassTile
 import com.android.systemui.qs.tiles.DataSwitchTile
 import com.android.systemui.qs.tiles.HeadsUpTile
 import com.android.systemui.qs.tiles.PowerShareTile
-import com.android.systemui.qs.tiles.SoundEngineTile
 import com.android.systemui.qs.tiles.SoundTile
 import com.android.systemui.qs.tiles.SoundSearchTile
 import com.android.systemui.qs.tiles.SyncTile
@@ -95,12 +94,6 @@ interface AfterlifeModule {
     @IntoMap
     @StringKey(SoundTile.TILE_SPEC)
     fun bindSoundTile(soundTile: SoundTile): QSTileImpl<*>
-
-    /** Inject SoundEngineTile into tileMap in QSModule */
-    @Binds
-    @IntoMap
-    @StringKey(SoundEngineTile.TILE_SPEC)
-    fun bindSoundEngineTile(soundEngineTile: SoundEngineTile): QSTileImpl<*>
 
     /** Inject SoundSearchTile into tileMap in QSModule */
     @Binds
