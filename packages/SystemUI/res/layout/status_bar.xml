@@ -102,7 +102,7 @@
                         android:id="@+id/clock"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/status_bar_system_icons_height"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="center"
                         android:textAppearance="@style/TextAppearance.StatusBar.Clock"
                         android:singleLine="true"
                         android:paddingStart="@dimen/status_bar_left_clock_starting_padding"
@@ -182,6 +182,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:singleLine="true"
+            android:layout_gravity="center"
             android:gravity="center"
             android:visibility="gone"
         />
