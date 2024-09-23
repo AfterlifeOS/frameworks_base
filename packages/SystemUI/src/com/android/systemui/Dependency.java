@@ -154,6 +154,7 @@ public class Dependency {
     @Inject Lazy<KeyguardStateController> mKeyguardMonitor;
     @Inject Lazy<InternetDialogManager> mInternetDialogManager;
     @Inject Lazy<NetworkController> mNetworkController;
+    @Inject Lazy<KeyguardStateController> mKeyguardStateController;
     @Inject Lazy<KeyguardUpdateMonitor> mKeyguardUpdateMonitor;
     @Inject Lazy<DeviceProvisionedController> mDeviceProvisionedController;
     @Inject Lazy<PluginManager> mPluginManager;
@@ -222,6 +223,7 @@ public class Dependency {
         mProviders.put(KeyguardStateController.class, mKeyguardMonitor::get);
         mProviders.put(InternetDialogManager.class, mInternetDialogManager::get);
         mProviders.put(NetworkController.class, mNetworkController::get);
+        mProviders.put(KeyguardStateController.class, mKeyguardStateController::get);
         mProviders.put(KeyguardUpdateMonitor.class, mKeyguardUpdateMonitor::get);
         mProviders.put(DeviceProvisionedController.class, mDeviceProvisionedController::get);
         mProviders.put(PluginManager.class, mPluginManager::get);
