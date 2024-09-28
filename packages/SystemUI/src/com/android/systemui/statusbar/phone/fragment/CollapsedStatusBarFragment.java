@@ -799,16 +799,12 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     }
 
     public void hideNotificationIconArea(boolean animate) {
-        if (LogoImage.getLogoPosition(getContext()) == 0) {
-            animateFullyHide(mLeftLogo, animate);
-        }
+        animateHide(mLeftLogo, animate);
         animateHide(mNotificationIconAreaInner, animate);
     }
 
     public void showNotificationIconArea(boolean animate) {
-        if (LogoImage.getLogoPosition(getContext()) == 0) {
-            animateShow(mLeftLogo, animate);
-        }
+        animateShow(mLeftLogo, animate);
         animateShow(mNotificationIconAreaInner, animate);
     }
 
