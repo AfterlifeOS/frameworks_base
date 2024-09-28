@@ -4892,7 +4892,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements Dumpable
         boolean animate = mIsExpanded && mAnimationsEnabled;
         mFooterView.setVisible(visible, animate);
         mFooterView.showHistory(showHistory);
-        mFooterView.setClearAllButtonVisible(showDismissView, animate);
+        mFooterView.setClearAllButtonVisible(!mShowDimissButton && showDismissView, animate);
         mFooterView.setFooterLabelVisible(mHasFilteredOutSeenNotifications);
     }
 
