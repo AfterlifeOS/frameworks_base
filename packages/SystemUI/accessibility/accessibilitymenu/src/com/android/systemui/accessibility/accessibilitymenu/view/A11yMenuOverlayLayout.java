@@ -64,36 +64,35 @@ public class A11yMenuOverlayLayout {
     /** Predefined default shortcuts when large button setting is off. */
     private static final int[] SHORTCUT_LIST_DEFAULT = {
         A11yMenuShortcut.ShortcutId.ID_ASSISTANT_VALUE.ordinal(),
-        A11yMenuShortcut.ShortcutId.ID_A11YSETTING_VALUE.ordinal(),
-        A11yMenuShortcut.ShortcutId.ID_POWER_VALUE.ordinal(),
-        A11yMenuShortcut.ShortcutId.ID_VOLUME_DOWN_VALUE.ordinal(),
         A11yMenuShortcut.ShortcutId.ID_VOLUME_UP_VALUE.ordinal(),
         A11yMenuShortcut.ShortcutId.ID_RECENT_VALUE.ordinal(),
         A11yMenuShortcut.ShortcutId.ID_BRIGHTNESS_DOWN_VALUE.ordinal(),
+        A11yMenuShortcut.ShortcutId.ID_SCREENSHOT_VALUE.ordinal(),
         A11yMenuShortcut.ShortcutId.ID_BRIGHTNESS_UP_VALUE.ordinal(),
         A11yMenuShortcut.ShortcutId.ID_LOCKSCREEN_VALUE.ordinal(),
+        A11yMenuShortcut.ShortcutId.ID_VOLUME_DOWN_VALUE.ordinal(),
+        A11yMenuShortcut.ShortcutId.ID_POWER_VALUE.ordinal(),
         A11yMenuShortcut.ShortcutId.ID_QUICKSETTING_VALUE.ordinal(),
         A11yMenuShortcut.ShortcutId.ID_NOTIFICATION_VALUE.ordinal(),
-        A11yMenuShortcut.ShortcutId.ID_SCREENSHOT_VALUE.ordinal()
+        A11yMenuShortcut.ShortcutId.ID_A11YSETTING_VALUE.ordinal()
+        
     };
 
     /** Predefined default shortcuts when large button setting is on. */
     private static final int[] LARGE_SHORTCUT_LIST_DEFAULT = {
-            A11yMenuShortcut.ShortcutId.ID_ASSISTANT_VALUE.ordinal(),
-            A11yMenuShortcut.ShortcutId.ID_A11YSETTING_VALUE.ordinal(),
-            A11yMenuShortcut.ShortcutId.ID_POWER_VALUE.ordinal(),
-            A11yMenuShortcut.ShortcutId.ID_RECENT_VALUE.ordinal(),
             A11yMenuShortcut.ShortcutId.ID_VOLUME_DOWN_VALUE.ordinal(),
             A11yMenuShortcut.ShortcutId.ID_VOLUME_UP_VALUE.ordinal(),
+            A11yMenuShortcut.ShortcutId.ID_SCREENSHOT_VALUE.ordinal(),
+            A11yMenuShortcut.ShortcutId.ID_POWER_VALUE.ordinal(),
             A11yMenuShortcut.ShortcutId.ID_BRIGHTNESS_DOWN_VALUE.ordinal(),
             A11yMenuShortcut.ShortcutId.ID_BRIGHTNESS_UP_VALUE.ordinal(),
+            A11yMenuShortcut.ShortcutId.ID_RECENT_VALUE.ordinal(),
             A11yMenuShortcut.ShortcutId.ID_LOCKSCREEN_VALUE.ordinal(),
             A11yMenuShortcut.ShortcutId.ID_QUICKSETTING_VALUE.ordinal(),
             A11yMenuShortcut.ShortcutId.ID_NOTIFICATION_VALUE.ordinal(),
-            A11yMenuShortcut.ShortcutId.ID_SCREENSHOT_VALUE.ordinal()
+            A11yMenuShortcut.ShortcutId.ID_A11YSETTING_VALUE.ordinal(),
+            A11yMenuShortcut.ShortcutId.ID_ASSISTANT_VALUE.ordinal()
     };
-
-
 
     private final AccessibilityMenuService mService;
     private final WindowManager mWindowManager;
@@ -202,33 +201,33 @@ public class A11yMenuOverlayLayout {
                 case Surface.ROTATION_0:
                 case Surface.ROTATION_180:
                     mLayoutParameter.gravity =
-                            (ltr ? Gravity.END : Gravity.START) | Gravity.BOTTOM
-                                    | Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
+                            (ltr ? Gravity.END : Gravity.START)
+                                    | Gravity.CENTER_VERTICAL;
                     mLayoutParameter.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                    mLayoutParameter.height = WindowManager.LayoutParams.MATCH_PARENT;
+                    mLayoutParameter.height = WindowManager.LayoutParams.WRAP_CONTENT;
                     mLayoutParameter.flags |= WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
                     mLayoutParameter.flags |= WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR;
-                    mLayout.setBackgroundResource(R.drawable.shadow_90deg);
+                    //mLayout.setBackgroundResource(R.drawable.shadow_90deg);
                     break;
                 case Surface.ROTATION_90:
                 case Surface.ROTATION_270:
                     mLayoutParameter.gravity =
-                            (ltr ? Gravity.START : Gravity.END) | Gravity.BOTTOM
-                                    | Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
+                            (ltr ? Gravity.START : Gravity.END)
+                                    | Gravity.CENTER_VERTICAL;
                     mLayoutParameter.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                    mLayoutParameter.height = WindowManager.LayoutParams.MATCH_PARENT;
+                    mLayoutParameter.height = WindowManager.LayoutParams.WRAP_CONTENT;
                     mLayoutParameter.flags |= WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
                     mLayoutParameter.flags |= WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR;
-                    mLayout.setBackgroundResource(R.drawable.shadow_270deg);
+                    //mLayout.setBackgroundResource(R.drawable.shadow_270deg);
                     break;
                 default:
                     break;
             }
         } else {
-            mLayoutParameter.gravity = Gravity.BOTTOM;
-            mLayoutParameter.width = WindowManager.LayoutParams.MATCH_PARENT;
+            mLayoutParameter.gravity = Gravity.CENTER_VERTICAL;
+            mLayoutParameter.width = WindowManager.LayoutParams.WRAP_CONTENT;
             mLayoutParameter.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            mLayout.setBackgroundResource(R.drawable.shadow_0deg);
+            //mLayout.setBackgroundResource(R.drawable.shadow_0deg);
         }
 
         // Adjusts the y position of a11y menu layout to make the layout not to overlap bottom
@@ -269,7 +268,7 @@ public class A11yMenuOverlayLayout {
         int orientation = mService.getResources().getConfiguration().orientation;
         if (mLayout.getHeight() != mLayoutParameter.height
                 && orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            mLayoutParameter.height = windowBound.height() - yOffset;
+            //mLayoutParameter.height = windowBound.height() - yOffset;
             shouldUpdateLayout = true;
         }
         return shouldUpdateLayout;

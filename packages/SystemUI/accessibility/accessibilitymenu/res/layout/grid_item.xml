@@ -17,8 +17,9 @@
 
   <TextView
       android:id="@+id/shortcutLabel"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:visibility="invisible"
       android:layout_marginTop="@dimen/grid_item_text_view_margin_top"
       android:layout_below="@+id/shortcutIconBtn"
       android:layout_centerHorizontal="true"

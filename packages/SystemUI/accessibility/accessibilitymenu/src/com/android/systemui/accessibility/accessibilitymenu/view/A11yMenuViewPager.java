@@ -315,17 +315,18 @@ public class A11yMenuViewPager {
             WindowMetrics windowMetric = windowManager.getCurrentWindowMetrics();
             Insets windowInsets = windowMetric.getWindowInsets().getInsetsIgnoringVisibility(
                     WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
-            viewPagerHeight =
-                    windowMetric.getBounds().height()
-                            - footerLayout.getLayoutParams().height
-                            - windowInsets.bottom;
+            //viewPagerHeight =
+                    //windowMetric.getBounds().height()
+                            //- footerLayout.getLayoutParams().height
+                            //- windowInsets.bottom;
+            viewPagerHeight = gridItemHeight * rowsInGridView + defaultMargin + topMargin;
             // Sets vertical interval between grid items.
             int interval =
                     (viewPagerHeight - topMargin - defaultMargin
                             - (rowsInGridView * gridItemHeight))
                             / (rowsInGridView + 1);
             for (GridView gridView : mGridPageList) {
-                gridView.setVerticalSpacing(interval);
+                //gridView.setVerticalSpacing(interval);
             }
 
             // Sets padding to view pager.

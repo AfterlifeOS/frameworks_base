@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <!-- the curve radius for the background of the complete layout -->
-  <dimen name="table_margin_top">22dp</dimen>
-  <dimen name="row_width">@dimen/custom_match_parent</dimen>
-  <dimen name="image_button_height">60dp</dimen>
-  <dimen name="image_button_width">60dp</dimen>
+  <dimen name="table_margin_top">20dp</dimen>
+  <dimen name="row_width">@integer/custom_wrap_content</dimen>
+  <dimen name="image_button_height">40dp</dimen>
+  <dimen name="image_button_width">40dp</dimen>
   <dimen name="image_button_marginBottom">2dp</dimen>
   <dimen name="a11ymenu_layout_margin">4dp</dimen>
   <dimen name="custom_match_parent">-1px</dimen>
+  <integer name="custom_wrap_content">-2</integer>
 
   <!-- dimens for gridview layout. -->
   <dimen name="grid_item_text_view_margin_top">2dp</dimen>
-  <dimen name="grid_item_padding">10dp</dimen>
-  <dimen name="grid_item_btn_view_height">48dp</dimen>
-  <dimen name="a11ymenu_grid_layout_margin">8dp</dimen>
+  <dimen name="grid_item_padding">4dp</dimen>
+  <dimen name="a11ymenu_grid_layout_margin">4dp</dimen>
 
   <!-- dimens for a11y menu footer layout. -->
   <dimen name="footer_arrow_length">24dp</dimen>
@@ -21,5 +21,9 @@
   <!-- text size for shortcut label when large button settings in on. -->
   <dimen name="large_label_text_size">18sp</dimen>
   <dimen name="label_text_size">14sp</dimen>
+  
+  <!-- untuk radius juga tinggi footer. -->
+  <dimen name="dua_lima">25dp</dimen>
+  <dimen name="view_margin">40dp</dimen>
 
 </resources>

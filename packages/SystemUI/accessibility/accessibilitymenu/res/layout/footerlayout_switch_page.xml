@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/footerlayout"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/grid_item_btn_view_height"
+    android:layout_height="@dimen/dua_lima"
     android:layout_alignParentBottom="true"
     android:layout_gravity="bottom"
     android:layoutDirection="ltr"
@@ -57,15 +57,15 @@
       android:layout_height="match_parent"
       android:paddingStart="16dp"
       android:paddingEnd="16dp"
-      android:gravity="center_vertical"
-      android:textColor="@color/colorControlNormal"
-      android:textSize="@dimen/label_text_size"
-      android:background="@color/snackbar_bg_color"/>
+      android:gravity="center"
+      android:layout_gravity="center"
+      android:textColor="@color/grid_item_text_color"
+      android:textSize="@dimen/label_text_size"/>
 
   <View
       android:id="@+id/bottom_listDivider"
       android:layout_width="match_parent"
-      android:layout_height="1dp"
+      android:layout_height="0dp"
       android:background="?android:attr/listDivider"/>
 
 </LinearLayout>

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-  <item>
-    <ripple
-        android:color="@color/ripple_material_color">
-      <item android:id="@android:id/mask">
-        <color android:color="@color/overlay_bg_color"/>
-      </item>
-    </ripple>
-  </item>
-
-</layer-list>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/ripple_material_color">
+    <item android:id="@android:id/mask" android:tint="@color/overlay_bg_color" >
+        <shape android:shape="rectangle">
+            <corners
+                android:bottomLeftRadius="@dimen/dua_lima" />
+            <solid android:color="#dd000000" />
+        </shape>
+    </item>
+</ripple>
