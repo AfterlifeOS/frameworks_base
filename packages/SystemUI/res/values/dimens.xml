@@ -205,7 +205,7 @@
     <dimen name="status_bar_mobile_signal_size_updated">14sp</dimen>
     <!-- Size of the view displaying the mobile signal icon in the status bar. This value should
         match the viewport height of mobile signal drawables such as ic_lte_mobiledata -->
-    <dimen name="status_bar_mobile_type_size">16sp</dimen>
+    <dimen name="status_bar_mobile_type_size">15sp</dimen>
     <!-- Size of the view that contains the network type. Should be equal to
     status_bar_mobile_type_size + 2, to account for 1sp top and bottom padding -->
     <dimen name="status_bar_mobile_container_height">18sp</dimen>
