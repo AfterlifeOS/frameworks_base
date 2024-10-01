@@ -164,7 +164,6 @@ public class Dependency {
     @Inject Lazy<FragmentService> mFragmentService;
     @Nullable
     @Inject Lazy<VolumeDialogController> mVolumeDialogController;
-    @Inject Lazy<MediaOutputDialogFactory> mMediaOutputDialogFactory;
     @Inject Lazy<MetricsLogger> mMetricsLogger;
     @Inject Lazy<TunablePaddingService> mTunablePaddingService;
     @Inject Lazy<UiOffloadThread> mUiOffloadThread;
@@ -183,6 +182,7 @@ public class Dependency {
     @Inject @Named(TIME_TICK_HANDLER_NAME) Lazy<Handler> mTimeTickHandler;
     @Inject Lazy<SysUiState> mSysUiStateFlagsContainer;
     @Inject Lazy<CommandQueue> mCommandQueue;
+    @Inject Lazy<MediaOutputDialogFactory> mMediaOutputDialogFactory;
     @Inject Lazy<UiEventLogger> mUiEventLogger;
     @Inject Lazy<StatusBarContentInsetsProvider> mContentInsetsProviderLazy;
     @Inject Lazy<FeatureFlags> mFeatureFlagsLazy;

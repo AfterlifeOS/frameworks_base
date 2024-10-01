@@ -21,9 +21,6 @@ import com.android.server.SystemServiceManager;
 public class RisingServicesStarter {
 
     private final SystemServiceManager mSystemServiceManager;
-
-    private static final String SOUND_ENGINE_SERVICE_CLASS =
-            "org.rising.server.SoundEngineService";
             
     private static final String STORAGE_CLEANER_SERVICE_CLASS =
             "org.rising.server.StorageCleanerService";
@@ -33,7 +30,6 @@ public class RisingServicesStarter {
     }
 
     public void startAllServices() {
-        startService(SOUND_ENGINE_SERVICE_CLASS);
         startService(STORAGE_CLEANER_SERVICE_CLASS);
     }
 
