@@ -99,10 +99,10 @@
         android:title="@string/status_bar_data_saver"
         android:icon="@drawable/ic_statusbar_data_saver" />
 
-    <com.android.systemui.tuner.StatusBarSwitch
+    <!--com.android.systemui.tuner.StatusBarSwitch
         android:icon="@drawable/ic_statusbar_hd_calling"
         android:key="hd_calling"
-        android:title="@string/status_bar_hd_calling" />
+        android:title="@string/status_bar_hd_calling" /-->
 
     <com.android.systemui.tuner.StatusBarSwitch
         android:icon="@drawable/ic_statusbar_vowifi"
