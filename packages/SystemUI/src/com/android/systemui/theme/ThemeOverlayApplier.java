@@ -285,11 +285,6 @@ public class ThemeOverlayApplier implements Dumpable {
         });
     }
 
-
-    public void setIsBlackTheme(boolean black) {
-        mIsBlackTheme = black;
-    }
-
     protected static final String OVERLAY_BLACK_THEME =
             "com.android.system.theme.black";
 

@@ -536,11 +536,6 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
                             mDeferredThemeEvaluation = true;
                             return;
                         }
-                        if (mSkipSettingChange) {
-                            if (DEBUG) Log.d(TAG, "Skipping setting change");
-                            mSkipSettingChange = false;
-                            return;
-                        }
                         reevaluateSystemTheme(true /* forceReload */);
                     }
                 },
