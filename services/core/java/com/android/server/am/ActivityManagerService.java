@@ -21028,7 +21028,7 @@ public class ActivityManagerService extends IActivityManager.Stub
             return mIsSwipeToScrenshotEnabled && SystemProperties.getBoolean("sys.android.screenshot", false);
         }
     }
-    
+
     public boolean shouldSkipBootCompletedBroadcastForPackage(ApplicationInfo info) {
         return getAppOpsManager().checkOpNoThrow(
                 AppOpsManager.OP_RUN_ANY_IN_BACKGROUND,
